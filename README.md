@@ -107,4 +107,4 @@ To contribute to this website:
 This project is created for Illini RoboMaster and can be modified as needed for the team's requirements.
 
 ---
-**Built with ❤️ for competitive robotics excellence**
+**Built with ❤️ for competisssstive robotics excellence**
