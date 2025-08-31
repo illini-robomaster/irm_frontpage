@@ -46,6 +46,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 2rem;
 }
 
 .nav-logo {
@@ -117,6 +118,46 @@ body {
     background: #333;
     margin: 3px 0;
     transition: 0.3s;
+}
+
+/* Navigation Buttons */
+.nav-buttons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.nav-btn {
+    padding: 0.5rem 1.2rem;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: 2px solid;
+}
+
+.nav-btn-outline {
+    color: #ff6b35;
+    border-color: #ff6b35;
+    background: transparent;
+}
+
+.nav-btn-outline:hover {
+    background: #ff6b35;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.nav-btn-filled {
+    color: white;
+    background: linear-gradient(45deg, #ff6b35, #f7931e);
+    border-color: transparent;
+}
+
+.nav-btn-filled:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
 }
 
 /* Hero Section */
@@ -583,7 +624,7 @@ section:not(.hero) {
 
 /* Competition Field Background */
 .competition-with-field {
-    background: linear-gradient(135deg, rgba(44, 62, 80, 0.6) 0%, rgba(52, 73, 94, 0.6) 100%), 
+    background: linear-gradient(135deg, rgba(44, 62, 80, 0.8) 0%, rgba(52, 73, 94, 0.8) 100%), 
                 url('images/rmuc_field.png') center/cover no-repeat;
     background-attachment: fixed;
 }
@@ -594,13 +635,22 @@ section:not(.hero) {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(44, 62, 80, 0.5) 0%, rgba(52, 73, 94, 0.5) 100%);
+    background: linear-gradient(135deg, rgba(44, 62, 80, 0.7) 0%, rgba(52, 73, 94, 0.7) 100%);
     z-index: 1;
 }
 
 .competition-with-field .container {
     position: relative;
     z-index: 2;
+}
+
+.competition-with-field .section-header h2 {
+    color: white;
+}
+
+.competition-with-field .section-header p {
+    color: white;
+    opacity: 0.9;
 }
 
 .competition-content {
@@ -824,6 +874,52 @@ section:not(.hero) {
     left: 0;
 }
 
+/* Member Resources */
+.member-resources {
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid #eee;
+    text-align: center;
+}
+
+.resources-grid {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.resource-card {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 300px;
+    transition: transform 0.3s ease;
+}
+
+.resource-card:hover {
+    transform: translateY(-5px);
+}
+
+.resource-card i {
+    font-size: 2.5rem;
+    color: #ff6b35;
+    margin-bottom: 1rem;
+}
+
+.resource-card h4 {
+    margin-bottom: 1rem;
+    color: #2c3e50;
+    font-size: 1.3rem;
+}
+
+.resource-card p {
+    margin-bottom: 1.5rem;
+    color: #7f8c8d;
+    line-height: 1.6;
+}
+
 /* Team Photo Section */
 .team-photo-section {
     margin-top: 4rem;
@@ -930,7 +1026,7 @@ section:not(.hero) {
 
 /* Timeline with Trophy Background */
 .timeline-with-trophy {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.6) 0%, rgba(118, 75, 162, 0.6) 100%), 
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%), 
                 url('images/trophy.jpg') center/cover no-repeat;
     background-attachment: fixed;
 }
@@ -941,7 +1037,7 @@ section:not(.hero) {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.5) 0%, rgba(118, 75, 162, 0.5) 100%);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.7) 0%, rgba(118, 75, 162, 0.7) 100%);
     z-index: 1;
 }
 
@@ -1245,11 +1341,10 @@ section:not(.hero) {
 }
 
 .sponsor-logo {
-    max-height: 80px;
-    max-width: 200px;
-    width: auto;
-    height: auto;
+    width: 200px;
+    height: 80px;
     object-fit: contain;
+    object-position: center;
 }
 
 .sponsor-cta {
@@ -1458,6 +1553,14 @@ section:not(.hero) {
 
     .nav-toggle.active span:nth-child(3) {
         transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .nav-buttons {
+        display: none;
+    }
+
+    .nav-toggle {
+        display: flex;
     }
 
     .hero-content {
