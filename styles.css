@@ -583,6 +583,79 @@ section:not(.hero) {
     margin: 0 auto;
 }
 
+/* Competition Achievements */
+.competition-achievements {
+    margin: 3rem 0;
+    padding: 2rem 0;
+    background: #f8f9fa;
+    border-radius: 12px;
+}
+
+.achievements-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+.achievements-images {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.achievement-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    object-fit: cover;
+}
+
+.achievement-image:nth-child(2) {
+    height: 170px;
+    object-position: bottom;
+}
+
+.achievement-image:hover {
+    transform: scale(1.02);
+}
+
+.achievements-section h3 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+}
+
+.achievements-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.achievement-year {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #ff6b35;
+}
+
+.achievement-year h4 {
+    color: #ff6b35;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.achievement-year p {
+    color: #555;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin: 0;
+}
+
 /* Robot Showcase Gallery */
 .robot-showcase-gallery {
     margin: 3rem 0;
@@ -1372,6 +1445,15 @@ section:not(.hero) {
     color: white;
 }
 
+.contact .section-header h2 {
+    color: white;
+}
+
+.contact .section-header p {
+    color: white;
+    opacity: 0.9;
+}
+
 .contact-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1595,6 +1677,16 @@ section:not(.hero) {
 
     .social-grid {
         grid-template-columns: 1fr;
+    }
+
+    .achievements-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .achievement-image {
+        max-width: 90%;
+        margin: 0 auto;
     }
 
     section {
