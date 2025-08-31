@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Illini RoboMaster - Competitive Robotics Excellence</title>
+    <link rel="icon" type="image/png" href="images/icon.png">
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -13,7 +14,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <i class="fas fa-robot"></i>
+                <img src="images/icon.png" alt="Illini RoboMaster Icon" class="nav-logo-icon">
                 <span>Illini RoboMaster</span>
             </div>
             <ul class="nav-menu">
@@ -46,7 +47,7 @@
             </div>
             <div class="hero-image">
                 <div class="robot-showcase">
-                    <i class="fas fa-robot"></i>
+                    <img src="images/robot-hero.jpg" alt="Illini RoboMaster Robot" class="hero-robot-image">
                 </div>
             </div>
         </div>
@@ -60,23 +61,45 @@
         <div class="container">
             <div class="section-header">
                 <h2>About Illini RoboMaster</h2>
-                <p>Pioneering the future of competitive robotics</p>
+                <p>Pioneering the future of competitive robotics at the University of Illinois</p>
             </div>
+            
+            <!-- Mission Statement -->
+            <div class="mission-statement">
+                <h3>Our Mission</h3>
+                <p>Illini RoboMaster is a competitive robotics team at the University of Illinois at Urbana-Champaign dedicated to advancing robotics technology through the prestigious RoboMaster competition. We bring together passionate students from engineering, computer science, and business to create cutting-edge autonomous robots while fostering innovation, teamwork, and technical excellence.</p>
+            </div>
+            
             <div class="about-grid">
                 <div class="about-card">
                     <i class="fas fa-trophy"></i>
                     <h3>Competitive Excellence</h3>
-                    <p>We compete in the prestigious RoboMaster competition, showcasing cutting-edge autonomous and remote-controlled robots in intense battlefield scenarios.</p>
+                    <p>We compete in the prestigious RoboMaster University Championship, the world's leading robotics competition featuring intense 7v7 robot battles combining strategy, engineering, and real-time combat.</p>
                 </div>
                 <div class="about-card">
                     <i class="fas fa-users"></i>
-                    <h3>Collaborative Team</h3>
-                    <p>Our diverse team of engineers, programmers, and designers work together to create innovative robotic solutions that push technological boundaries.</p>
+                    <h3>Multidisciplinary Team</h3>
+                    <p>Our 40+ member team includes mechanical engineers, electrical engineers, computer scientists, business majors, and more, working together to push the boundaries of autonomous robotics.</p>
                 </div>
                 <div class="about-card">
                     <i class="fas fa-graduation-cap"></i>
                     <h3>Learning & Growth</h3>
-                    <p>Members gain hands-on experience in robotics, AI, mechanical design, and software development while building lasting professional connections.</p>
+                    <p>Members gain invaluable hands-on experience in robotics, AI, computer vision, mechanical design, embedded systems, and project management while building professional networks.</p>
+                </div>
+                <div class="about-card">
+                    <i class="fas fa-rocket"></i>
+                    <h3>Innovation Hub</h3>
+                    <p>We develop cutting-edge technologies including autonomous navigation, computer vision systems, advanced control algorithms, and precision manufacturing techniques.</p>
+                </div>
+                <div class="about-card">
+                    <i class="fas fa-handshake"></i>
+                    <h3>Industry Connections</h3>
+                    <p>Our team maintains strong relationships with industry sponsors, providing members with internship opportunities, mentorship, and career development resources.</p>
+                </div>
+                <div class="about-card">
+                    <i class="fas fa-globe-americas"></i>
+                    <h3>Global Impact</h3>
+                    <p>Representing the University of Illinois on the world stage, competing against top universities from China, North America, Europe, and beyond in this premier robotics competition.</p>
                 </div>
             </div>
         </div>
@@ -87,44 +110,83 @@
         <div class="container">
             <div class="section-header">
                 <h2>RoboMaster Competition</h2>
-                <p>Where innovation meets intense competition</p>
+                <p>The world's most advanced robotics competition</p>
             </div>
+            
             <div class="competition-content">
                 <div class="competition-info">
                     <h3>What is RoboMaster?</h3>
-                    <p>RoboMaster is an annual robotics competition that combines engineering innovation with intense tactical gameplay. Teams design and build multiple robots to compete in a high-tech battlefield environment.</p>
+                    <p>The RoboMaster University Championship is the world's premier robotics competition, featuring intense 7v7 robot battles that combine cutting-edge engineering, strategic gameplay, and real-time combat. Teams must design, build, and operate multiple specialized robots in a fast-paced battlefield environment.</p>
+                    
+                    <div class="robot-types">
+                        <h4>Robot Categories</h4>
+                        <div class="robot-grid">
+                            <div class="robot-type">
+                                <i class="fas fa-shield-alt"></i>
+                                <h5>Hero Robot</h5>
+                                <p>High-firepower flagship unit with 42mm projectiles</p>
+                            </div>
+                            <div class="robot-type">
+                                <i class="fas fa-running"></i>
+                                <h5>Standard Robots</h5>
+                                <p>Versatile combat units forming the team's backbone</p>
+                            </div>
+                            <div class="robot-type">
+                                <i class="fas fa-helicopter"></i>
+                                <h5>Aerial Robot</h5>
+                                <p>Drone providing tactical oversight and support</p>
+                            </div>
+                            <div class="robot-type">
+                                <i class="fas fa-eye"></i>
+                                <h5>Sentry Robot</h5>
+                                <p>Autonomous guardian protecting the base</p>
+                            </div>
+                        </div>
+                    </div>
                     
                     <div class="competition-features">
                         <div class="feature">
                             <i class="fas fa-crosshairs"></i>
-                            <span>Real-time Combat</span>
+                            <span>Real-time Combat with Physical Projectiles</span>
                         </div>
                         <div class="feature">
                             <i class="fas fa-brain"></i>
-                            <span>AI & Autonomous Systems</span>
+                            <span>Advanced AI & Computer Vision</span>
                         </div>
                         <div class="feature">
                             <i class="fas fa-cogs"></i>
-                            <span>Advanced Engineering</span>
+                            <span>Precision Mechanical Engineering</span>
                         </div>
                         <div class="feature">
                             <i class="fas fa-gamepad"></i>
-                            <span>Strategic Gameplay</span>
+                            <span>Strategic Team Coordination</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-microchip"></i>
+                            <span>Embedded Systems & Control</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-wifi"></i>
+                            <span>Wireless Communication Systems</span>
                         </div>
                     </div>
                 </div>
                 <div class="competition-stats">
                     <div class="stat">
                         <h4>500+</h4>
-                        <p>Global Teams</p>
+                        <p>Global Universities</p>
                     </div>
                     <div class="stat">
                         <h4>$2M+</h4>
-                        <p>Prize Pool</p>
+                        <p>Total Prize Pool</p>
                     </div>
                     <div class="stat">
-                        <h4>6</h4>
-                        <p>Robot Types</p>
+                        <h4>7v7</h4>
+                        <p>Robot Battle Format</p>
+                    </div>
+                    <div class="stat">
+                        <h4>28m x 15m</h4>
+                        <p>Competition Arena</p>
                     </div>
                 </div>
             </div>
@@ -136,28 +198,207 @@
         <div class="container">
             <div class="section-header">
                 <h2>Our Team Structure</h2>
-                <p>Specialized divisions working toward one goal</p>
+                <p>Specialized divisions working toward championship excellence</p>
             </div>
+            
+            <div class="team-overview">
+                <div class="team-stats">
+                    <div class="team-stat">
+                        <h4>40+</h4>
+                        <p>Active Members</p>
+                    </div>
+                    <div class="team-stat">
+                        <h4>8</h4>
+                        <p>Technical Divisions</p>
+                    </div>
+                    <div class="team-stat">
+                        <h4>3</h4>
+                        <p>Years Experience</p>
+                    </div>
+                    <div class="team-stat">
+                        <h4>24/7</h4>
+                        <p>Workshop Access</p>
+                    </div>
+                </div>
+            </div>
+            
             <div class="team-grid">
                 <div class="team-card">
                     <i class="fas fa-wrench"></i>
                     <h3>Mechanical Engineering</h3>
-                    <p>Design and manufacture robot chassis, weapon systems, and mechanical components using CAD software and precision manufacturing.</p>
+                    <p><strong>Focus:</strong> Chassis design, turret systems, ammunition feeding mechanisms, and precision manufacturing using CNC machining and 3D printing.</p>
+                    <ul class="team-responsibilities">
+                        <li>CAD design and simulation</li>
+                        <li>Materials selection and testing</li>
+                        <li>Manufacturing and assembly</li>
+                    </ul>
                 </div>
                 <div class="team-card">
                     <i class="fas fa-microchip"></i>
                     <h3>Electrical Engineering</h3>
-                    <p>Develop control systems, power management, sensor integration, and electronic hardware for our competitive robots.</p>
+                    <p><strong>Focus:</strong> Power management systems, motor control, sensor integration, and PCB design for robust robot operation.</p>
+                    <ul class="team-responsibilities">
+                        <li>Circuit design and PCB layout</li>
+                        <li>Power distribution systems</li>
+                        <li>Sensor integration and calibration</li>
+                    </ul>
                 </div>
                 <div class="team-card">
                     <i class="fas fa-code"></i>
                     <h3>Software Development</h3>
-                    <p>Create autonomous algorithms, computer vision systems, and real-time control software for tactical robot operations.</p>
+                    <p><strong>Focus:</strong> Autonomous algorithms, computer vision for target detection, real-time control systems, and robot coordination.</p>
+                    <ul class="team-responsibilities">
+                        <li>Embedded systems programming</li>
+                        <li>Computer vision and AI</li>
+                        <li>Real-time control algorithms</li>
+                    </ul>
                 </div>
                 <div class="team-card">
                     <i class="fas fa-chess"></i>
                     <h3>Strategy & Operations</h3>
-                    <p>Analyze competition rules, develop tactical strategies, and coordinate team logistics for optimal performance.</p>
+                    <p><strong>Focus:</strong> Game analysis, tactical planning, team coordination, and competition logistics management.</p>
+                    <ul class="team-responsibilities">
+                        <li>Competition rule analysis</li>
+                        <li>Strategic planning and tactics</li>
+                        <li>Team logistics coordination</li>
+                    </ul>
+                </div>
+                <div class="team-card">
+                    <i class="fas fa-paint-brush"></i>
+                    <h3>Design & Media</h3>
+                    <p><strong>Focus:</strong> Visual design, team branding, documentation, social media, and outreach materials.</p>
+                    <ul class="team-responsibilities">
+                        <li>Graphic design and branding</li>
+                        <li>Photography and videography</li>
+                        <li>Social media management</li>
+                    </ul>
+                </div>
+                <div class="team-card">
+                    <i class="fas fa-dollar-sign"></i>
+                    <h3>Business & Sponsorship</h3>
+                    <p><strong>Focus:</strong> Fundraising, sponsor relationships, budget management, and industry partnerships.</p>
+                    <ul class="team-responsibilities">
+                        <li>Sponsor acquisition and relations</li>
+                        <li>Budget planning and management</li>
+                        <li>Grant writing and proposals</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Team Gallery -->
+            <div class="team-gallery">
+                <div class="section-header">
+                    <h3>Meet Our Team</h3>
+                    <p>The faces behind Illini RoboMaster's success</p>
+                </div>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="images/info_session.jpg" alt="Team info session" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <h4>Info Sessions</h4>
+                            <p>Team members presenting and sharing knowledge during our information sessions</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/Engineering.jpg" alt="Engineering robot close-up" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <h4>Engineering Robot</h4>
+                            <p>Detailed view of our engineering robot design and precision components</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/Dart.png" alt="Dart robot close-up" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <h4>Dart System</h4>
+                            <p>Close-up of our high-speed dart robot showcasing advanced mechanics</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/team-photo.jpg" alt="Team group photo" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <h4>Team Photo</h4>
+                            <p>The complete Illini RoboMaster team</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline & Recruitment Section -->
+    <section id="timeline" class="timeline">
+        <div class="container">
+            <div class="section-header">
+                <h2>Competition Timeline & Recruitment</h2>
+                <p>Plan your journey with Illini RoboMaster</p>
+            </div>
+            
+            <div class="timeline-content">
+                <div class="season-timeline">
+                    <h3>Competition Season Schedule</h3>
+                    <div class="timeline-grid">
+                        <div class="timeline-item">
+                            <div class="timeline-date">Aug - Sep</div>
+                            <h4>Team Recruitment</h4>
+                            <p>Open applications, interviews, and new member orientation</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">Oct - Dec</div>
+                            <h4>Design & Development</h4>
+                            <p>Robot design, prototyping, and initial testing phase</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">Jan - Mar</div>
+                            <h4>Build & Integration</h4>
+                            <p>Manufacturing, assembly, and system integration</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">Apr - May</div>
+                            <h4>Testing & Competition</h4>
+                            <p>Final testing, practice matches, and regional competition</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">Jun - Jul</div>
+                            <h4>International Finals</h4>
+                            <p>World Championship preparation and competition (if qualified)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="recruitment-info">
+                    <h3>What We're Looking For</h3>
+                    <div class="recruitment-grid">
+                        <div class="recruit-category">
+                            <i class="fas fa-graduation-cap"></i>
+                            <h4>Academic Background</h4>
+                            <ul>
+                                <li>Engineering (ME, EE, CS, AE, etc.)</li>
+                                <li>Business and Marketing</li>
+                                <li>Design and Fine Arts</li>
+                                <li>All majors welcome!</li>
+                            </ul>
+                        </div>
+                        <div class="recruit-category">
+                            <i class="fas fa-tools"></i>
+                            <h4>Technical Skills</h4>
+                            <ul>
+                                <li>Programming (C++, Python, MATLAB)</li>
+                                <li>CAD Design (SolidWorks, AutoCAD)</li>
+                                <li>Electronics and Circuit Design</li>
+                                <li>Manufacturing and Machining</li>
+                            </ul>
+                        </div>
+                        <div class="recruit-category">
+                            <i class="fas fa-heart"></i>
+                            <h4>Personal Qualities</h4>
+                            <ul>
+                                <li>Passion for robotics and innovation</li>
+                                <li>Strong work ethic and dedication</li>
+                                <li>Collaborative team player</li>
+                                <li>Willingness to learn and grow</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -168,44 +409,109 @@
         <div class="container">
             <div class="join-content">
                 <div class="join-text">
-                    <h2>Ready to Join the Fight?</h2>
-                    <p>Whether you're a freshman or graduate student, we welcome passionate individuals from all engineering disciplines and experience levels.</p>
+                    <h2>Ready to Join Illini RoboMaster?</h2>
+                    <p>Join a passionate community of 40+ students pushing the boundaries of robotics technology. Whether you're a first-year student or graduate researcher, we welcome dedicated individuals ready to compete at the highest level of collegiate robotics.</p>
                     
-                    <div class="join-benefits">
-                        <div class="benefit">
-                            <i class="fas fa-tools"></i>
-                            <span>Hands-on Engineering Experience</span>
-                        </div>
-                        <div class="benefit">
-                            <i class="fas fa-network-wired"></i>
-                            <span>Professional Networking</span>
-                        </div>
-                        <div class="benefit">
-                            <i class="fas fa-medal"></i>
-                            <span>Competition Experience</span>
-                        </div>
-                        <div class="benefit">
-                            <i class="fas fa-rocket"></i>
-                            <span>Leadership Opportunities</span>
+                    <div class="member-benefits">
+                        <h3>Member Benefits</h3>
+                        <div class="benefits-grid">
+                            <div class="benefit">
+                                <i class="fas fa-tools"></i>
+                                <span>24/7 Workshop Access</span>
+                            </div>
+                            <div class="benefit">
+                                <i class="fas fa-network-wired"></i>
+                                <span>Industry Connections</span>
+                            </div>
+                            <div class="benefit">
+                                <i class="fas fa-medal"></i>
+                                <span>International Competition</span>
+                            </div>
+                            <div class="benefit">
+                                <i class="fas fa-rocket"></i>
+                                <span>Leadership Development</span>
+                            </div>
+                            <div class="benefit">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span>Mentorship Programs</span>
+                            </div>
+                            <div class="benefit">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Internship Opportunities</span>
+                            </div>
                         </div>
                     </div>
                     
-                    <a href="#contact" class="btn btn-primary btn-large">Get Started Today</a>
+                    <div class="join-stats">
+                        <div class="join-stat">
+                            <h4>95%</h4>
+                            <p>Members find internships</p>
+                        </div>
+                        <div class="join-stat">
+                            <h4>15+</h4>
+                            <p>Hours per week commitment</p>
+                        </div>
+                        <div class="join-stat">
+                            <h4>$10K+</h4>
+                            <p>Annual team budget</p>
+                        </div>
+                    </div>
+                    
+                    <a href="#contact" class="btn btn-primary btn-large">Apply Now</a>
                 </div>
                 <div class="join-requirements">
-                    <h3>What We're Looking For</h3>
-                    <ul>
-                        <li>Passion for robotics and engineering</li>
-                        <li>Commitment to team collaboration</li>
-                        <li>Willingness to learn new technologies</li>
-                        <li>Dedication to competitive excellence</li>
-                        <li>University of Illinois enrollment</li>
-                    </ul>
+                    <h3>Application Process</h3>
+                    <div class="application-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Submit Application</h4>
+                                <p>Fill out our online application form with your background and interests</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Technical Interview</h4>
+                                <p>Meet with subteam leads to discuss your skills and interests</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Trial Period</h4>
+                                <p>2-week trial to work with teams and demonstrate commitment</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Full Membership</h4>
+                                <p>Join your chosen subteam and begin contributing to robot development</p>
+                            </div>
+                        </div>
+                    </div>
                     
-                    <div class="recruitment-info">
-                        <h4>Recruitment Periods</h4>
-                        <p><strong>Fall:</strong> August - September</p>
-                        <p><strong>Spring:</strong> January - February</p>
+                    <div class="recruitment-calendar">
+                        <h4>Recruitment Schedule</h4>
+                        <div class="recruitment-periods">
+                            <div class="recruitment-period">
+                                <i class="fas fa-leaf"></i>
+                                <div>
+                                    <strong>Fall Recruitment</strong>
+                                    <p>August 15 - September 15</p>
+                                    <p>Primary recruitment period</p>
+                                </div>
+                            </div>
+                            <div class="recruitment-period">
+                                <i class="fas fa-snowflake"></i>
+                                <div>
+                                    <strong>Spring Recruitment</strong>
+                                    <p>January 15 - February 15</p>
+                                    <p>Limited positions available</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -232,14 +538,14 @@
                         <i class="fas fa-map-marker-alt"></i>
                         <div>
                             <h4>Find Us</h4>
-                            <p>University of Illinois<br>Urbana-Champaign</p>
+                            <p>University of Illinois Urbana-Champaign, IL, 61801</p>
                         </div>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-calendar"></i>
                         <div>
                             <h4>Meetings</h4>
-                            <p>Weekly on Sundays<br>Check our Discord for details</p>
+                            <p>Weekly on Saturday Afternoon at ECEB Openlab<br>Check our Discord for details</p>
                         </div>
                     </div>
                 </div>
@@ -273,7 +579,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <i class="fas fa-robot"></i>
+                    <img src="images/icon.png" alt="Illini RoboMaster Icon" class="footer-logo-icon">
                     <span>Illini RoboMaster</span>
                 </div>
                 <p>&copy; 2025 Illini RoboMaster. All rights reserved.</p>
