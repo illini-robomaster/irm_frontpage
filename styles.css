@@ -1054,7 +1054,8 @@ section:not(.hero) {
 
 /* Specific positioning for Infantry image */
 .gallery-image[alt*="Infantry"] {
-    object-position: center 80%;
+    object-position: center 30%;
+    transform: scale(0.8);
 }
 
 .gallery-item:hover .gallery-image {
