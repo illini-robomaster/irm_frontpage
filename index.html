@@ -15,7 +15,7 @@
         <div class="nav-container">
             <div class="nav-logo">
                 <img src="images/icon.png" alt="Illini RoboMaster Icon" class="nav-logo-icon">
-                <span>Illini RoboMaster</span>
+                <span><span class="logo-highlight">ILL</span>ini RoboMaster</span>
             </div>
             <ul class="nav-menu">
                 <li><a href="#home">Home</a></li>
@@ -35,19 +35,35 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="images/Herosection_backgournd.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
         <div class="hero-content">
             <div class="hero-text">
-                <h1>Illini RoboMaster</h1>
+                <h1><span class="title-highlight">ILL</span>INI RoboMaster</h1>
                 <h2>Competitive Robotics Excellence</h2>
                 <p>Building the future of robotics through innovation, competition, and collaboration at the University of Illinois.</p>
+                
+                <!-- Achievement Badges -->
+                <div class="hero-achievements">
+                    <div class="achievement-badge">
+                        <i class="fas fa-trophy"></i>
+                        <span>Top 16 Global</span>
+                    </div>
+                    <div class="achievement-badge">
+                        <i class="fas fa-users"></i>
+                        <span>40+ Members</span>
+                    </div>
+                    <div class="achievement-badge">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Est. 2022</span>
+                    </div>
+                </div>
+                
                 <div class="hero-buttons">
                     <a href="#join" class="btn btn-primary">Join Our Team</a>
                     <a href="#about" class="btn btn-secondary">Learn More</a>
-                </div>
-            </div>
-            <div class="hero-image">
-                <div class="robot-showcase">
-                    <img src="images/robot-hero.jpg" alt="Illini RoboMaster Robot" class="hero-robot-image">
                 </div>
             </div>
         </div>
@@ -68,6 +84,37 @@
             <div class="mission-statement">
                 <h3>Our Mission</h3>
                 <p>Illini RoboMaster is a competitive robotics team at the University of Illinois at Urbana-Champaign dedicated to advancing robotics technology through the prestigious RoboMaster competition. We bring together passionate students from engineering, computer science, and business to create cutting-edge autonomous robots while fostering innovation, teamwork, and technical excellence.</p>
+            </div>
+            
+            <!-- Robot Showcase Gallery -->
+            <div class="robot-showcase-gallery">
+                <div class="section-header">
+                    <h3>Our Robot</h3>
+                    <p>See our cutting-edge robots and precision engineering up close</p>
+                </div>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="images/Engineering.jpg" alt="Engineering robot close-up" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <h4>Engineering Robot</h4>
+                            <p>Detailed view of our engineering robot design and precision components</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/Dart.png" alt="Dart robot close-up" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <h4>Dart System</h4>
+                            <p>Close-up of our high-speed dart robot showcasing advanced mechanics</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="images/infantry.png" alt="Infantry robot close-up" class="gallery-image">
+                        <div class="gallery-overlay">
+                            <h4>Infantry Robot</h4>
+                            <p>High-speed combat unit showcasing advanced mobility and precision targeting systems</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div class="about-grid">
@@ -106,7 +153,8 @@
     </section>
 
     <!-- Competitions Section -->
-    <section id="competitions" class="competitions">
+    <section id="competitions" class="competitions competition-with-field">
+        <div class="competition-field-overlay"></div>
         <div class="container">
             <div class="section-header">
                 <h2>RoboMaster Competition</h2>
@@ -285,48 +333,23 @@
                 </div>
             </div>
             
-            <!-- Team Gallery -->
-            <div class="team-gallery">
+            
+            <!-- Team Photo -->
+            <div class="team-photo-section">
                 <div class="section-header">
                     <h3>Meet Our Team</h3>
                     <p>The faces behind Illini RoboMaster's success</p>
                 </div>
-                <div class="gallery-grid">
-                    <div class="gallery-item">
-                        <img src="images/info_session.jpg" alt="Team info session" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <h4>Info Sessions</h4>
-                            <p>Team members presenting and sharing knowledge during our information sessions</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/Engineering.jpg" alt="Engineering robot close-up" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <h4>Engineering Robot</h4>
-                            <p>Detailed view of our engineering robot design and precision components</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/Dart.png" alt="Dart robot close-up" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <h4>Dart System</h4>
-                            <p>Close-up of our high-speed dart robot showcasing advanced mechanics</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/team-photo.jpg" alt="Team group photo" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <h4>Team Photo</h4>
-                            <p>The complete Illini RoboMaster team</p>
-                        </div>
-                    </div>
+                <div class="team-photo-container">
+                    <img src="images/team-photo.jpg" alt="Complete Illini RoboMaster team group photo" class="team-photo-image">
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Timeline & Recruitment Section -->
-    <section id="timeline" class="timeline">
+    <section id="timeline" class="timeline timeline-with-trophy">
+        <div class="timeline-trophy-overlay"></div>
         <div class="container">
             <div class="section-header">
                 <h2>Competition Timeline & Recruitment</h2>
@@ -580,7 +603,7 @@
             <div class="footer-content">
                 <div class="footer-logo">
                     <img src="images/icon.png" alt="Illini RoboMaster Icon" class="footer-logo-icon">
-                    <span>Illini RoboMaster</span>
+                    <span><span class="logo-highlight">ILL</span>ini RoboMaster</span>
                 </div>
                 <p>&copy; 2025 Illini RoboMaster. All rights reserved.</p>
             </div>
