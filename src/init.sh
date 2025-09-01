@@ -17,6 +17,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 LOGDIR=/var/log/container
+CFDIR=/etc/cloudflared
 CF_LOG=${LOGDIR}/docker_cloudflared.log
 LH_LOG=${LOGDIR}/docker_lighttpd.log
 
@@ -26,6 +27,7 @@ mkdir -p "${LOGDIR}"
 if [ -n "${CLOUDFLARED_TUNNEL_ID}" ] && [ -n "${CLOUDFLARED_DOMAIN}" ]; then
   echo "Generating cloudflared config from environment variables..."
   # Update tunnel ID and hostname in config file
+  cp -v "${CFDIR}"/config.yml "${CFDIR}"/config.yml.old
   awk -v tunnel_id="${CLOUDFLARED_TUNNEL_ID}" -v domain="${CLOUDFLARED_DOMAIN}" '
     /^tunnel:/ {
       print "tunnel: " tunnel_id
@@ -36,12 +38,11 @@ if [ -n "${CLOUDFLARED_TUNNEL_ID}" ] && [ -n "${CLOUDFLARED_DOMAIN}" ]; then
       next
     }
     { print }
-  ' /etc/cloudflared/config.yml >/tmp/config.yml
-  mv /tmp/config.yml /etc/cloudflared/config.yml
+  ' "${CFDIR}"/config.yml.old >"${CFDIR}"/config.yml
 fi
 
 # Global variables for process management
-CLOUDFLARED_PID=""
+CLOUDFLARED_PID=
 
 # Signal handler function
 handle_signal() {
@@ -49,7 +50,7 @@ handle_signal() {
 
   # Kill cloudflared if it's running
   if [ -n "${CLOUDFLARED_PID}" ]; then
-    echo "Stopping cloudflared (PID: $CLOUDFLARED_PID)..."
+    echo "Stopping cloudflared (PID: ${CLOUDFLARED_PID})..."
     kill -TERM "${CLOUDFLARED_PID}" 2>/dev/null
     wait "${CLOUDFLARED_PID}"
   fi
