@@ -18,18 +18,38 @@
 #
 
 # Parse command line arguments
-REBUILD=false
-STOP=false
-while getopts ":rs" opt; do
+REBUILD=
+STOP=
+HELP=$(
+  cat <<EOF
+Builds and runs the Docker image/container.
+Usage: ${0} [-r] [-s | -S [level]] [-h]
+    -r    Rebuild Docker image
+    -S [level]    0: stop container
+                  1: 0 and remove container
+                  2: 0, 1, and delete image
+    -s    Same as -S 0
+    -h    Show this message
+EOF
+)
+while getopts ":hrsS" opt; do
   case ${opt} in
   r)
-    REBUILD=true
+    REBUILD=1
     ;;
   s)
-    STOP=true
+    STOP=0
+    ;;
+  S)
+    STOP=${OPTARG:-0}
+    ;;
+  h)
+    echo -e "${HELP}"
+    exit 0
     ;;
   ?)
     echo "Invalid option: -${OPTARG}" >&2
+    echo "Use -h for help"
     exit 1
     ;;
   esac
@@ -42,17 +62,16 @@ ROOTPATH=$(dirname "${DIRPATH}")
 source "${DIRPATH}/conf.sh"
 mkdir -p "${LOGDIR}"
 
-LOG=${LOGDIR}/docker-deploy.log
+LOG=${LOGDIR}/docker_deploy.log
 CLOUDFLARED_CONFIG_CACHE="${ROOTPATH}/cached_config"
 
 function check_packages() {
-  echo Check packages: "${@}" >>"${LOG}"
-  which "${@}" >/dev/null
-  if [ ${?} -ne 0 ]; then
+  echol Check packages: "${@}"
+  if ! which "${@}" >/dev/null; then
     echo - Missing packages.
     exitl 1
   else
-    echo - No missing packages. >>"${LOG}"
+    echol - No missing packages.
   fi
 }
 
@@ -60,11 +79,11 @@ function get_cloudflared_config() {
   CF_CONF_CACHE=${1}
   # Check if we have a cached config
   if [ -f "${CF_CONF_CACHE}" ] && [ -s "${CF_CONF_CACHE}" ]; then
-    echo "Using cached cloudflared configuration..." >>"${LOG}"
+    echol Using cached cloudflared configuration...
     source "${CF_CONF_CACHE}"
   else
-    echo "No cached configuration found. Please provide cloudflared settings:" >>"${LOG}"
-    echo "Note: Leave blank to skip cloudflared configuration."
+    echol No cached configuration found. Please provide cloudflared settings:
+    echo Note: Leave blank to skip cloudflared configuration.
 
     # Ask for tunnel ID
     read -p "Cloudflared Tunnel ID: " CLOUDFLARED_TUNNEL_ID
@@ -74,12 +93,15 @@ function get_cloudflared_config() {
       # Ask for token
       read -p "Cloudflared Tunnel Token (optional): " CLOUDFLARED_TUNNEL_TOKEN
 
-      # Save to cache file with secure permissions
-      umask 077
-      echo "CLOUDFLARED_TUNNEL_ID=${CLOUDFLARED_TUNNEL_ID}" >"${CF_CONF_CACHE}"
-      echo "CLOUDFLARED_DOMAIN=${CLOUDFLARED_DOMAIN}" >>"${CF_CONF_CACHE}"
-      echo "CLOUDFLARED_TUNNEL_TOKEN=${CLOUDFLARED_TUNNEL_TOKEN}" >>"${CF_CONF_CACHE}"
-      umask 022
+      # Save to cache file
+      (
+        umask 077
+        cat <<EOF >"${CF_CONF_CACHE}"
+CLOUDFLARED_TUNNEL_ID=${CLOUDFLARED_TUNNEL_ID}
+CLOUDFLARED_DOMAIN=${CLOUDFLARED_DOMAIN}
+CLOUDFLARED_TUNNEL_TOKEN=${CLOUDFLARED_TUNNEL_TOKEN}
+EOF
+      )
     fi
   fi
 
@@ -114,37 +136,41 @@ function stop_container() {
 
 function build_image() {
   D_IMG_NAME=${1}
-  REBUILD=${2:-false}
+  REBUILD=${2}
   D_CON_NAME=${3}
   # Check if image already exists
-  if [ "${REBUILD}" = true ]; then
-    echo "Rebuilding Docker image..." >>"${LOG}"
+  if [ "${REBUILD}" ]; then
+    echol Rebuilding Docker image...
+    echol Removing "${D_CON_NAME}" container and image...
     stop_container "${D_CON_NAME}" 2
-    echo "Building Docker image..." >>"${LOG}"
-    docker build -t "${D_IMG_NAME}" "${ROOTPATH}" 2>&1 | tee -a "${LOG}"
-    if [ ${?} -ne 0 ]; then
-      echo "Failed to build Docker image" >>"${LOG}"
+    echol Building Docker image...
+    if ! docker build -t "${D_IMG_NAME}" "${ROOTPATH}" 2>&1 |
+      tee -a "${LOG}"; then
+      echol Failed to build Docker image
       exitl 1
     fi
-    echo "Docker image rebuilt successfully" >>"${LOG}"
+    echol Docker image rebuilt successfully
   else
     # Check if image exists
     if docker image inspect "${D_IMG_NAME}" >/dev/null 2>&1; then
-      echo "Docker image already exists. Skipping build." >>"${LOG}"
+      echol Docker image already exists. Skipping build.
     else
-      echo "Docker image does not exist. Building..." >>"${LOG}"
+      echol Docker image does not exist. Building...
       docker build -t "${D_IMG_NAME}" "${ROOTPATH}" 2>&1 | tee -a "${LOG}"
       if [ $? -ne 0 ]; then
-        echo "Failed to build Docker image" >>"${LOG}"
+        echol Failed to build Docker image
         exitl 1
       fi
-      echo "Docker image built successfully" >>"${LOG}"
+      echol Docker image built successfully
     fi
   fi
 }
 
 function deploy_containers() {
-  echo Deploying containers... >>"${LOG}"
+  CLOUDFLARED_TUNNEL_ID=${1}
+  CLOUDFLARED_DOMAIN=${2}
+  CLOUDFLARED_TUNNEL_TOKEN=${3}
+  echol Deploying containers...
   # Use docker-compose to deploy with environment variables
   if [ "${CLOUDFLARED_TUNNEL_ID}" ] && [ "${CLOUDFLARED_DOMAIN}" ]; then
     CLOUDFLARED_TUNNEL_ID="${CLOUDFLARED_TUNNEL_ID}"
@@ -163,17 +189,20 @@ function main() {
   REQUIRED_PACKAGES="docker docker-compose"
   check_packages ${REQUIRED_PACKAGES}
 
-  if [ "${STOP}" == "true" ]; then
-    stop_container "${DOCKER_CONTAINER_NAME}"
+  if [ "${STOP}" ]; then
+    stop_container "${DOCKER_CONTAINER_NAME}" "${STOP}"
     exitl 0
   fi
 
   # Build the Docker image
   build_image "${DOCKER_IMAGE_NAME}" "${REBUILD}" "${DOCKER_CONTAINER_NAME}"
 
+  # Sets `CLOUDFLARED_TUNNEL_ID`, `CLOUDFLARED_DOMAIN`,
+  # `CLOUDFLARED_TUNNEL_TOKEN`
   get_cloudflared_config "${CLOUDFLARED_CONFIG_CACHE}"
 
-  deploy_containers
+  deploy_containers "${CLOUDFLARED_TUNNEL_ID}" "${CLOUDFLARED_DOMAIN}" \
+    "${CLOUDFLARED_TUNNEL_TOKEN}"
 
   exitl 0
 }

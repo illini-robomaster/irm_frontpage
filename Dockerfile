@@ -18,20 +18,26 @@
 FROM rtsp/lighttpd
 
 # Install necessary packages
-RUN apk add --no-cache curl tini
+RUN apk add --no-cache curl tini php-cgi
 
 # Create necessary directories
 RUN mkdir -p /etc/cloudflared /usr/local/bin
 
 # Copy files
 COPY src/cloudflared /etc/cloudflared
-COPY src/15-proxy.conf /etc/lighttpd/conf.d/15-proxy.conf
 COPY src/init.sh /usr/local/bin/init.sh
-RUN chmod +x /usr/local/bin/init.sh
 
 # Install cloudflared
-RUN curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -o /usr/local/bin/cloudflared
-RUN chmod +x /usr/local/bin/cloudflared
+RUN curl -L https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 \
+         -o /usr/local/bin/cloudflared
+
+# Set permissions
+RUN chmod +x /usr/local/bin/init.sh \
+             /usr/local/bin/cloudflared
+
+# Modify lighttpd
+RUN sed -i 's/^\(server\.port = \).*/\18081/' \
+           /etc/lighttpd/conf.d/01-server.conf
 
 # Set entrypoint with tini as init system
 ENTRYPOINT ["/sbin/tini", "--", "/bin/sh", "/usr/local/bin/init.sh"]

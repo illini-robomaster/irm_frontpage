@@ -30,3 +30,7 @@ Exit(${1}) $(date)
 EOF
   exit "${n}"
 }
+
+function echol() {
+  echo "$@" >>"${LOG}"
+}

@@ -17,8 +17,7 @@ services:
     image: irm-frontpage
     container_name: irm-frontpage
     ports:
-      - "80:80"
-      - "8080:8080"
+      - "8081:8081"
     volumes:
       - ./src/html:/var/www/html:ro
       - ./log:/var/log/container:rw  # Also change `LOGDIR` in `src/init.sh`
@@ -30,4 +29,3 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-
