@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (entry.isIntersecting) {
                 const stats = entry.target.querySelectorAll('.anim_stat h4');
                 stats.forEach((stat, index) => {
-                    const values = [500, 2_000_000, 420];
+                    const values = [200, 20_000, 420];
                     const prefixes = ['', '$', ''];
                     const suffixes = ['+', '+', 'm²'];
                     setTimeout(() => {
