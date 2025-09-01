@@ -41,7 +41,7 @@ while getopts ":hrsS" opt; do
     STOP=0
     ;;
   S)
-    STOP=${OPTARG:-0}
+    STOP=${2:-0}
     ;;
   h)
     echo -e "${HELP}"
