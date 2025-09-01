@@ -18,38 +18,31 @@ secure tunneling.
 1. Run the deployment script:
 
    ```bash
-   ./scripts/docker-deploy.sh
+   ./deploy.sh
    ```
 
 The deployment script will automatically:
-- Build a custom Alpine-based Docker image with cloudflared installed
-- Configure lighttpd as a reverse proxy
-- Start both services with proper networking
 
-### Cloudflared Integration
+- Build a custom Alpine-based Docker image if not present
+- Ask for Cloudflared tunnel credentials if not cached
+- Start the container
 
-To enable Cloudflared tunneling:
+If you see `Unsupported config option for services: 'web'`, add `version: "3"`
+to the start of `docker-compose.yml`:
 
-1. Create a Cloudflare account and set up a tunnel
-2. Obtain your tunnel token
-3. Set the tunnel token as an environment variable:
+```yml
+...
+# GNU General Public License for more details.
+#
+version: "3"  # Add this
 
-   ```bash
-   export CLOUDFLARED_TUNNEL_TOKEN=your_actual_tunnel_token
-   ```
-
-4. Run the deployment script
+services:
+  web:
+...
+```
 
 ### Direct Access
 
-The website will be available at:
+The website will be available locally at:
 
-- <http://localhost:80> (through lighttpd)
-- <http://localhost:8080> (direct access to the web content)
-
-### Configuration Files
-
-- `src/cloudflared/config.yml` - Template for Cloudflared configuration
-- `Dockerfile` - Custom Docker image definition
-- `docker-compose.yml` - Docker Compose configuration
-- `scripts/docker-deploy.sh` - Deployment script
+- <http://localhost:8081>
