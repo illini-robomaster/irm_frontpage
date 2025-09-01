@@ -3,5 +3,5 @@
 tunnel: 
 ingress:
   - hostname: 
-    service: http://localhost:80
+    service: http://localhost:8081
   - service: http_status:404

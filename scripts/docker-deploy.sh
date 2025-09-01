@@ -176,7 +176,6 @@ function deploy_containers() {
     CLOUDFLARED_TUNNEL_ID="${CLOUDFLARED_TUNNEL_ID}"
     CLOUDFLARED_DOMAIN="${CLOUDFLARED_DOMAIN}"
     CLOUDFLARED_TUNNEL_TOKEN="${CLOUDFLARED_TUNNEL_TOKEN}"
-    echo ${CLOUDFLARED_TUNNEL_TOKEN}
     docker-compose -f "${ROOTPATH}/docker-compose.yml" up -d 2>&1 | tee -a "${LOG}"
   else
     # Deploy without cloudflared config
