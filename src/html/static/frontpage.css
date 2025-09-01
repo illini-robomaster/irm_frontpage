@@ -536,7 +536,7 @@ section:not(.hero) {
 /* Competition Field Background */
 .competition-with-field {
     background: linear-gradient(135deg, rgba(44, 62, 80, 0.8) 0%, rgba(52, 73, 94, 0.8) 100%), 
-                url('static/img/rmuc_field.png') center/cover no-repeat;
+                url('/static/img/rmuc_field.png') center/cover no-repeat;
     background-attachment: fixed;
 }
 
@@ -939,7 +939,7 @@ section:not(.hero) {
 /* Timeline with Trophy Background */
 .timeline-with-trophy {
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%), 
-                url('static/img/trophy.jpg') center/cover no-repeat;
+                url('/static/img/trophy.jpg') center/cover no-repeat;
     background-attachment: fixed;
 }
 
