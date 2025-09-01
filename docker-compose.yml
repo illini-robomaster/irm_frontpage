@@ -1,0 +1,33 @@
+#
+# Copyright (C) 2025 RoboMaster.
+# Illini RoboMaster @ University of Illinois at Urbana-Champaign
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+services:
+  web:
+    image: irm-frontpage
+    container_name: irm-frontpage
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - ./src/html:/var/www/html:ro
+      - ./log:/var/log/container:rw  # Also change `LOGDIR` in `src/init.sh`
+    restart: unless-stopped
+    environment:
+      - CLOUDFLARED_TUNNEL_TOKEN=${CLOUDFLARED_TUNNEL_TOKEN}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+

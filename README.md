@@ -3,23 +3,53 @@
 The static website for the Illini RoboMaster competitive robotics team at the
 University of Illinois.
 
-## 📋 Sections
+## Deployment
 
-1. **Hero Section**: Eye-catching introduction with call-to-action buttons
-2. **About**: Overview of the team's mission and values
-3. **Competitions**: Information about RoboMaster competition
-4. **Team Structure**: Different engineering divisions
-5. **Join Us**: Recruitment information and benefits
-6. **Contact**: Contact details and social media links
+This website can be deployed using Docker with Cloudflared integration for
+secure tunneling.
 
-- **Google Fonts**: Inter font family for modern typography
+### Prerequisites
 
-## 📁 File Structure
+- Docker
+- Docker Compose
 
-```
-irm_frontpage/
-├── index.html          # Main HTML file
-├── styles.css          # CSS stylesheet
-├── script.js           # JavaScript functionality
-└── README.md          # Project documentation
-```
+### Deployment Steps
+
+1. Run the deployment script:
+
+   ```bash
+   ./scripts/docker-deploy.sh
+   ```
+
+The deployment script will automatically:
+- Build a custom Alpine-based Docker image with cloudflared installed
+- Configure lighttpd as a reverse proxy
+- Start both services with proper networking
+
+### Cloudflared Integration
+
+To enable Cloudflared tunneling:
+
+1. Create a Cloudflare account and set up a tunnel
+2. Obtain your tunnel token
+3. Set the tunnel token as an environment variable:
+
+   ```bash
+   export CLOUDFLARED_TUNNEL_TOKEN=your_actual_tunnel_token
+   ```
+
+4. Run the deployment script
+
+### Direct Access
+
+The website will be available at:
+
+- <http://localhost:80> (through lighttpd)
+- <http://localhost:8080> (direct access to the web content)
+
+### Configuration Files
+
+- `src/cloudflared/config.yml` - Template for Cloudflared configuration
+- `Dockerfile` - Custom Docker image definition
+- `docker-compose.yml` - Docker Compose configuration
+- `scripts/docker-deploy.sh` - Deployment script
