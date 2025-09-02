@@ -293,7 +293,6 @@ function initRobotCarousel() {
     if (images.length === 0) return;
     
     let currentIndex = 0;
-    let autoScrollInterval;
     
     function updateCarousel() {
         images.forEach((img, index) => {
@@ -318,38 +317,8 @@ function initRobotCarousel() {
     // Initialize first image as active
     updateCarousel();
     
-    // Start auto-scrolling every 1 second
-    function startAutoScroll() {
-        autoScrollInterval = setInterval(autoScroll, 1000);
-    }
-    
-    function stopAutoScroll() {
-        if (autoScrollInterval) {
-            clearInterval(autoScrollInterval);
-            autoScrollInterval = null;
-        }
-    }
-    
-    // Initialize auto-scroll
-    startAutoScroll();
-    
-    // Pause auto-scroll when user hovers over carousel
-    carousel.addEventListener('mouseenter', stopAutoScroll);
-    
-    // Resume auto-scroll when user stops hovering
-    carousel.addEventListener('mouseleave', startAutoScroll);
-    
-    // Add click handlers for manual navigation
-    images.forEach((img, index) => {
-        img.addEventListener('click', () => {
-            if (!img.classList.contains('active')) {
-                currentIndex = index;
-                updateCarousel();
-                stopAutoScroll();
-                setTimeout(startAutoScroll, 3000); // Resume after 3 seconds
-            }
-        });
-    });
+    // Start auto-scrolling every 1 second - continuous scrolling
+    setInterval(autoScroll, 1000);
 }
 
 // Team Photo Carousel Auto-scroll
@@ -361,7 +330,6 @@ function initTeamPhotoCarousel() {
     if (images.length === 0) return;
     
     let currentIndex = 0;
-    let autoScrollInterval;
     
     function updateCarousel() {
         images.forEach((img, index) => {
@@ -386,38 +354,8 @@ function initTeamPhotoCarousel() {
     // Initialize first image as active
     updateCarousel();
     
-    // Start auto-scrolling every 1.5 seconds
-    function startAutoScroll() {
-        autoScrollInterval = setInterval(autoScroll, 1500);
-    }
-    
-    function stopAutoScroll() {
-        if (autoScrollInterval) {
-            clearInterval(autoScrollInterval);
-            autoScrollInterval = null;
-        }
-    }
-    
-    // Initialize auto-scroll
-    startAutoScroll();
-    
-    // Pause auto-scroll when user hovers over carousel
-    carousel.addEventListener('mouseenter', stopAutoScroll);
-    
-    // Resume auto-scroll when user stops hovering
-    carousel.addEventListener('mouseleave', startAutoScroll);
-    
-    // Add click handlers for manual navigation
-    images.forEach((img, index) => {
-        img.addEventListener('click', () => {
-            if (!img.classList.contains('active')) {
-                currentIndex = index;
-                updateCarousel();
-                stopAutoScroll();
-                setTimeout(startAutoScroll, 5000); // Resume after 5 seconds
-            }
-        });
-    });
+    // Start auto-scrolling every 1.5 seconds - continuous scrolling
+    setInterval(autoScroll, 1500);
 }
 
 // Initialize both carousels when DOM is loaded
