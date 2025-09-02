@@ -284,6 +284,148 @@ document.addEventListener('DOMContentLoaded', function() {
     `);
 });
 
+// Robot Carousel Auto-scroll (for Competition Achievements)
+function initRobotCarousel() {
+    const carousel = document.querySelector('.robot-carousel');
+    if (!carousel) return;
+    
+    const images = carousel.querySelectorAll('.robot-carousel-image');
+    if (images.length === 0) return;
+    
+    let currentIndex = 0;
+    let autoScrollInterval;
+    
+    function updateCarousel() {
+        images.forEach((img, index) => {
+            // Remove all classes first
+            img.classList.remove('active', 'prev', 'next');
+            
+            if (index === currentIndex) {
+                img.classList.add('active');
+            } else if (index === (currentIndex - 1 + images.length) % images.length) {
+                img.classList.add('prev');
+            } else if (index === (currentIndex + 1) % images.length) {
+                img.classList.add('next');
+            }
+        });
+    }
+    
+    function autoScroll() {
+        currentIndex = (currentIndex + 1) % images.length;
+        updateCarousel();
+    }
+    
+    // Initialize first image as active
+    updateCarousel();
+    
+    // Start auto-scrolling every 1 second
+    function startAutoScroll() {
+        autoScrollInterval = setInterval(autoScroll, 1000);
+    }
+    
+    function stopAutoScroll() {
+        if (autoScrollInterval) {
+            clearInterval(autoScrollInterval);
+            autoScrollInterval = null;
+        }
+    }
+    
+    // Initialize auto-scroll
+    startAutoScroll();
+    
+    // Pause auto-scroll when user hovers over carousel
+    carousel.addEventListener('mouseenter', stopAutoScroll);
+    
+    // Resume auto-scroll when user stops hovering
+    carousel.addEventListener('mouseleave', startAutoScroll);
+    
+    // Add click handlers for manual navigation
+    images.forEach((img, index) => {
+        img.addEventListener('click', () => {
+            if (!img.classList.contains('active')) {
+                currentIndex = index;
+                updateCarousel();
+                stopAutoScroll();
+                setTimeout(startAutoScroll, 3000); // Resume after 3 seconds
+            }
+        });
+    });
+}
+
+// Team Photo Carousel Auto-scroll
+function initTeamPhotoCarousel() {
+    const carousel = document.querySelector('.team-photo-carousel');
+    if (!carousel) return;
+    
+    const images = carousel.querySelectorAll('.team-photo-image');
+    if (images.length === 0) return;
+    
+    let currentIndex = 0;
+    let autoScrollInterval;
+    
+    function updateCarousel() {
+        images.forEach((img, index) => {
+            // Remove all classes first
+            img.classList.remove('active', 'prev', 'next');
+            
+            if (index === currentIndex) {
+                img.classList.add('active');
+            } else if (index === (currentIndex - 1 + images.length) % images.length) {
+                img.classList.add('prev');
+            } else if (index === (currentIndex + 1) % images.length) {
+                img.classList.add('next');
+            }
+        });
+    }
+    
+    function autoScroll() {
+        currentIndex = (currentIndex + 1) % images.length;
+        updateCarousel();
+    }
+    
+    // Initialize first image as active
+    updateCarousel();
+    
+    // Start auto-scrolling every 1.5 seconds
+    function startAutoScroll() {
+        autoScrollInterval = setInterval(autoScroll, 1500);
+    }
+    
+    function stopAutoScroll() {
+        if (autoScrollInterval) {
+            clearInterval(autoScrollInterval);
+            autoScrollInterval = null;
+        }
+    }
+    
+    // Initialize auto-scroll
+    startAutoScroll();
+    
+    // Pause auto-scroll when user hovers over carousel
+    carousel.addEventListener('mouseenter', stopAutoScroll);
+    
+    // Resume auto-scroll when user stops hovering
+    carousel.addEventListener('mouseleave', startAutoScroll);
+    
+    // Add click handlers for manual navigation
+    images.forEach((img, index) => {
+        img.addEventListener('click', () => {
+            if (!img.classList.contains('active')) {
+                currentIndex = index;
+                updateCarousel();
+                stopAutoScroll();
+                setTimeout(startAutoScroll, 5000); // Resume after 5 seconds
+            }
+        });
+    });
+}
+
+// Initialize both carousels when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initTeamPhotoCarousel();
+    initRobotCarousel();
+});
+
 // Additional CSS for keyboard navigation
 const keyboardCSS = `
     .using-keyboard *:focus {
