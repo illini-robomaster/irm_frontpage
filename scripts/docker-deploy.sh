@@ -85,30 +85,18 @@ function get_cloudflared_config() {
     echol No cached configuration found. Please provide cloudflared settings:
     echo Note: Leave blank to skip cloudflared configuration.
 
-    # Ask for tunnel ID
-    read -p "Cloudflared Tunnel ID: " CLOUDFLARED_TUNNEL_ID
-    if [ "${CLOUDFLARED_TUNNEL_ID}" ]; then
-      # Ask for domain
-      read -p "Domain (e.g., example.com): " CLOUDFLARED_DOMAIN
-      # Ask for token
-      read -p "Cloudflared Tunnel Token (optional): " CLOUDFLARED_TUNNEL_TOKEN
+    read -p "Cloudflared Tunnel Token: " CLOUDFLARED_TUNNEL_TOKEN
 
-      # Save to cache file
-      (
-        umask 077
-        cat <<EOF >"${CF_CONF_CACHE}"
-CLOUDFLARED_TUNNEL_ID=${CLOUDFLARED_TUNNEL_ID}
-CLOUDFLARED_DOMAIN=${CLOUDFLARED_DOMAIN}
+    # Save to cache file
+    (
+      umask 077
+      cat <<EOF >"${CF_CONF_CACHE}"
 CLOUDFLARED_TUNNEL_TOKEN=${CLOUDFLARED_TUNNEL_TOKEN}
 EOF
-      )
-    fi
+    )
   fi
 
-  # Export variables for docker-compose
-  export CLOUDFLARED_TUNNEL_ID
-  export CLOUDFLARED_DOMAIN
-  export CLOUDFLARED_TUNNEL_TOKEN
+  echo "${CLOUDFLARED_TUNNEL_TOKEN}"
 }
 
 function stop_container() {
@@ -167,20 +155,9 @@ function build_image() {
 }
 
 function deploy_containers() {
-  CLOUDFLARED_TUNNEL_ID=${1}
-  CLOUDFLARED_DOMAIN=${2}
-  CLOUDFLARED_TUNNEL_TOKEN=${3}
+  CLOUDFLARED_TUNNEL_TOKEN=${1}
   echol Deploying containers...
-  # Use docker-compose to deploy with environment variables
-  if [ "${CLOUDFLARED_TUNNEL_ID}" ] && [ "${CLOUDFLARED_DOMAIN}" ]; then
-    CLOUDFLARED_TUNNEL_ID="${CLOUDFLARED_TUNNEL_ID}"
-    CLOUDFLARED_DOMAIN="${CLOUDFLARED_DOMAIN}"
-    CLOUDFLARED_TUNNEL_TOKEN="${CLOUDFLARED_TUNNEL_TOKEN}"
-    docker-compose -f "${ROOTPATH}/docker-compose.yml" up -d 2>&1 | tee -a "${LOG}"
-  else
-    # Deploy without cloudflared config
-    docker-compose -f "${ROOTPATH}/docker-compose.yml" up -d 2>&1 | tee -a "${LOG}"
-  fi
+  docker-compose -f "${ROOTPATH}/docker-compose.yml" up -d 2>&1 | tee -a "${LOG}"
 }
 
 function main() {
@@ -197,12 +174,7 @@ function main() {
   # Build the Docker image
   build_image "${DOCKER_IMAGE_NAME}" "${REBUILD}" "${DOCKER_CONTAINER_NAME}"
 
-  # Sets `CLOUDFLARED_TUNNEL_ID`, `CLOUDFLARED_DOMAIN`,
-  # `CLOUDFLARED_TUNNEL_TOKEN`
-  get_cloudflared_config "${CLOUDFLARED_CONFIG_CACHE}"
-
-  deploy_containers "${CLOUDFLARED_TUNNEL_ID}" "${CLOUDFLARED_DOMAIN}" \
-    "${CLOUDFLARED_TUNNEL_TOKEN}"
+  deploy_containers "$(get_cloudflared_config "${CLOUDFLARED_CONFIG_CACHE}")"
 
   exitl 0
 }

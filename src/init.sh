@@ -23,24 +23,6 @@ LH_LOG=${LOGDIR}/docker_lighttpd.log
 
 mkdir -p "${LOGDIR}"
 
-# Handle cloudflared configuration from environment variables
-if [ -n "${CLOUDFLARED_TUNNEL_ID}" ] && [ -n "${CLOUDFLARED_DOMAIN}" ]; then
-  echo "Generating cloudflared config from environment variables..."
-  # Update tunnel ID and hostname in config file
-  cp -v "${CFDIR}"/config.yml "${CFDIR}"/config.yml.old
-  awk -v tunnel_id="${CLOUDFLARED_TUNNEL_ID}" -v domain="${CLOUDFLARED_DOMAIN}" '
-    /^tunnel:/ {
-      print "tunnel: " tunnel_id
-      next
-    }
-    /^  - hostname:/ {
-      print "  - hostname: " domain
-      next
-    }
-    { print }
-  ' "${CFDIR}"/config.yml.old >"${CFDIR}"/config.yml
-fi
-
 # Global variables for process management
 CLOUDFLARED_PID=
 

@@ -23,8 +23,6 @@ services:
       - ./log:/var/log/container:rw  # Also change `LOGDIR` in `src/init.sh`
     restart: unless-stopped
     environment:
-      - CLOUDFLARED_TUNNEL_ID=${CLOUDFLARED_TUNNEL_ID}
-      - CLOUDFLARED_DOMAIN=${CLOUDFLARED_DOMAIN}
       - CLOUDFLARED_TUNNEL_TOKEN=${CLOUDFLARED_TUNNEL_TOKEN}
     logging:
       driver: "json-file"
