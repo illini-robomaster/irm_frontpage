@@ -46,7 +46,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
+    flex-wrap: nowrap;
 }
 
 .nav-logo {
@@ -80,7 +81,7 @@ body {
 .nav-menu {
     display: flex;
     list-style: none;
-    gap: 2rem;
+    gap: 1.5rem;
 }
 
 .nav-menu a {
@@ -189,7 +190,7 @@ body {
 }
 
 /* Responsive Design for Navigation */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .nav-menu {
         position: fixed;
         left: -100%;
@@ -230,4 +231,15 @@ body {
     .nav-toggle {
         display: flex;
     }
+}
+
+/* Mailto link styling */
+a[href^="mailto:"] {
+    color: white !important;
+    text-decoration: none;
+}
+
+a[href^="mailto:"]:hover {
+    color: #f0f0f0 !important;
+    text-decoration: underline;
 }
