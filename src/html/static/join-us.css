@@ -1,0 +1,38 @@
+/* Join Us Page Specific Styles */
+
+/* Remove background image from timeline section */
+.timeline-with-trophy {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%) !important;
+    background-attachment: unset !important;
+}
+
+/* Page spacing adjustments */
+.timeline {
+    margin-top: 100px; /* Account for fixed navbar */
+}
+
+/* Override frontpage.css social-link styles to match sponsorship page */
+.footer-social .social-link {
+    display: inline;
+    align-items: unset;
+    gap: unset;
+    padding: unset;
+    background: none !important;
+    border-radius: unset;
+    text-decoration: none;
+    color: #bdc3c7;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+    transform: none !important;
+}
+
+.footer-social .social-link:hover {
+    color: #3498db;
+    background: none !important;
+    transform: none !important;
+}
+
+.footer-social .social-link i {
+    font-size: 1.5rem;
+    color: inherit;
+}
