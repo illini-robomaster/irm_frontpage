@@ -1101,10 +1101,10 @@ section:not(.hero) {
     opacity: 0.9;
 }
 
-/* Join Section */
+/* Join Section - White Background */
 .join {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: white;
+    color: #2c3e50;
 }
 
 .join-content {
@@ -1117,12 +1117,13 @@ section:not(.hero) {
 .join-text h2 {
     font-size: 2.5rem;
     margin-bottom: 1.5rem;
+    color: #2c3e50;
 }
 
 .join-text p {
     font-size: 1.2rem;
     margin-bottom: 2rem;
-    opacity: 0.9;
+    color: #34495e;
 }
 
 .join-benefits,
@@ -1134,6 +1135,7 @@ section:not(.hero) {
     font-size: 1.6rem;
     margin-bottom: 1.5rem;
     text-align: center;
+    color: #2c3e50;
 }
 
 .benefits-grid {
@@ -1147,20 +1149,25 @@ section:not(.hero) {
     display: flex;
     align-items: center;
     gap: 1rem;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 107, 53, 0.05);
     padding: 1rem;
     border-radius: 8px;
     transition: background 0.3s ease;
+    border: 1px solid rgba(255, 107, 53, 0.1);
 }
 
 .benefit:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 107, 53, 0.1);
 }
 
 .benefit i {
-    color: #f39c12;
+    color: #ff6b35;
     font-size: 1.2rem;
     width: 20px;
+}
+
+.benefit span {
+    color: #2c3e50;
 }
 
 .join-stats {
@@ -1174,13 +1181,13 @@ section:not(.hero) {
 .join-stat h4 {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #ffd700;
+    color: #ff6b35;
     margin-bottom: 0.5rem;
 }
 
 .join-stat p {
     font-size: 0.95rem;
-    opacity: 0.9;
+    color: #34495e;
 }
 
 .application-steps {
@@ -1195,7 +1202,7 @@ section:not(.hero) {
 }
 
 .step-number {
-    background: #e74c3c;
+    background: #ff6b35;
     color: white;
     width: 30px;
     height: 30px;
@@ -1210,10 +1217,11 @@ section:not(.hero) {
 .step-content h4 {
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
+    color: #2c3e50;
 }
 
 .step-content p {
-    opacity: 0.9;
+    color: #34495e;
     font-size: 0.95rem;
 }
 
@@ -1230,32 +1238,43 @@ section:not(.hero) {
     display: flex;
     gap: 1rem;
     align-items: center;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 107, 53, 0.05);
     padding: 1rem;
     border-radius: 8px;
+    border: 1px solid rgba(255, 107, 53, 0.1);
 }
 
 .recruitment-period i {
     font-size: 1.5rem;
-    color: #f39c12;
+    color: #ff6b35;
 }
 
 .recruitment-period strong {
     display: block;
     margin-bottom: 0.2rem;
+    color: #2c3e50;
+}
+
+.recruitment-period p {
+    color: #34495e;
+}
+
+.recruitment-calendar h4 {
+    color: #2c3e50;
 }
 
 .join-requirements {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 107, 53, 0.05);
     padding: 2.5rem;
     border-radius: 15px;
     backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 107, 53, 0.1);
 }
 
 .join-requirements h3 {
     font-size: 1.5rem;
     margin-bottom: 1.5rem;
-    color: #ecf0f1;
+    color: #2c3e50;
 }
 
 .join-requirements ul {
@@ -1267,6 +1286,7 @@ section:not(.hero) {
     padding: 0.5rem 0;
     position: relative;
     padding-left: 1.5rem;
+    color: #34495e;
 }
 
 .join-requirements li::before {

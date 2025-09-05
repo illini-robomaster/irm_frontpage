@@ -1,14 +1,52 @@
 /* Join Us Page Specific Styles */
 
-/* Remove background image from timeline section */
+/* Reduce section spacing on join us page */
+.join {
+    padding: 3rem 0 !important;
+}
+
+/* White background for timeline section - override frontpage.css */
 .timeline-with-trophy {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%) !important;
+    background: white !important;
     background-attachment: unset !important;
+}
+
+/* Remove trophy overlay */
+.timeline-trophy-overlay {
+    display: none !important;
+}
+
+/* Ensure entire timeline section is white */
+#timeline.timeline {
+    background: white !important;
+}
+
+/* Ensure timeline content has white background */
+.timeline .container {
+    background: white;
+}
+
+/* Override specific timeline-with-trophy container styles */
+.timeline-with-trophy .container {
+    background: white !important;
+    position: relative;
+    z-index: 2;
+}
+
+/* Timeline section text colors for white background */
+.timeline .section-header h2,
+.season-timeline h3 {
+    color: #2c3e50 !important;
+}
+
+.timeline .section-header p,
+.timeline-description {
+    color: #34495e !important;
 }
 
 /* Page spacing adjustments */
 .timeline {
-    margin-top: 100px; /* Account for fixed navbar */
+    margin-top: 80px; /* Account for fixed navbar */
 }
 
 /* Override frontpage.css social-link styles to match sponsorship page */
@@ -35,4 +73,442 @@
 .footer-social .social-link i {
     font-size: 1.5rem;
     color: inherit;
+}
+
+/* Timeline Content Layout with white background */
+.timeline-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    background: white;
+    padding: 1rem 0;
+}
+
+.season-timeline {
+    width: 100%;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+}
+
+.season-timeline h3 {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.timeline-description {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+/* Keyframe animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Timeline Flow Styles - Connect to center of dots */
+.timeline-flow {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3rem 0 2rem 0;
+    position: relative;
+}
+
+/* Horizontal timeline line - clean and simple with orange */
+.timeline-flow::before {
+    content: '';
+    position: absolute;
+    top: 3rem;
+    left: 10%;
+    right: 10%;
+    height: 6px;
+    background: linear-gradient(90deg, #ff6b35, #f39c12);
+    border-radius: 3px;
+    box-shadow: 0 0 15px rgba(255, 107, 53, 0.4);
+    z-index: 0;
+    animation: slideInFromLeft 1.2s ease-out 0.8s both;
+}
+
+/* Remove the arrow - cleaner look */
+.timeline-flow::after {
+    display: none;
+}
+
+.timeline-step {
+    position: relative;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    width: 220px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+    z-index: 1;
+    margin-top: 3rem;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Staggered animation delays for each timeline step */
+.timeline-step:nth-child(1) {
+    animation-delay: 0.4s;
+}
+
+.timeline-step:nth-child(2) {
+    animation-delay: 0.6s;
+}
+
+.timeline-step:nth-child(3) {
+    animation-delay: 0.8s;
+}
+
+.timeline-step:nth-child(4) {
+    animation-delay: 1.0s;
+}
+
+.timeline-step:nth-child(5) {
+    animation-delay: 1.2s;
+}
+
+/* Remove timeline dots for cleaner look */
+.timeline-step::before {
+    display: none;
+}
+
+/* Remove staggered dot animations since dots are removed */
+
+/* Month labels above cards - more subtle with orange accent */
+.timeline-step::after {
+    content: attr(data-month);
+    position: absolute;
+    top: -4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    z-index: 3;
+    letter-spacing: 0.5px;
+}
+
+/* Remove vertical connector since we removed the dots */
+.timeline-step .timeline-connector {
+    display: none;
+}
+
+/* Timeline step content */
+.timeline-step-content {
+    color: #2c3e50;
+}
+
+.timeline-icon {
+    margin-bottom: 1rem;
+}
+
+.timeline-icon i {
+    font-size: 2.5rem;
+    color: #667eea;
+    background: rgba(102, 126, 234, 0.1);
+    padding: 1rem;
+    border-radius: 50%;
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    transition: all 0.3s ease;
+}
+
+.timeline-step-content h4 {
+    margin: 1rem 0 0.8rem 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2c3e50;
+    line-height: 1.3;
+}
+
+.timeline-step-content p {
+    margin: 0 0 1.5rem 0;
+    font-size: 0.9rem;
+    color: #34495e;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.timeline-date {
+    background: linear-gradient(45deg, #ff6b35, #e67e22);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+    border: 1px solid rgba(255, 107, 53, 0.3);
+    letter-spacing: 0.5px;
+}
+
+.timeline-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.highlight-tag {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    letter-spacing: 0.3px;
+}
+
+/* Enhanced hover effects for white background with subtle theme */
+.timeline-step:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.25);
+    border-color: rgba(255, 107, 53, 0.4);
+    background: rgba(255, 255, 255, 1);
+}
+
+.timeline-step:hover::before {
+    transform: translateX(-50%) scale(1.4);
+    box-shadow: 0 0 30px rgba(255, 107, 53, 0.8);
+}
+
+.timeline-step:hover .timeline-icon i {
+    color: #ffffff;
+    background: rgba(255, 107, 53, 0.8);
+    border-color: rgba(255, 107, 53, 0.6);
+    transform: scale(1.1);
+}
+
+.timeline-step:hover .highlight-tag {
+    background: rgba(255, 107, 53, 0.15);
+    border-color: rgba(255, 107, 53, 0.3);
+    color: #e67e22;
+}
+
+/* Hide arrow connectors */
+.timeline-arrow-connector {
+    display: none;
+}
+
+/* Recruitment info section styling for white background with orange theme */
+.recruitment-info {
+    margin-top: 0;
+    background: rgba(255, 107, 53, 0.05);
+    padding: 2rem 2rem;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    width: 100%;
+    border: 1px solid rgba(255, 107, 53, 0.1);
+}
+
+.recruitment-info h3 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.recruitment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.recruit-category {
+    background: rgba(255, 107, 53, 0.05);
+    padding: 2rem;
+    border-radius: 8px;
+    color: #2c3e50;
+    text-align: center;
+    border: 1px solid rgba(255, 107, 53, 0.1);
+}
+
+.recruit-category i {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #ff6b35;
+}
+
+.recruit-category h4 {
+    margin: 1rem 0;
+    color: #2c3e50;
+}
+
+.recruit-category ul {
+    list-style: none;
+    padding: 0;
+}
+
+.recruit-category li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 107, 53, 0.1);
+    color: #34495e;
+}
+
+.recruit-category li:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 1024px) {
+    .timeline-flow {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        padding: 2rem 0 1rem 0;
+    }
+    
+    .timeline-step {
+        width: 200px;
+        margin: 0.5rem;
+    }
+    
+    .timeline-flow::before,
+    .timeline-flow::after {
+        display: none;
+    }
+    
+    .timeline-step::before {
+        top: -2rem;
+    }
+    
+    .timeline-step::after {
+        top: -3.5rem;
+    }
+    
+    .timeline-step .timeline-connector {
+        display: none;
+    }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .timeline-flow {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 0;
+        align-items: center;
+    }
+    
+    .timeline-step {
+        width: 100%;
+        max-width: 320px;
+        margin-top: 2rem;
+    }
+    
+    .timeline-step::before {
+        top: -1.5rem;
+        left: 1rem;
+        transform: none;
+    }
+    
+    .timeline-step::after {
+        top: -3rem;
+        left: 1rem;
+        transform: none;
+    }
+    
+    .timeline-step-content p {
+        text-align: center;
+    }
+    
+    .season-timeline h3 {
+        font-size: 2rem;
+    }
+    
+    .timeline-description {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .timeline-step {
+        width: 100%;
+        max-width: 280px;
+        padding: 1.5rem 1rem;
+    }
+    
+    .timeline-step-content h4 {
+        font-size: 1.2rem;
+    }
+    
+    .timeline-step-content p {
+        font-size: 0.85rem;
+    }
+    
+    .season-timeline h3 {
+        font-size: 1.8rem;
+    }
+    
+    .timeline-icon i {
+        font-size: 2rem;
+        padding: 0.8rem;
+    }
+}
+
+/* Comprehensive white background overrides */
+.timeline-with-trophy,
+.timeline-with-trophy::before,
+.timeline-with-trophy::after,
+#timeline,
+#timeline .container,
+#timeline .timeline-content,
+#timeline .season-timeline,
+#timeline .recruitment-info {
+    background: white !important;
+    background-image: none !important;
+    background-attachment: unset !important;
 }
