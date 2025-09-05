@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Illini RoboMaster - Competitive Robotics RSO</title>
+    <title>ILLINI RoboMaster - Competitive Robotics RSO</title>
+    <meta name="description" content="ILLINI RoboMaster - Competitive Robotics RSO at the University of Illinois at Urbana-Champaign. Join our passionate team of students building cutting-edge robots for international competition.">
     <link rel="icon" type="image/png" href="/favicon.ico">
     <link rel="stylesheet" href="/static/index.css">
     <link rel="stylesheet" href="/static/frontpage.css">
@@ -293,7 +294,7 @@
                         <p>Technical Divisions</p>
                     </div>
                     <div class="team-stat">
-                        <h4>3</h4>
+                        <h4>7</h4>
                         <p>Years Experience</p>
                     </div>
                     <div class="team-stat">
@@ -410,7 +411,8 @@
                         <i class="fas fa-envelope"></i>
                         <div>
                             <h4>Email Us</h4>
-                            <p><a href="mailto:zw67@illinois.edu">zw67@illinois.edu</a>
+                            <p><a href="mailto:zw67@illinois.edu">zw67@illinois.edu</a><br>
+                            <a href="mailto:zliu131@illinois.edu">zliu131@illinois.edu</a>
                             </p>
                         </div>
                     </div>
@@ -468,5 +470,135 @@
     </footer>
 
     <script src="/static/frontpage.js"></script>
+    
+    <!-- Easter Egg - Hidden Developer Message -->
+    <div id="easter-egg" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); z-index: 9999; max-width: 500px; text-align: center; font-family: 'Inter', sans-serif;">
+        <div style="font-size: 1.5rem; margin-bottom: 1rem;">🎉 Easter Egg Found! 🎉</div>
+        <div style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
+            <p><strong>This website is designed by Joey Liu</strong></p>
+            <p>A mechanical engineer member of the <em>Dart System</em> team 🎯</p>
+            <p style="font-style: italic; color: #ffd700;">"I can't believe it's my job to create a website! 😅"</p>
+            <p>Thanks to <strong>GitHub Copilot</strong> and <strong>Claude Sonnet</strong> or I couldn't have built this fucking awesome website in just three days! 🚀</p>
+            <p style="font-size: 0.9rem; opacity: 0.8;">— From a mechanical engineer who accidentally became a web developer</p>
+        </div>
+        <button onclick="closeEasterEgg()" style="background: #ff6b35; color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">Close & Keep Secret 🤫</button>
+    </div>
+    
+    <script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            let easterEggSequence = [];
+            const secretCode = ['d', 'a', 'r', 't']; // Type "dart" to trigger
+            let easterEggShown = false;
+            
+            console.log('Easter egg loaded! Type "dart" or triple-click the logo to activate.');
+            
+            // Listen for keystrokes
+            document.addEventListener('keydown', function(e) {
+                if (easterEggShown) return;
+                
+                easterEggSequence.push(e.key.toLowerCase());
+                console.log('Key pressed:', e.key.toLowerCase(), 'Sequence:', easterEggSequence);
+                
+                // Keep only the last 4 keystrokes
+                if (easterEggSequence.length > secretCode.length) {
+                    easterEggSequence.shift();
+                }
+                
+                // Check if sequence matches
+                if (easterEggSequence.length === secretCode.length && 
+                    easterEggSequence.every((key, index) => key === secretCode[index])) {
+                    console.log('Secret code matched! Showing easter egg.');
+                    showEasterEgg();
+                }
+            });
+            
+            // Alternative trigger: Click on the Dart System image
+            const dartImage = document.querySelector('img[alt="Dart robot close-up"]');
+            
+            if (dartImage) {
+                dartImage.style.cursor = 'pointer';
+                dartImage.addEventListener('click', function(e) {
+                    if (easterEggShown) return;
+                    
+                    e.preventDefault();
+                    console.log('Dart System image clicked! Showing easter egg.');
+                    showEasterEgg();
+                });
+            } else {
+                console.log('Dart System image not found');
+            }
+            
+            // Make functions global so they can be called from button
+            window.showEasterEgg = function() {
+                if (easterEggShown) return;
+                easterEggShown = true;
+                
+                const easterEgg = document.getElementById('easter-egg');
+                if (!easterEgg) {
+                    console.log('Easter egg element not found');
+                    return;
+                }
+                
+                easterEgg.style.display = 'block';
+                
+                // Add entrance animation
+                easterEgg.style.opacity = '0';
+                easterEgg.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                
+                setTimeout(() => {
+                    easterEgg.style.transition = 'all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                    easterEgg.style.opacity = '1';
+                    easterEgg.style.transform = 'translate(-50%, -50%) scale(1)';
+                }, 100);
+                
+                // Add some sparkles effect
+                createSparkles();
+            };
+            
+            window.closeEasterEgg = function() {
+                const easterEgg = document.getElementById('easter-egg');
+                easterEgg.style.transition = 'all 0.3s ease';
+                easterEgg.style.opacity = '0';
+                easterEgg.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                
+                setTimeout(() => {
+                    easterEgg.style.display = 'none';
+                    easterEggShown = false;
+                    easterEggSequence = [];
+                }, 300);
+            };
+            
+            function createSparkles() {
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        const sparkle = document.createElement('div');
+                        sparkle.innerHTML = '✨';
+                        sparkle.style.position = 'fixed';
+                        sparkle.style.left = Math.random() * window.innerWidth + 'px';
+                        sparkle.style.top = Math.random() * window.innerHeight + 'px';
+                        sparkle.style.fontSize = '20px';
+                        sparkle.style.pointerEvents = 'none';
+                        sparkle.style.zIndex = '10000';
+                        sparkle.style.animation = 'sparkleFloat 2s ease-out forwards';
+                        
+                        document.body.appendChild(sparkle);
+                        
+                        setTimeout(() => sparkle.remove(), 2000);
+                    }, i * 100);
+                }
+            }
+            
+            // Add sparkle animation CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes sparkleFloat {
+                    0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+                    100% { opacity: 0; transform: translateY(-100px) rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
 </body>
 </html>
