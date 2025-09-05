@@ -78,7 +78,7 @@ function check_packages() {
 function get_cloudflared_config() {
   CF_CONF_CACHE=${1}
   # Check if we have a cached config
-  if [ -f "${CF_CONF_CACHE}" ] && [ -s "${CF_CONF_CACHE}" ]; then
+  if [ -f "${CF_CONF_CACHE}" -a -s "${CF_CONF_CACHE}" ]; then
     echol Using cached cloudflared configuration...
     source "${CF_CONF_CACHE}"
   else
@@ -156,8 +156,11 @@ function build_image() {
 
 function deploy_containers() {
   echol Deploying containers...
-  CLOUDFLARED_TUNNEL_TOKEN=${1} \
-    docker-compose -f "${ROOTPATH}/docker-compose.yml" up -d 2>&1 |
+  {
+    CLOUDFLARED_TUNNEL_TOKEN=${1} \
+      docker-compose -f "${ROOTPATH}/docker-compose.yml" up -d 2>&1
+    [ $? -ne 0 ] && echo An error occured. See the README for possible fixes.
+  } |
     tee -a "${LOG}"
 }
 
@@ -166,6 +169,12 @@ function main() {
 
   REQUIRED_PACKAGES="docker docker-compose"
   check_packages ${REQUIRED_PACKAGES}
+
+  [ -S /var/run/docker.sock ] ||
+    {
+      echo The docker daemon does not seem to be running. | tee -a "${LOG}"
+      exitl 1
+    }
 
   if [ "${STOP}" ]; then
     stop_container "${DOCKER_CONTAINER_NAME}" "${STOP}"
