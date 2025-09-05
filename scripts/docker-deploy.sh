@@ -155,9 +155,10 @@ function build_image() {
 }
 
 function deploy_containers() {
-  CLOUDFLARED_TUNNEL_TOKEN=${1}
   echol Deploying containers...
-  docker-compose -f "${ROOTPATH}/docker-compose.yml" up -d 2>&1 | tee -a "${LOG}"
+  CLOUDFLARED_TUNNEL_TOKEN=${1} \
+    docker-compose -f "${ROOTPATH}/docker-compose.yml" up -d 2>&1 |
+    tee -a "${LOG}"
 }
 
 function main() {

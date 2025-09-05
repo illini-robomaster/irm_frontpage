@@ -21,10 +21,9 @@ FROM rtsp/lighttpd
 RUN apk add --no-cache curl tini php-cgi
 
 # Create necessary directories
-RUN mkdir -p /etc/cloudflared /usr/local/bin
+RUN mkdir -p /usr/local/bin
 
 # Copy files
-COPY src/cloudflared /etc/cloudflared
 COPY src/init.sh /usr/local/bin/init.sh
 
 # Install cloudflared
