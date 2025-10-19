@@ -245,13 +245,14 @@ href="mailto:austiny2@illinois.edu"><code>austiny2@illinois.edu</code></a><code>
 href="https://www.illinirobomaster.com"><code>https://www.illinirobomaster.com</code></a><code>]</code></p>
 <p class="date">2025-10-18</p>
 </header>
-Read the pdf version <a href='cpp_intro_with_can_implementation.pdf'>here</a>.
 <h1 id="sec:intro">Introduction</h1>
 <h2 id="ssec:1a">Plan</h2>
 <p>Last time, we went through the <em>object layer</em> implementation
 for CAN on a Linux board. This time, we will go through the <em>transfer
 layer</em> specification and a toy implementation. This tutorial will go
-through line-by-line as an introduction to CAN (Controller Area Network)
+through <span
+style="text-decoration: underline;"><code>📄can\_raw\_transmit.cc</code></span>
+line-by-line as an introduction to CAN (Controller Area Network)
 communication at a low level. We will cover concepts in:</p>
 <ul>
 <li><p>CAN protocol fundamentals</p></li>
@@ -280,19 +281,16 @@ It is a mailbox-based system, which means that messages are broadcast to
 all devices connected to the network. Each device has an ID, and only
 care about the messages that are marked with an ID they care about
 (typically, their own). While we can only specify a single ID in our CAN
-frame (we will see this very explicitly in <a href="#sssec:1b2"
-data-reference-type="ref+label" data-reference="sssec:1b2">1.2.2</a>),
-we can use some tricks to talk to multiple devices with a single packet.
-We will see an example of this later in our own motor communication
-code.</p>
+frame (we will see this very explicitly in ), we can use some tricks to
+talk to multiple devices with a single packet. We will see an example of
+this later in our own motor communication code.</p>
 <h3 id="sssec:1b2">CAN Frame Structure</h3>
 <p>The following information can all be found on Wikipedia: <a
 href="https://en.wikipedia.org/wiki/CAN_bus">https://en.wikipedia.org/wiki/CAN_bus</a>.
 I have reworded it and added some comments. I have also changed the
 color coding scheme. I have colored the entries that we care about,
-mostly. This is the structure of the standard CAN packet:</p>
-<p><span id="tab:canframe" data-label="tab:canframe"></span></p>
-<div id="tab:canframe">
+mostly. This is the structure of the standard CAN packet: </p>
+<p> </p>
 <table style="width:60%;">
 <caption>Explanation of each field in a standard CAN 2.0A
 frame</caption>
@@ -316,13 +314,13 @@ frame</caption>
 can guess what this does.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Identifier</strong></td>
+<td style="text-align: left;"><p><strong>Identifier</strong></p></td>
 <td style="text-align: left;"><span class="math inline">11</span></td>
 <td style="text-align: left;">Contains a standard <span
 class="math inline">11</span>-bit CAN ID.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RTR</strong></td>
+<td style="text-align: left;"><p><strong>RTR</strong></p></td>
 <td style="text-align: left;"><span class="math inline">1</span></td>
 <td style="text-align: left;">“<u>R</u>emote <u>T</u>ransmission
 <u>R</u>equest”. This specifies the type of frame the message uses.</td>
@@ -347,14 +345,14 @@ class="math inline">1</span>).</td>
 Specifies how many bytes are in the data.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Data Field</strong></td>
+<td style="text-align: left;"><p><strong>Data Field</strong></p></td>
 <td style="text-align: left;"><span class="math inline">0</span>-<span
 class="math inline">64</span></td>
 <td style="text-align: left;">Contains 0 to 8 bytes of the actual
 data.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>CRC</strong></td>
+<td style="text-align: left;"><p><strong>CRC</strong></p></td>
 <td style="text-align: left;"><span class="math inline">15</span></td>
 <td style="text-align: left;">“<u>C</u>yclic <u>R</u>edundancy
 <u>C</u>heck”. This is used for detection and correction of errors. This
@@ -366,7 +364,7 @@ will be explained in the future.</td>
 <td style="text-align: left;">Marks end of CRC.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>ACK Slot</strong></td>
+<td style="text-align: left;"><p><strong>ACK Slot</strong></p></td>
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">“<u>Ack</u>nowledgement slot”. Receivers
 set this bit to tell the transmitter they received a message.</td>
@@ -391,10 +389,8 @@ distance between two CAN frames.</td>
 </tr>
 </tbody>
 </table>
-</div>
-<p>This is the structure of the extended CAN packet:</p>
-<p><span id="tab:canframeext" data-label="tab:canframeext"></span></p>
-<div id="tab:canframeext">
+<p>This is the structure of the extended CAN packet: </p>
+<p> </p>
 <table style="width:60%;">
 <caption>Explanation of each field in an extended CAN 2.0B
 frame</caption>
@@ -418,7 +414,7 @@ frame</caption>
 can guess what this does.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Identifier A</strong></td>
+<td style="text-align: left;"><p><strong>Identifier A</strong></p></td>
 <td style="text-align: left;"><span class="math inline">11</span></td>
 <td style="text-align: left;">The first <span
 class="math inline">11</span> bits of the CAN ID.</td>
@@ -427,9 +423,7 @@ class="math inline">11</span> bits of the CAN ID.</td>
 <td style="text-align: left;"><strong>SRR</strong></td>
 <td style="text-align: left;"><span class="math inline">1</span></td>
 <td style="text-align: left;">“<u>S</u>ubstitute <u>R</u>emote
-<u>R</u>equest”. This is set to recessive. I will explain why in <a
-href="#ssec:2b" data-reference-type="ref+label"
-data-reference="ssec:2b">2.2</a>.</td>
+<u>R</u>equest”. This is set to recessive. I will explain why in .</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>IDE</strong></td>
@@ -439,13 +433,13 @@ This declares we are using an extended frame. This must be set to
 recessive (<span class="math inline">1</span>).</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Identifier B</strong></td>
+<td style="text-align: left;"><p><strong>Identifier B</strong></p></td>
 <td style="text-align: left;"><span class="math inline">18</span></td>
 <td style="text-align: left;">Contains the <span
 class="math inline">18</span>-bit ID extension.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>RTR</strong></td>
+<td style="text-align: left;"><p><strong>RTR</strong></p></td>
 <td style="text-align: left;"><span class="math inline">1</span></td>
 <td style="text-align: left;">“<u>R</u>emote <u>T</u>ransmission
 <u>R</u>equest”. This specifies the type of frame the message uses.</td>
@@ -467,14 +461,14 @@ class="math inline">18</span>-bit ID extension.</td>
 Specifies how many bytes are in the data.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>Data Field</strong></td>
+<td style="text-align: left;"><p><strong>Data Field</strong></p></td>
 <td style="text-align: left;"><span class="math inline">0</span>-<span
 class="math inline">64</span></td>
 <td style="text-align: left;">Contains 0 to 8 bytes of the actual
 data.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>CRC</strong></td>
+<td style="text-align: left;"><p><strong>CRC</strong></p></td>
 <td style="text-align: left;"><span class="math inline">15</span></td>
 <td style="text-align: left;">“<u>C</u>yclic <u>R</u>edundancy
 <u>C</u>heck”. This is used for detection and correction of errors. This
@@ -486,7 +480,7 @@ will be explained in the future.</td>
 <td style="text-align: left;">Marks end of CRC.</td>
 </tr>
 <tr>
-<td style="text-align: left;"><strong>ACK Slot</strong></td>
+<td style="text-align: left;"><p><strong>ACK Slot</strong></p></td>
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">“<u>Ack</u>nowledgement slot”. Receivers
 set this bit to tell the transmitter they received a message.</td>
@@ -511,9 +505,12 @@ distance between two CAN frames.</td>
 </tr>
 </tbody>
 </table>
-</div>
-<p>Here is the structure from . We can see some of the fields we are
-allowed to set in the packet header.</p>
+<p> Here is the <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>CAN\_TxHeaderTypeDef</code></span>
+structure from <span
+style="text-decoration: underline;"><code>📄stm32f4xx\_hal\_can.h</code></span>.
+We can see some of the fields we are allowed to set in the packet
+header. </p>
 <div class="sourceCode" id="cb1" data-linenos=""
 data-startFrom="148"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 147;"><span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
 <span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a><span class="co">  * </span><span class="an">@brief</span><span class="co">  CAN Tx message header structure definition</span></span>
@@ -550,56 +547,16 @@ data-startFrom="148"><pre class="sourceCode cpp"><code class="sourceCode cpp" st
 <span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> CAN_TxHeaderTypeDef<span class="op">;</span></span></code></pre></div>
 <p>Note I changed the spacing to make it fit on the page. Only the first
 line number is correct.</p>
-<div class="tip">
-<p>When we say “set a bit” or “mark a bit” this usually means that we
-change the bit to a logical <span class="math inline">1</span>.</p>
-</div>
-<div class="remark">
-<p>The prefix means that we are representing a hexadecimal (base-<span
-class="math inline">16</span>) number. This syntax is common in
-programming. Here are some others in C++:</p>
-<ul>
-<li><p>: Binary.</p></li>
-<li><p>: Octal.</p></li>
-</ul>
-<p>Ending the number with a (i.e. ) means that the number is
-<em>unsigned</em>. Others:</p>
-<ul>
-<li><p>: Long.</p></li>
-<li><p>: Long long.</p></li>
-</ul>
-<p>If you are unfamiliar with numerical representations, I recomend you
-to read the following Wikipedia articles: <a
-href="https://en.wikipedia.org/wiki/Signed_number_representations">https://en.wikipedia.org/wiki/Signed_number_representations</a>
-<a
-href="https://en.wikipedia.org/wiki/Two%27s_complement">https://en.wikipedia.org/wiki/Two%27s_complement</a>
-<a
-href="https://en.wikipedia.org/wiki/IEEE_754">https://en.wikipedia.org/wiki/IEEE_754</a></p>
-</div>
 <h1 id="sec:hardware">Understanding Raw CAN Hardware Setup</h1>
 <h2 id="ssec:2a">CAN Bus Hardware</h2>
 <p>The CAN bus is physically implemented using two wires, CAN high and
 CAN low, which carry the signals.</p>
-<div class="remark">
-<p>We usually have a seperate pair of wires for power (VCC) and ground
-(GND).</p>
-</div>
-<div class="tip">
-<p>A CAN device can be any device that uses the CAN protocol. We connect
-CAN devices with CAN bus wires in a web, in any way we want.</p>
-</div>
 <h3 id="sssec:2a1">CAN Bus Termination</h3>
 <p>The CAN bus must be terminated with <span
 class="math inline">120Ω</span> resistors at both ends to prevent
 reflections that can cause data corruption. You will learn this in ECE
 329 if you choose to take it. Without this the bus will be
 unreliable.</p>
-<div class="remark">
-<p>The <em>characteristic impedance</em> (represented by <span
-class="math inline"><em>η</em><sub>0</sub></span>) of a standard CAN bus
-cable is around <span class="math inline">120Ω</span>. This is what we
-are trying to match.</p>
-</div>
 <h3 id="sssec:2a2">Terminology</h3>
 <ul>
 <li><p><strong>CAN-H</strong>: High signal line (around the voltage of
@@ -622,19 +579,7 @@ class="math inline">0</span>? (There are many benefits.)</p>
 operates. It is the number of bits transmitted per second. We use a baud
 rate of <span class="math inline">115200</span>.</p>
 <figure>
-<div class="circuitikz">
-<p>(0,2) to [R, l=<span class="math inline">120<em>Ω</em></span>, *-*]
-(4,2) (4,2) to [R, l=<span
-class="math inline"><em>R</em><sub>equiv</sub></span>, -*] (6,2) (6,2)
-to [R, l=<span class="math inline">120<em>Ω</em></span>, -*] (10,2)
-(6,0) to [short, -*] (10,0) (0,0) to [short, *-*] (4,0) (4,0) to [R,
-l=<span class="math inline"><em>R</em><sub>equiv</sub></span>, -*] (6,0)
-(0,2) to [short, *-*] (0,0) (10,2) to [short, *-*] (10,0) (4,2) to
-[short, -*] (4,0) (6,2) to [short, -*] (6,0) (5,3) node
-<span>CAN-H</span> (5,-0.5) node <span>CAN-L</span> (1,1) node
-<span>Node 1</span> (9,1) node <span>Node N</span> (5,1) node
-<span>Bus</span>;</p>
-</div>
+
 <figcaption>CAN Bus Terminals</figcaption>
 </figure>
 <h2 id="ssec:2b">CAN Message Arbitration and Acknowledgement</h2>
@@ -691,21 +636,13 @@ bit in the extended frame is always <u></u>. The <span
 class="math inline">14</span>th bit in each frame is both the IDE, so
 the <u></u> frame always wins out by sending a <u></u> bit, causing the
 other one to stop and wait.</p>
-<div class="remark">
-<p>This comparison happens after the first <span
-class="math inline">11</span> bits of both IDs are compared. In
-addition, the RTR bit may win over the SRR bit, but the SRR bit can
-never win over the RTR bit.</p>
-</div>
-<p>Read <a
+<p> Read <a
 href="https://en.wikipedia.org/wiki/CAN_bus#Data_transmission_and_arbitration">https://en.wikipedia.org/wiki/CAN_bus#Data_transmission_and_arbitration</a>
 for additional information. Notice that there is an ACK bit set aside
 for acknowledgement. This is used by the receiver to tell the
 transmitter it has successfully gotten an uncorrupted message. Notice
 its location in the packet:</p>
-<p><span id="tab:simplecanframe"
-data-label="tab:simplecanframe"></span></p>
-<div id="tab:simplecanframe">
+<p> </p>
 <table>
 <caption>Simplified CAN Frame Diagram</caption>
 <thead>
@@ -722,22 +659,23 @@ data-label="tab:simplecanframe"></span></p>
 <tbody>
 </tbody>
 </table>
-</div>
-<p>It is <em>after</em> receiving both the data and CRC. When the
+<p> It is <em>after</em> receiving both the data and CRC. When the
 receiver verifies the data received is correct using the CRC, it sends a
 dominant signal into the wire for a length of time corresponding to one
 bit. This tells the transmitter the receiver has seen the correct
 message.</p>
-<div class="remark">
-<p>We only ACK if the CRC checksum shows the data is uncorrupted. If
-not, we <em>want</em> a retransmit.</p>
-</div>
 <h3 id="sssec:2b1">Standard vs Extended IDs</h3>
 <ul>
-<li><p><strong>Standard ID</strong>: 11-bit identifier ( to ), used in
-CAN 2.0A (standard) and CAN 2.0B (extended).</p></li>
-<li><p><strong>Extended ID</strong>: 29-bit identifier ( to), used in
-CAN 2.0B.</p></li>
+<li><p><strong>Standard ID</strong>: 11-bit identifier (<span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x000</code></span>
+to <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x7FF</code></span>),
+used in CAN 2.0A (standard) and CAN 2.0B (extended).</p></li>
+<li><p><strong>Extended ID</strong>: 29-bit identifier (<span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x00000000</code></span>
+to<span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x1FFFFFFF</code></span>),
+used in CAN 2.0B.</p></li>
 <li><p>Same arbitration mechanism!</p></li>
 </ul>
 <p>We will not be using the extended bits.</p>
@@ -750,8 +688,9 @@ another node (RTR bit is set to <span class="math inline">1</span>, no
 data field).</p></li>
 </ul>
 <h1 id="sec:source">Understanding the CAN Tutorial Program</h1>
-<p>Let’s examine the implementation file to understand how raw CAN
-frames are transmitted.</p>
+<p>Let’s examine the implementation file <span
+style="text-decoration: underline;"><code>📄can\_raw\_transmit.cc</code></span>
+to understand how raw CAN frames are transmitted.</p>
 <h2 id="ssec:3a">Include Statements and Copyright</h2>
 <div class="sourceCode" id="cb2" data-linenos="" data-startFrom="1"
 data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">/****************************************************************************</span></span>
@@ -784,13 +723,12 @@ libraries for CAN communication on STM32:</p>
 <ul>
 <li><p>: Board support package for printing/debugging.</p></li>
 <li><p>: CMSIS Real-Time Operating System API.</p></li>
-<li><p>: Board s and basic functionality is in there. We simply write
-i.e. the main loop in this file.</p></li>
+<li><p>: Board <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>\#define</code></span>s
+and basic functionality is in there. We simply write i.e. the main loop
+in this file.</p></li>
 <li><p>: CAN.</p></li>
 </ul>
-<div class="remark">
-<p>BSP stands for <u>b</u>oard <u>s</u>upport <u>p</u>ackage.</p>
-</div>
 <h2 id="ssec:3b">Raw CAN Frame Transmission Function</h2>
 <div class="sourceCode" id="cb3" data-linenos="" data-startFrom="26"
 data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 25;"><span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
@@ -808,14 +746,10 @@ for sending a raw CAN frame using the STM32 HAL (Hardware Abstraction
 Layer). (Note I split the last lines into two lines in order to fit it.)
 After reading the previous tutorial, try to identify what each part
 means by yourself. Exercise: We never included . Why can we still use
-and ?</p>
-<div class="tip">
-<p>Headers included by other file A are available when you include file
-A.</p>
-</div>
-<div class="remark">
-<p>This is what and header guards are for.</p>
-</div>
+<span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>uint32\_t</code></span>
+and <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>uint8\_t</code></span>?</p>
 <h3 id="sssec:3b1">Parameter Validation</h3>
 <div class="sourceCode" id="cb4" data-linenos="" data-startFrom="35"
 data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 34;"><span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Validate parameters</span></span>
@@ -837,26 +771,21 @@ specification)</p></li>
 </ul>
 <p>This validation prevents protocol violations and potential
 communication failures.</p>
-<div class="tip">
-<p>We end each with . and are both flavors of “new line”. We use both to
-ensure compatibility with all computers.</p>
-</div>
-<div class="remark">
-<p>Most computers and programs are fine with just . However, there are
-still many programs that use or both.</p>
-</div>
 <h3 id="sssec:3b2">Printing?</h3>
-<p>Have you noticed a problem? We just used . But we are on an STM32,
-which is an embedded system usually with no screens attached! What are
-we even printing to? Where does even come from?</p>
-<div class="remark">
-<p>comes from .</p>
-</div>
-<p>Notice when we introduced , we mentioned it is for printing <em>and
+<p>Have you noticed a problem? We just used <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>print</code></span>.
+But we are on an STM32, which is an embedded system usually with no
+screens attached! What are we even printing to? Where does <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>print</code></span>
+even come from?</p>
+<p> Notice when we introduced , we mentioned it is for printing <em>and
 debugging</em>. We are actually outputting bytes into another serial
 port using a standard protocol called <em>UART</em>, so that we can plug
 in our computer at the other end to debug. Indeed, let us look at the
-actual definition of in :</p>
+actual definition of <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>print</code></span>
+in <span
+style="text-decoration: underline;"><code>📄shared/bsp/bsp\_print.cc</code></span>:</p>
 <div class="sourceCode" id="cb5" data-linenos=""
 data-startFrom="49"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 48;"><span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="dt">int32_t</span> print<span class="op">(</span><span class="at">const</span> <span class="dt">char</span><span class="op">*</span> format<span class="op">,</span> <span class="op">...)</span> <span class="op">{</span></span>
 <span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="pp">#ifdef NDEBUG</span></span>
@@ -880,207 +809,208 @@ data-startFrom="49"><pre class="sourceCode cpp"><code class="sourceCode cpp" sty
 <span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a><span class="pp">#endif  </span><span class="co">// #ifdef NDEBUG</span></span>
 <span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>It is writing to UART! We will cover UART in a future tutorial.</p>
-<div class="remark">
-<p>We usually use to set this up. Here is the declaration located in
-.</p>
-<div class="sourceCode" id="cb6" data-linenos=""
-data-startFrom="27"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 26;"><span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co"> * </span><span class="an">@brief</span><span class="co"> use a uart port for debug print</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="co"> *</span></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="co"> * </span><span class="an">@param</span><span class="co"> </span><span class="cv">huart</span><span class="co"> HAL uart handle</span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> print_use_uart<span class="op">(</span>UART_HandleTypeDef<span class="op">*</span> huart<span class="op">);</span></span></code></pre></div>
-</div>
 <h3 id="sssec:3b3">CAN Transmission Header Configuration</h3>
 <p>(I de-indented the comment on line <span
 class="math inline">49</span> up so you can see the whole thing.)</p>
-<div class="remark">
-<p>Notice I did not have to do any of this in the previous tutorial!
-This is why writing <span class="math inline">80</span>-character lines
-is the standard. Take heed! <span><span class="smallcaps">(CC: The RSO
-President)</span></span></p>
-</div>
-<div class="sourceCode" id="cb7" data-linenos=""
-data-startFrom="46"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 45;"><span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Configure CAN transmission header</span></span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>  CAN_TxHeaderTypeDef tx_header<span class="op">;</span></span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>  tx_header<span class="op">.</span>StdId <span class="op">=</span> id<span class="op">;</span>                    <span class="co">// Standard ID (11-bit)</span></span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>  tx_header<span class="op">.</span>ExtId <span class="op">=</span> <span class="bn">0x0</span><span class="op">;</span>          <span class="co">// Extended ID (not used for standard frames)</span></span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>  tx_header<span class="op">.</span>IDE <span class="op">=</span> CAN_ID_STD<span class="op">;</span>              <span class="co">// Use standard ID format</span></span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>  tx_header<span class="op">.</span>RTR <span class="op">=</span> CAN_RTR_DATA<span class="op">;</span>            <span class="co">// Data frame (not remote frame)</span></span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>  tx_header<span class="op">.</span>DLC <span class="op">=</span> length<span class="op">;</span>                  <span class="co">// Data length code</span></span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>  tx_header<span class="op">.</span>TransmitGlobalTime <span class="op">=</span> DISABLE<span class="op">;</span>  <span class="co">// Don&#39;t include timestamp</span></span></code></pre></div>
+<div class="sourceCode" id="cb6" data-linenos=""
+data-startFrom="46"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 45;"><span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Configure CAN transmission header</span></span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>  CAN_TxHeaderTypeDef tx_header<span class="op">;</span></span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>  tx_header<span class="op">.</span>StdId <span class="op">=</span> id<span class="op">;</span>                    <span class="co">// Standard ID (11-bit)</span></span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>  tx_header<span class="op">.</span>ExtId <span class="op">=</span> <span class="bn">0x0</span><span class="op">;</span>          <span class="co">// Extended ID (not used for standard frames)</span></span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>  tx_header<span class="op">.</span>IDE <span class="op">=</span> CAN_ID_STD<span class="op">;</span>              <span class="co">// Use standard ID format</span></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>  tx_header<span class="op">.</span>RTR <span class="op">=</span> CAN_RTR_DATA<span class="op">;</span>            <span class="co">// Data frame (not remote frame)</span></span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>  tx_header<span class="op">.</span>DLC <span class="op">=</span> length<span class="op">;</span>                  <span class="co">// Data length code</span></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>  tx_header<span class="op">.</span>TransmitGlobalTime <span class="op">=</span> DISABLE<span class="op">;</span>  <span class="co">// Don&#39;t include timestamp</span></span></code></pre></div>
 <p>Here we configure the CAN transmission header structure with the
 following parameters:</p>
 <ul>
-<li><p>: The 11-bit standard CAN identifier ( to ).</p></li>
-<li><p>: Extended identifier (ignored as we are using standard
-frames).</p></li>
-<li><p>: Identifier extension bit. Set to (alias for - remember what
-this means?) for standard format (CAN 2.0A).</p></li>
-<li><p>: Remote transmission request. Set to (also ) for data
-frames.</p></li>
-<li><p>: Data length code. This is the number of data bytes to send
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>StdId</code></span>:
+The 11-bit standard CAN identifier (<span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x000</code></span>
+to <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x7FF</code></span>).</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>ExtId</code></span>:
+Extended identifier (ignored as we are using standard frames).</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>IDE</code></span>:
+Identifier extension bit. Set to <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>CAN\_ID\_STD</code></span>
+(alias for <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x00000000U</code></span>
+- remember what this means?) for standard format (CAN 2.0A).</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>RTR</code></span>:
+Remote transmission request. Set to <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>CAN\_RTR\_DATA</code></span>
+(also <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x00000000U</code></span>)
+for data frames.</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>DLC</code></span>:
+Data length code. This is the number of data bytes to send
 (0-8).</p></li>
-<li><p>: Whether to include global time stamp in transmission (used for
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>TransmitGlobalTime</code></span>:
+Whether to include global time stamp in transmission (used for
 synchronization, disabled).</p></li>
 </ul>
 <h3 id="sssec:3b4">Sending the CAN Message</h3>
 <p>(Note I had to split line <span class="math inline">56</span> to fit
 it.)</p>
+<div class="sourceCode" id="cb7" data-linenos=""
+data-startFrom="55"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 54;"><span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>  <span class="dt">uint32_t</span> tx_mailbox<span class="op">;</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>  HAL_StatusTypeDef status <span class="op">=</span> HAL_CAN_AddTxMessage<span class="op">(</span>can_handle<span class="op">,</span> <span class="op">&amp;</span>tx_header<span class="op">,</span> data<span class="op">,</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>                                                  <span class="op">&amp;</span>tx_mailbox<span class="op">);</span></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="op">(</span>status <span class="op">!=</span> HAL_OK<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>    print<span class="op">(</span><span class="st">&quot;Error: Failed to add CAN message to TX mailbox, status: </span><span class="sc">%d\r\n</span><span class="st">&quot;</span><span class="op">,</span> status<span class="op">);</span></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> status<span class="op">;</span></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span></code></pre></div>
+<p>The <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>HAL\_CAN\_AddTxMessage</code></span>
+function adds the message to one of the CAN hardware mailboxes for
+transmission. Let’s look at its implementation in (the header doesn’t
+contain the docstring I want to show you) (PPS I split line <span
+class="math inline">1250</span> to fit it):</p>
 <div class="sourceCode" id="cb8" data-linenos=""
-data-startFrom="55"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 54;"><span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>  <span class="dt">uint32_t</span> tx_mailbox<span class="op">;</span></span>
-<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>  HAL_StatusTypeDef status <span class="op">=</span> HAL_CAN_AddTxMessage<span class="op">(</span>can_handle<span class="op">,</span> <span class="op">&amp;</span>tx_header<span class="op">,</span> data<span class="op">,</span></span>
-<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>                                                  <span class="op">&amp;</span>tx_mailbox<span class="op">);</span></span>
-<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="op">(</span>status <span class="op">!=</span> HAL_OK<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>    print<span class="op">(</span><span class="st">&quot;Error: Failed to add CAN message to TX mailbox, status: </span><span class="sc">%d\r\n</span><span class="st">&quot;</span><span class="op">,</span> status<span class="op">);</span></span>
-<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> status<span class="op">;</span></span>
-<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span></code></pre></div>
-<p>The function adds the message to one of the CAN hardware mailboxes
-for transmission. Let’s look at its implementation in (the header
-doesn’t contain the docstring I want to show you) (PPS I split line
-<span class="math inline">1250</span> to fit it):</p>
-<div class="sourceCode" id="cb9" data-linenos=""
-data-startFrom="1238"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 1237;"><span id="cb9-1238"><a href="#cb9-1238" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
-<span id="cb9-1239"><a href="#cb9-1239" aria-hidden="true" tabindex="-1"></a><span class="co">  * </span><span class="an">@brief</span><span class="co">  Add a message to the first free Tx mailbox and activate the</span></span>
-<span id="cb9-1240"><a href="#cb9-1240" aria-hidden="true" tabindex="-1"></a><span class="co">  *         corresponding transmission request.</span></span>
-<span id="cb9-1241"><a href="#cb9-1241" aria-hidden="true" tabindex="-1"></a><span class="co">  * </span><span class="an">@param</span><span class="co">  </span><span class="cv">hcan</span><span class="co"> pointer to a CAN_HandleTypeDef structure that contains</span></span>
-<span id="cb9-1242"><a href="#cb9-1242" aria-hidden="true" tabindex="-1"></a><span class="co">  *         the configuration information for the specified CAN.</span></span>
-<span id="cb9-1243"><a href="#cb9-1243" aria-hidden="true" tabindex="-1"></a><span class="co">  * </span><span class="an">@param</span><span class="co">  </span><span class="cv">pHeader</span><span class="co"> pointer to a CAN_TxHeaderTypeDef structure.</span></span>
-<span id="cb9-1244"><a href="#cb9-1244" aria-hidden="true" tabindex="-1"></a><span class="co">  * </span><span class="an">@param</span><span class="co">  </span><span class="cv">aData</span><span class="co"> array containing the payload of the Tx frame.</span></span>
-<span id="cb9-1245"><a href="#cb9-1245" aria-hidden="true" tabindex="-1"></a><span class="co">  * </span><span class="an">@param</span><span class="co">  </span><span class="cv">pTxMailbox</span><span class="co"> pointer to a variable where the function will return</span></span>
-<span id="cb9-1246"><a href="#cb9-1246" aria-hidden="true" tabindex="-1"></a><span class="co">  *         the TxMailbox used to store the Tx message.</span></span>
-<span id="cb9-1247"><a href="#cb9-1247" aria-hidden="true" tabindex="-1"></a><span class="co">  *         This parameter can be a value of </span><span class="an">@arg</span><span class="co"> CAN_Tx_Mailboxes.</span></span>
-<span id="cb9-1248"><a href="#cb9-1248" aria-hidden="true" tabindex="-1"></a><span class="co">  * </span><span class="an">@retval</span><span class="co"> </span><span class="cv">HAL</span><span class="co"> status</span></span>
-<span id="cb9-1249"><a href="#cb9-1249" aria-hidden="true" tabindex="-1"></a><span class="co">  */</span></span>
-<span id="cb9-1250"><a href="#cb9-1250" aria-hidden="true" tabindex="-1"></a>HAL_StatusTypeDef HAL_CAN_AddTxMessage<span class="op">(</span>CAN_HandleTypeDef <span class="op">*</span>hcan<span class="op">,</span></span>
-<span id="cb9-1251"><a href="#cb9-1251" aria-hidden="true" tabindex="-1"></a>  CAN_TxHeaderTypeDef <span class="op">*</span>pHeader<span class="op">,</span> <span class="dt">uint8_t</span> aData<span class="op">[],</span> <span class="dt">uint32_t</span> <span class="op">*</span>pTxMailbox<span class="op">)</span></span></code></pre></div>
+data-startFrom="1238"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 1237;"><span id="cb8-1238"><a href="#cb8-1238" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb8-1239"><a href="#cb8-1239" aria-hidden="true" tabindex="-1"></a><span class="co">  * </span><span class="an">@brief</span><span class="co">  Add a message to the first free Tx mailbox and activate the</span></span>
+<span id="cb8-1240"><a href="#cb8-1240" aria-hidden="true" tabindex="-1"></a><span class="co">  *         corresponding transmission request.</span></span>
+<span id="cb8-1241"><a href="#cb8-1241" aria-hidden="true" tabindex="-1"></a><span class="co">  * </span><span class="an">@param</span><span class="co">  </span><span class="cv">hcan</span><span class="co"> pointer to a CAN_HandleTypeDef structure that contains</span></span>
+<span id="cb8-1242"><a href="#cb8-1242" aria-hidden="true" tabindex="-1"></a><span class="co">  *         the configuration information for the specified CAN.</span></span>
+<span id="cb8-1243"><a href="#cb8-1243" aria-hidden="true" tabindex="-1"></a><span class="co">  * </span><span class="an">@param</span><span class="co">  </span><span class="cv">pHeader</span><span class="co"> pointer to a CAN_TxHeaderTypeDef structure.</span></span>
+<span id="cb8-1244"><a href="#cb8-1244" aria-hidden="true" tabindex="-1"></a><span class="co">  * </span><span class="an">@param</span><span class="co">  </span><span class="cv">aData</span><span class="co"> array containing the payload of the Tx frame.</span></span>
+<span id="cb8-1245"><a href="#cb8-1245" aria-hidden="true" tabindex="-1"></a><span class="co">  * </span><span class="an">@param</span><span class="co">  </span><span class="cv">pTxMailbox</span><span class="co"> pointer to a variable where the function will return</span></span>
+<span id="cb8-1246"><a href="#cb8-1246" aria-hidden="true" tabindex="-1"></a><span class="co">  *         the TxMailbox used to store the Tx message.</span></span>
+<span id="cb8-1247"><a href="#cb8-1247" aria-hidden="true" tabindex="-1"></a><span class="co">  *         This parameter can be a value of </span><span class="an">@arg</span><span class="co"> CAN_Tx_Mailboxes.</span></span>
+<span id="cb8-1248"><a href="#cb8-1248" aria-hidden="true" tabindex="-1"></a><span class="co">  * </span><span class="an">@retval</span><span class="co"> </span><span class="cv">HAL</span><span class="co"> status</span></span>
+<span id="cb8-1249"><a href="#cb8-1249" aria-hidden="true" tabindex="-1"></a><span class="co">  */</span></span>
+<span id="cb8-1250"><a href="#cb8-1250" aria-hidden="true" tabindex="-1"></a>HAL_StatusTypeDef HAL_CAN_AddTxMessage<span class="op">(</span>CAN_HandleTypeDef <span class="op">*</span>hcan<span class="op">,</span></span>
+<span id="cb8-1251"><a href="#cb8-1251" aria-hidden="true" tabindex="-1"></a>  CAN_TxHeaderTypeDef <span class="op">*</span>pHeader<span class="op">,</span> <span class="dt">uint8_t</span> aData<span class="op">[],</span> <span class="dt">uint32_t</span> <span class="op">*</span>pTxMailbox<span class="op">)</span></span></code></pre></div>
 <p>Then we know:</p>
 <ul>
-<li><p>: The CAN device handle.</p></li>
-<li><p>: Reference to the configured transmission header.</p></li>
-<li><p>: The data buffer to send.</p></li>
-<li><p>: Output parameter that receives which mailbox is to be
-used.</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>can\_handle</code></span>:
+The CAN device handle.</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>tx\_header</code></span>:
+Reference to the configured transmission header.</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>data</code></span>:
+The data buffer to send.</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>tx\_mailbox</code></span>:
+Output parameter that receives which mailbox is to be used.</p></li>
 </ul>
 <p>This function returns a status indicating success or failure, which
 we check and respond to appropriately.</p>
-<div class="remark">
-<p><em>Handle</em> is jargon for some abstract object or token used to
-represent a resource, in this case a CAN device. You will encounter this
-term very often in embedded programming.</p>
-</div>
-<p>Exercise: What played the role of in our previous tutorial about
-Linux CAN? Hint: was it or ?</p>
+<p> Exercise: What played the role of <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>tx\_mailbox</code></span>
+in our previous tutorial about Linux CAN? Hint: was it <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>ftx</code></span>
+or <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>frx</code></span>?</p>
 <h3 id="sssec:3b5">Waiting for Transmission Completion</h3>
-<div class="sourceCode" id="cb10" data-linenos=""
-data-startFrom="55"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 54;"><span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Wait for transmission to complete</span></span>
-<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> <span class="op">(</span>HAL_CAN_IsTxMessagePending<span class="op">(</span>can_handle<span class="op">,</span> tx_mailbox<span class="op">))</span> <span class="op">{</span></span>
-<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>    osDelay<span class="op">(</span><span class="dv">1</span><span class="op">);</span> <span class="co">// Small delay to prevent busy waiting</span></span>
-<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb9" data-linenos=""
+data-startFrom="55"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 54;"><span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Wait for transmission to complete</span></span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> <span class="op">(</span>HAL_CAN_IsTxMessagePending<span class="op">(</span>can_handle<span class="op">,</span> tx_mailbox<span class="op">))</span> <span class="op">{</span></span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>    osDelay<span class="op">(</span><span class="dv">1</span><span class="op">);</span> <span class="co">// Small delay to prevent busy waiting</span></span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span></code></pre></div>
 <p>After queuing the message for transmission, we check if it’s still
 pending in the mailbox:</p>
 <ul>
-<li><p>: Returns whether transmission is still in progress.</p></li>
-<li><p>: A small delay (measured in “ticks”).</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>HAL\_CAN\_IsTxMessagePending()</code></span>:
+Returns whether transmission is still in progress.</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>osDelay(1)</code></span>:
+A small delay (measured in “ticks”).</p></li>
 </ul>
 <p>This ensures the message is fully transmitted before the function
 returns.</p>
 <h3 id="sssec:3b6">Transmission Confirmation</h3>
-<div class="sourceCode" id="cb11" data-linenos=""
-data-startFrom="59"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 58;"><span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>  print<span class="op">(</span><span class="st">&quot;CAN Frame sent successfully - ID: 0x</span><span class="sc">%03X</span><span class="st">, Length: </span><span class="sc">%d</span><span class="st">, Mailbox: </span><span class="sc">%d\r\n</span><span class="st">&quot;</span><span class="op">,</span></span>
-<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a>        <span class="op">(</span><span class="dt">unsigned</span> <span class="dt">int</span><span class="op">)</span>id<span class="op">,</span> length<span class="op">,</span> <span class="op">(</span><span class="dt">unsigned</span> <span class="dt">int</span><span class="op">)</span>tx_mailbox<span class="op">);</span></span>
-<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> HAL_OK<span class="op">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb10" data-linenos=""
+data-startFrom="59"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 58;"><span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a>  print<span class="op">(</span><span class="st">&quot;CAN Frame sent successfully - ID: 0x</span><span class="sc">%03X</span><span class="st">, Length: </span><span class="sc">%d</span><span class="st">, Mailbox: </span><span class="sc">%d\r\n</span><span class="st">&quot;</span><span class="op">,</span></span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a>        <span class="op">(</span><span class="dt">unsigned</span> <span class="dt">int</span><span class="op">)</span>id<span class="op">,</span> length<span class="op">,</span> <span class="op">(</span><span class="dt">unsigned</span> <span class="dt">int</span><span class="op">)</span>tx_mailbox<span class="op">);</span></span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> HAL_OK<span class="op">;</span></span></code></pre></div>
 <p>Finally, we print a confirmation message showing the transmitted ID,
-data length, and mailbox used, then return to indicate success.</p>
-<div class="tip">
-<p>Notice and . These are <em>format specifiers</em>. Read <a
-href="https://cplusplus.com/reference/cstdio/printf">https://cplusplus.com/reference/cstdio/printf</a>
-for more.</p>
-</div>
+data length, and mailbox used, then return <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>HAL\_OK</code></span>
+to indicate success.</p>
 <h2 id="ssec:3c">CAN Initialization Function</h2>
-<div class="sourceCode" id="cb12" data-linenos="" data-startFrom="74"
-data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 73;"><span id="cb12-74"><a href="#cb12-74" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
-<span id="cb12-75"><a href="#cb12-75" aria-hidden="true" tabindex="-1"></a><span class="co"> * </span><span class="an">@brief</span><span class="co"> Initialize CAN and start the peripheral</span></span>
-<span id="cb12-76"><a href="#cb12-76" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
-<span id="cb12-77"><a href="#cb12-77" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> InitializeRawCAN<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb12-78"><a href="#cb12-78" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Initialize CAN1</span></span>
-<span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a>  MX_CAN1_Init<span class="op">();</span></span>
-<span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-81"><a href="#cb12-81" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Start CAN peripheral</span></span>
-<span id="cb12-82"><a href="#cb12-82" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="op">(</span>HAL_CAN_Start<span class="op">(&amp;</span>hcan1<span class="op">)</span> <span class="op">!=</span> HAL_OK<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb12-83"><a href="#cb12-83" aria-hidden="true" tabindex="-1"></a>    print<span class="op">(</span><span class="st">&quot;Error: Failed to start CAN1</span><span class="sc">\r\n</span><span class="st">&quot;</span><span class="op">);</span></span>
-<span id="cb12-84"><a href="#cb12-84" aria-hidden="true" tabindex="-1"></a>    Error_Handler<span class="op">();</span></span>
-<span id="cb12-85"><a href="#cb12-85" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
-<span id="cb12-86"><a href="#cb12-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-87"><a href="#cb12-87" aria-hidden="true" tabindex="-1"></a>  print<span class="op">(</span><span class="st">&quot;CAN1 initialized and started successfully</span><span class="sc">\r\n</span><span class="st">&quot;</span><span class="op">);</span></span>
-<span id="cb12-88"><a href="#cb12-88" aria-hidden="true" tabindex="-1"></a>  print<span class="op">(</span><span class="st">&quot;Ready to send raw CAN frames on hcan1</span><span class="sc">\r\n</span><span class="st">&quot;</span><span class="op">);</span></span>
-<span id="cb12-89"><a href="#cb12-89" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb11" data-linenos="" data-startFrom="74"
+data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 73;"><span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a><span class="co"> * </span><span class="an">@brief</span><span class="co"> Initialize CAN and start the peripheral</span></span>
+<span id="cb11-76"><a href="#cb11-76" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
+<span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> InitializeRawCAN<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb11-78"><a href="#cb11-78" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Initialize CAN1</span></span>
+<span id="cb11-79"><a href="#cb11-79" aria-hidden="true" tabindex="-1"></a>  MX_CAN1_Init<span class="op">();</span></span>
+<span id="cb11-80"><a href="#cb11-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-81"><a href="#cb11-81" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Start CAN peripheral</span></span>
+<span id="cb11-82"><a href="#cb11-82" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="op">(</span>HAL_CAN_Start<span class="op">(&amp;</span>hcan1<span class="op">)</span> <span class="op">!=</span> HAL_OK<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb11-83"><a href="#cb11-83" aria-hidden="true" tabindex="-1"></a>    print<span class="op">(</span><span class="st">&quot;Error: Failed to start CAN1</span><span class="sc">\r\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb11-84"><a href="#cb11-84" aria-hidden="true" tabindex="-1"></a>    Error_Handler<span class="op">();</span></span>
+<span id="cb11-85"><a href="#cb11-85" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb11-86"><a href="#cb11-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-87"><a href="#cb11-87" aria-hidden="true" tabindex="-1"></a>  print<span class="op">(</span><span class="st">&quot;CAN1 initialized and started successfully</span><span class="sc">\r\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb11-88"><a href="#cb11-88" aria-hidden="true" tabindex="-1"></a>  print<span class="op">(</span><span class="st">&quot;Ready to send raw CAN frames on hcan1</span><span class="sc">\r\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb11-89"><a href="#cb11-89" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <h3 id="sssec:3c1">Hardware Initialization</h3>
 <p>The initialization process involves two steps:</p>
 <ul>
-<li><p>: Generated by STM32CubeMX to configure the CAN1 peripheral
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>MX\_CAN1\_Init</code></span>:
+Generated by STM32CubeMX to configure the CAN1 peripheral
 settings.</p></li>
-<li><p>: Starts the CAN hardware and enables communication</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>HAL\_CAN\_Start</code></span>:
+Starts the CAN hardware and enables communication</p></li>
 </ul>
 <p>If the start operation fails, an error is printed and the error
 handler is called to manage the fault condition.</p>
-<div class="remark">
-<p><em>Peripheral</em> is jargon for the actual hardware module in the
-microcontroller that implements the protocol, i.e. a peripheral device.
-Again, this is a common term in embedded programming.</p>
-</div>
 <h3 id="sssec:3c2">RTOS Init Function</h3>
-<div class="sourceCode" id="cb13" data-linenos=""
-data-startFrom="96"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 95;"><span id="cb13-96"><a href="#cb13-96" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> RM_RTOS_Init<span class="op">()</span> <span class="op">{</span></span>
-<span id="cb13-97"><a href="#cb13-97" aria-hidden="true" tabindex="-1"></a>  print_use_uart<span class="op">(&amp;</span>huart1<span class="op">);</span></span>
-<span id="cb13-98"><a href="#cb13-98" aria-hidden="true" tabindex="-1"></a>  InitializeRawCAN<span class="op">();</span></span>
-<span id="cb13-99"><a href="#cb13-99" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb12" data-linenos=""
+data-startFrom="96"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 95;"><span id="cb12-96"><a href="#cb12-96" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> RM_RTOS_Init<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb12-97"><a href="#cb12-97" aria-hidden="true" tabindex="-1"></a>  print_use_uart<span class="op">(&amp;</span>huart1<span class="op">);</span></span>
+<span id="cb12-98"><a href="#cb12-98" aria-hidden="true" tabindex="-1"></a>  InitializeRawCAN<span class="op">();</span></span>
+<span id="cb12-99"><a href="#cb12-99" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>This is the init function defined in . It is run before the main loop
 and is used for setup and initialization. Notice the functions we are
 calling inside of it.</p>
 <h2 id="ssec:3d">Default Task Implementation</h2>
-<div class="sourceCode" id="cb14" data-linenos="" data-startFrom="83"
-data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 82;"><span id="cb14-83"><a href="#cb14-83" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> RM_RTOS_Default_Task<span class="op">(</span><span class="at">const</span> <span class="dt">void</span><span class="op">*</span> args<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb14-84"><a href="#cb14-84" aria-hidden="true" tabindex="-1"></a>  UNUSED<span class="op">(</span>args<span class="op">);</span></span>
-<span id="cb14-85"><a href="#cb14-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-86"><a href="#cb14-86" aria-hidden="true" tabindex="-1"></a>  print<span class="op">(</span><span class="st">&quot;Raw CAN Transmission Example</span><span class="sc">\r\n</span><span class="st">&quot;</span><span class="op">);</span></span>
-<span id="cb14-87"><a href="#cb14-87" aria-hidden="true" tabindex="-1"></a>  print<span class="op">(</span><span class="st">&quot;Sending various CAN frames every 2 seconds...</span><span class="sc">\r\n</span><span class="st">&quot;</span><span class="op">);</span></span>
-<span id="cb14-88"><a href="#cb14-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-89"><a href="#cb14-89" aria-hidden="true" tabindex="-1"></a>  <span class="dt">uint32_t</span> counter <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
-<span id="cb14-90"><a href="#cb14-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-91"><a href="#cb14-91" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
-<span id="cb14-92"><a href="#cb14-92" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Example 1: Send motor command (similar to DJI motor protocol)</span></span>
-<span id="cb14-93"><a href="#cb14-93" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> motor_data<span class="op">[</span><span class="dv">8</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="bn">0x03</span><span class="op">,</span> <span class="bn">0x00</span><span class="op">,</span> <span class="bn">0x00</span><span class="op">,</span> <span class="bn">0x00</span><span class="op">,</span> <span class="bn">0x00</span><span class="op">,</span> <span class="bn">0x00</span><span class="op">,</span> <span class="bn">0x00</span><span class="op">,</span> <span class="bn">0x00</span><span class="op">};</span></span>
-<span id="cb14-94"><a href="#cb14-94" aria-hidden="true" tabindex="-1"></a>    SendRawCANFrame<span class="op">(&amp;</span>hcan1<span class="op">,</span> <span class="bn">0x200</span><span class="op">,</span> motor_data<span class="op">,</span> <span class="dv">8</span><span class="op">);</span></span>
-<span id="cb14-95"><a href="#cb14-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-96"><a href="#cb14-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-97"><a href="#cb14-97" aria-hidden="true" tabindex="-1"></a>    osDelay<span class="op">(</span><span class="dv">2</span><span class="op">);</span></span>
-<span id="cb14-98"><a href="#cb14-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-99"><a href="#cb14-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-100"><a href="#cb14-100" aria-hidden="true" tabindex="-1"></a>    print<span class="op">(</span><span class="st">&quot;=== Cycle </span><span class="sc">%lu</span><span class="st"> completed ===</span><span class="sc">\r\n</span><span class="st">&quot;</span><span class="op">,</span> counter<span class="op">);</span></span>
-<span id="cb14-101"><a href="#cb14-101" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
-<span id="cb14-102"><a href="#cb14-102" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<div class="tip">
-<p>Notice the double newlines. This is bad formatting, don’t do it.</p>
-</div>
+<div class="sourceCode" id="cb13" data-linenos="" data-startFrom="83"
+data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 82;"><span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> RM_RTOS_Default_Task<span class="op">(</span><span class="at">const</span> <span class="dt">void</span><span class="op">*</span> args<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a>  UNUSED<span class="op">(</span>args<span class="op">);</span></span>
+<span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a>  print<span class="op">(</span><span class="st">&quot;Raw CAN Transmission Example</span><span class="sc">\r\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb13-87"><a href="#cb13-87" aria-hidden="true" tabindex="-1"></a>  print<span class="op">(</span><span class="st">&quot;Sending various CAN frames every 2 seconds...</span><span class="sc">\r\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb13-88"><a href="#cb13-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-89"><a href="#cb13-89" aria-hidden="true" tabindex="-1"></a>  <span class="dt">uint32_t</span> counter <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb13-90"><a href="#cb13-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-91"><a href="#cb13-91" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> <span class="op">(</span><span class="kw">true</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-92"><a href="#cb13-92" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Example 1: Send motor command (similar to DJI motor protocol)</span></span>
+<span id="cb13-93"><a href="#cb13-93" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint8_t</span> motor_data<span class="op">[</span><span class="dv">8</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="bn">0x03</span><span class="op">,</span> <span class="bn">0x00</span><span class="op">,</span> <span class="bn">0x00</span><span class="op">,</span> <span class="bn">0x00</span><span class="op">,</span> <span class="bn">0x00</span><span class="op">,</span> <span class="bn">0x00</span><span class="op">,</span> <span class="bn">0x00</span><span class="op">,</span> <span class="bn">0x00</span><span class="op">};</span></span>
+<span id="cb13-94"><a href="#cb13-94" aria-hidden="true" tabindex="-1"></a>    SendRawCANFrame<span class="op">(&amp;</span>hcan1<span class="op">,</span> <span class="bn">0x200</span><span class="op">,</span> motor_data<span class="op">,</span> <span class="dv">8</span><span class="op">);</span></span>
+<span id="cb13-95"><a href="#cb13-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-96"><a href="#cb13-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-97"><a href="#cb13-97" aria-hidden="true" tabindex="-1"></a>    osDelay<span class="op">(</span><span class="dv">2</span><span class="op">);</span></span>
+<span id="cb13-98"><a href="#cb13-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-99"><a href="#cb13-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-100"><a href="#cb13-100" aria-hidden="true" tabindex="-1"></a>    print<span class="op">(</span><span class="st">&quot;=== Cycle </span><span class="sc">%lu</span><span class="st"> completed ===</span><span class="sc">\r\n</span><span class="st">&quot;</span><span class="op">,</span> counter<span class="op">);</span></span>
+<span id="cb13-101"><a href="#cb13-101" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb13-102"><a href="#cb13-102" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <h3 id="sssec:3d1">Main Task Loop</h3>
 <p>The main task implements an infinite loop (the “main loop”) that:</p>
 <ul>
-<li><p>Sends a CAN frame with ID containing motor control data.</p></li>
+<li><p>Sends a CAN frame with ID <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x200</code></span>
+containing motor control data.</p></li>
 <li><p>Waits between transmissions.</p></li>
 <li><p>Prints a counter to track completed cycles.</p></li>
 </ul>
-<div class="remark">
-<p>We can concurrently control up to <span class="math inline">4</span>
-motors using a single CAN packet! All four motors listen for the ID and
-decide what parts of the data to use based on their TX ID. We talked
-about this last time in person, but will write about it in the next
-tutorial (on motors). In the meantime, read the “RoboMaster C620
-Brushless DC Motor Speed Controller V1.01” datasheet we have sent out to
-you for more information.</p>
-</div>
 <h1 id="sec:review">Concepts Covered</h1>
 <p>We went over the following:</p>
 <h2 id="ssec:5a">CAN Protocol</h2>

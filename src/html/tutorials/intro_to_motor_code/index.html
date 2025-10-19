@@ -167,6 +167,7 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
     /* CSS for syntax highlighting */
     html { -webkit-text-size-adjust: 100%; }
     pre > code.sourceCode { white-space: pre; position: relative; }
@@ -233,26 +234,25 @@
     code span.vs { color: #4070a0; } /* VerbatimString */
     code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
-  <script
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js"
-  type="text/javascript"></script>
 </head>
 <body>
 <header id="title-block-header">
 <h1 class="title">Introduction to Motor3508 Code Analysis</h1>
-<p class="author">Austin Yang <span class="math inline">\(\in\)</span>
-Illini RoboMaster<br />
+<p class="author">Austin Yang <span class="math inline">∈</span> Illini
+RoboMaster<br />
 <code>[</code><a
 href="mailto:austiny2@illinois.edu"><code>austiny2@illinois.edu</code></a><code>, </code><a
 href="https://www.illinirobomaster.com"><code>https://www.illinirobomaster.com</code></a><code>]</code></p>
 <p class="date">2025-10-18</p>
 </header>
-Read the pdf version <a href='intro_to_motor_code.pdf'>here</a>.
 <h1 id="sec:intro">Introduction</h1>
 <h2 id="ssec:1a">Plan</h2>
-<p>This tutorial will go through the and files line-by-line with a focus
-on analyzing the class implementation. You can find the files covered at
-<a
+<p>This tutorial will go through the <span
+style="text-decoration: underline;"><code>📄motor.h</code></span> and
+<span style="text-decoration: underline;"><code>📄motor.cc</code></span>
+files line-by-line with a focus on analyzing the <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>Motor3508</code></span>
+class implementation. You can find the files covered at <a
 href="https://github.com/illini-robomaster/iRM_Embedded_2026/blob/embedded_tutorial/shared/libraries/motor.h">https://github.com/illini-robomaster/iRM_Embedded_2026/blob/embedded_tutorial/shar-</a>
 <a
 href="https://github.com/illini-robomaster/iRM_Embedded_2026/blob/embedded_tutorial/shared/libraries/motor.h">ed/libraries/motor.h</a>
@@ -277,17 +277,19 @@ motor</p></li>
 controller</p></li>
 </ul>
 <p>This should be familiar if you have read the previous tutorial. The
-IDs we use are chosen for a reason. Motors send feedback on IDs – (or ),
-and commands are received by <em>all motors in the group</em> on ID (or
-).</p>
-<div class="remark">
-<p>Being able to use a single CAN frame to control multiple motors helps
-with, for example, synchronization. This will be covered in <a
-href="#sec:can_communication" data-reference-type="ref"
-data-reference="sec:can_communication">4</a>.</p>
-</div>
+IDs we use are chosen for a reason. Motors send feedback on IDs <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x201</code></span>–<span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x208</code></span>
+(or <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x1FF + id</code></span>),
+and commands are received by <em>all motors in the group</em> on ID
+<span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x200</code></span>
+(or <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x1FF</code></span>).</p>
 <h1 id="sec:header">Understanding the Motor3508 Header File</h1>
-<p>We will start by examining the Motor3508 class definition in .</p>
+<p>We will start by examining the Motor3508 class definition in <span
+style="text-decoration: underline;"><code>📄motor.h</code></span>.</p>
 <h2 id="ssec:2a">Class Hierarchy and Inheritance</h2>
 <p>Let’s look at the Motor3508 class declaration:</p>
 <div class="sourceCode" id="cb1" data-linenos="" data-startFrom="190"
@@ -315,9 +317,10 @@ data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp
 <span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a>  <span class="at">volatile</span> <span class="dt">int16_t</span> <span class="va">raw_current_get_</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a>  <span class="at">volatile</span> <span class="dt">uint8_t</span> <span class="va">raw_temperature_</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
-<p>The Motor3508 class inherits from , which provides the base
-functionality for our DJI motors. You should know what inheritance is in
-programming languages. Here it helps us:</p>
+<p>The Motor3508 class inherits from <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>MotorCANBase</code></span>,
+which provides the base functionality for our DJI motors. You should
+know what inheritance is in programming languages. Here it helps us:</p>
 <ul>
 <li><p>Reuse common functionality</p></li>
 <li><p>Maintain consistent interfaces across different motor types
@@ -325,10 +328,15 @@ programming languages. Here it helps us:</p>
 <li><p>Implement different behavior for different motor types</p></li>
 </ul>
 <h2 id="ssec:2b">MotorCANBase</h2>
-<p>The base class provides the following default functionality:</p>
+<p>The base class <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>MotorCANBase</code></span>
+provides the following default functionality:</p>
 <ul>
 <li><p>CAN object/CAN ID storage</p></li>
-<li><p>Common data (, )</p></li>
+<li><p>Common data (<span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>theta\_</code></span>,
+<span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>omega\_</code></span>)</p></li>
 <li><p>Standard interface methods (GetTheta(), GetOmega(),
 etc.)</p></li>
 <li></li>
@@ -436,56 +444,49 @@ data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp
 <span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>  <span class="dt">uint16_t</span> <span class="va">tx_id_</span><span class="op">;</span></span>
 <span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
 <h2 id="ssec:2c">Virtual Functions and Polymorphism</h2>
-<p>Notice the keyword, both in 3508 and the base. The keyword in the
-base class enables <em>polymorphism</em>, allowing different motor types
-to be treated through the same interface while providing different
-implementations. Setting something as forces all its child classes to
-provide an implementation. Since C++ is strictly typed, we also have to
-match the typing no matter what, which makes it useful for defining
-interfaces.</p>
-<div class="tip">
-<p>If you are familiar with Python, this is similar to and from the
-module. If you provide annotations, this can ‘enforce’ interfaces (at
-lint time, that is).</p>
-</div>
-<p>The keywords in the indicate:</p>
+<p>Notice the <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>virtual</code></span>
+keyword, both in 3508 and the base. The <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>virtual</code></span>
+keyword in the base class enables <em>polymorphism</em>, allowing
+different motor types to be treated through the same interface while
+providing different implementations. Setting something as <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>virtual</code></span>
+forces all its child classes to provide an implementation. Since C++ is
+strictly typed, we also have to match the typing no matter what, which
+makes it useful for defining interfaces.</p>
+<p> The <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>override final</code></span>
+keywords in the <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>Motor3508</code></span>
+indicate:</p>
 <ul>
-<li><p>: These functions override virtual functions from the base
-class.</p></li>
-<li><p>: No further classes can override these functions.</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>override</code></span>:
+These functions override virtual functions from the base class.</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>final</code></span>:
+No further classes can override these functions.</p></li>
 </ul>
-<div class="tip">
-<p>Again, in Python, you can use the decorators and to achieve similar
-results.</p>
-</div>
-<div class="remark">
-<p>Python 3.14 (<span class="math inline">\(\pi\)</span>thon) provides
-many quality of life changes. Update now!</p>
-</div>
 <h2 id="ssec:2d">Volatile Variables</h2>
-<p>Notice the keyword on the member variables:</p>
+<p>Notice the <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>volatile</code></span>
+keyword on the member variables:</p>
 <div class="sourceCode" id="cb3" data-linenos="" data-startFrom="214"
 data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 213;"><span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a> <span class="kw">private</span><span class="op">:</span></span>
 <span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a>  <span class="at">volatile</span> <span class="dt">int16_t</span> <span class="va">raw_current_get_</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a>  <span class="at">volatile</span> <span class="dt">uint8_t</span> <span class="va">raw_temperature_</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span></code></pre></div>
-<p>The keyword tells the compiler that these variables can change
-unexpectedly (e.g., from CAN interrupts). This prevents certain
-optimizations that might interfere with real-time data updates.</p>
-<div class="remark">
-<p>In embedded systems, is commonly used for variables that are shared
-between main code and interrupt handlers, or that represent hardware
-registers.</p>
-</div>
-<div class="remark">
-<p>When you compile code, your compiler automatically performs
-optimizations (you can control this). Typing helps optimization: the
-stronger the restrictions, the more the compiler can do to optimize. We
-usually assume things are not volatile, and the compiler does not
-either; we must use to explicitly mark them as such.</p>
-</div>
+<p>The <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>volatile</code></span>
+keyword tells the compiler that these variables can change unexpectedly
+(e.g., from CAN interrupts). This prevents certain optimizations that
+might interfere with real-time data updates.</p>
 <h1 id="understanding-the-motor3508-implementation">Understanding the
 Motor3508 Implementation</h1>
-<p>Now let us examine the implementation in .</p>
+<p>Now let us examine the <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>Motor3508</code></span>
+implementation in <span
+style="text-decoration: underline;"><code>📄motor.cc</code></span>.</p>
 <div class="sourceCode" id="cb4" data-linenos="" data-startFrom="112"
 data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 111;"><span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a><span class="co">//====================================... (truncated)</span></span>
 <span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a><span class="co">// Motor3508</span></span>
@@ -524,8 +525,7 @@ data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp
 <span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a><span class="dt">int16_t</span> Motor3508<span class="op">::</span>GetCurr<span class="op">()</span> <span class="at">const</span> <span class="op">{</span> <span class="cf">return</span> <span class="va">raw_current_get_</span><span class="op">;</span> <span class="op">}</span></span>
 <span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a><span class="dt">uint16_t</span> Motor3508<span class="op">::</span>GetTemp<span class="op">()</span> <span class="at">const</span> <span class="op">{</span> <span class="cf">return</span> <span class="va">raw_temperature_</span><span class="op">;</span> <span class="op">}</span></span></code></pre></div>
-<p><span id="sec:implementation"
-data-label="sec:implementation"></span></p>
+<p></p>
 <h2 id="ssec:3a">Constructor Implementation</h2>
 <div class="sourceCode" id="cb5" data-linenos="" data-startFrom="116"
 data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 115;"><span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>Motor3508<span class="op">::</span>Motor3508<span class="op">(</span>CAN<span class="op">*</span> can<span class="op">,</span> <span class="dt">uint16_t</span> rx_id<span class="op">)</span> <span class="op">:</span> MotorCANBase<span class="op">(</span>can<span class="op">,</span> rx_id<span class="op">)</span> <span class="op">{</span></span>
@@ -534,23 +534,24 @@ data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp
 <p>The constructor does two things:</p>
 <ol>
 <li><p>Calls the base class constructor with a pointer to the CAN
-instance () and the receive ID ().</p></li>
+instance (<span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>can</code></span>)
+and the receive ID (<span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>rx\_id</code></span>).</p></li>
 <li><p>Registers a callback function to handle incoming CAN
 data.</p></li>
 </ol>
-<div class="remark">
-<p>This is different from the callback function presented in the first
-tutorial; that one was for Linux CAN. However, their functionality is
-similar.</p>
-</div>
-<p>Exercise: Look through the code for and figure out how it is
-implemented. Starting point: look at what it does in <a
-href="#sssec:3a1" data-reference-type="ref"
-data-reference="sssec:3a1">3.1.1</a>.</p>
+<p>Exercise: Look through the code for <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>RegisterRxCallback</code></span>
+and figure out how it is implemented. Starting point: look at what it
+does in .</p>
 <h3 id="sssec:3a1">Callback Registration</h3>
-<p>The function sets up an <em>interrupt handler</em> that will
-automatically call whenever a CAN message with the specified ID is
-received.</p>
+<p>The <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>RegisterRxCallback</code></span>
+function sets up an <em>interrupt handler</em> that will automatically
+call <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>can\_motor\_callback</code></span>
+whenever a CAN message with the specified ID is received.</p>
 <div class="sourceCode" id="cb6" data-linenos="" data-startFrom="49"
 data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 48;"><span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a><span class="at">static</span> <span class="dt">void</span> can_motor_callback<span class="op">(</span><span class="at">const</span> <span class="dt">uint8_t</span> data<span class="op">[],</span> <span class="dt">void</span><span class="op">*</span> args<span class="op">)</span> <span class="op">{</span></span>
 <span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>  MotorCANBase<span class="op">*</span> motor <span class="op">=</span> <span class="kw">reinterpret_cast</span><span class="op">&lt;</span>MotorCANBase<span class="op">*&gt;(</span>args<span class="op">);</span></span>
@@ -561,21 +562,24 @@ data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp
 had to poll everything else for what they need. That would be very messy
 and ugly.</p>
 <ul>
-<li><p>converts the generic void pointer back to our (remember what a
-void pointer is?).</p></li>
-<li><p>From the motor we just recast, we call on the data we
-received.</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>reinterpret\_cast</code></span>
+converts the generic void pointer back to our <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>MotorCANBase*</code></span>
+(remember what a void pointer is?).</p></li>
+<li><p>From the motor we just recast, we call <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>UpdateData</code></span>
+on the data we received.</p></li>
 </ul>
-<p>This works for any motor type that inherits from . If you read the
-first tutorial, this should seem very familiar!</p>
-<div class="tip">
-<p>You will get an introduction to interrupts near the end of ECE 120,
-if you take it.</p>
-</div>
+<p>This works for any motor type that inherits from <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>MotorCANBase</code></span>.
+If you read the first tutorial, this should seem very familiar!</p>
 <h2 id="ssec:3b">Data Parsing Implementation</h2>
-<p>The function is where the metaphorical magic happens. We parse
-(decode) the received data based on whatever was written on the
-datasheet of our motor.</p>
+<p>The <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>UpdateData</code></span>
+function is where the metaphorical magic happens. We parse (decode) the
+received data based on whatever was written on the datasheet of our
+motor.</p>
 <div class="sourceCode" id="cb7" data-linenos="" data-startFrom="120"
 data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 119;"><span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> Motor3508<span class="op">::</span>UpdateData<span class="op">(</span><span class="at">const</span> <span class="dt">uint8_t</span> data<span class="op">[])</span> <span class="op">{</span></span>
 <span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a>  <span class="at">const</span> <span class="dt">int16_t</span> raw_theta <span class="op">=</span> data<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="dv">8</span> <span class="op">|</span> data<span class="op">[</span><span class="dv">1</span><span class="op">];</span></span>
@@ -610,42 +614,46 @@ the following format:</p>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;"><p>0</p></td>
+<td style="text-align: left;"><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>raw\_theta</code></span></td>
 <td style="text-align: left;">Rotor angle (upper 8 bits)</td>
 </tr>
 <tr>
-<td style="text-align: left;">1</td>
+<td style="text-align: left;"><p>1</p></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">Rotor angle (lower 8 bits)</td>
 </tr>
 <tr>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;"><p>2</p></td>
+<td style="text-align: left;"><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>raw\_omega</code></span></td>
 <td style="text-align: left;">Rotational speed (upper 8 bits)</td>
 </tr>
 <tr>
-<td style="text-align: left;">3</td>
+<td style="text-align: left;"><p>3</p></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">Rotational speed (lower 8 bits)</td>
 </tr>
 <tr>
-<td style="text-align: left;">4</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;"><p>4</p></td>
+<td style="text-align: left;"><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>raw\_current\_get\_</code></span></td>
 <td style="text-align: left;">Torque current (upper 8 bits)</td>
 </tr>
 <tr>
-<td style="text-align: left;">5</td>
+<td style="text-align: left;"><p>5</p></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">Torque current (lower 8 bits)</td>
 </tr>
 <tr>
-<td style="text-align: left;">6</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;"><p>6</p></td>
+<td style="text-align: left;"><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>raw\_temperature\_</code></span></td>
 <td style="text-align: left;">Motor temperature (8 bits)</td>
 </tr>
 <tr>
-<td style="text-align: left;">7</td>
+<td style="text-align: left;"><p>7</p></td>
 <td style="text-align: left;">Null</td>
 <td style="text-align: left;">Unused</td>
 </tr>
@@ -663,25 +671,35 @@ datasheet,</p>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">to (<span
-class="math inline">\(0^\circ\)</span> to <span
-class="math inline">\(360^\circ\)</span>)</td>
+<td style="text-align: left;"><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>raw\_theta</code></span></p></td>
+<td style="text-align: left;"><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0</code></span>
+to <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>8192</code></span>
+(<span class="math inline">0<sup>∘</sup></span> to <span
+class="math inline">360<sup>∘</sup></span>)</td>
 </tr>
 <tr>
-<td style="text-align: left;"></td>
+<td style="text-align: left;"><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>raw\_omega</code></span></p></td>
 <td style="text-align: left;">RPM</td>
 </tr>
 <tr>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">to (<span
-class="math inline">\(-20\si{\A}\)</span> to <span
-class="math inline">\(20\si{\A}\)</span>)</td>
+<td style="text-align: left;"><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>raw\_current\_get\_</code></span></p></td>
+<td style="text-align: left;"><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>-16384</code></span>
+to <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>16384</code></span>
+(<span class="math inline">−20A</span> to <span
+class="math inline">20A</span>)</td>
 </tr>
 <tr>
-<td style="text-align: left;"></td>
+<td style="text-align: left;"><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>raw\_temperature\_</code></span></p></td>
 <td style="text-align: left;"><span
-class="math inline">\(^\circ\)</span>C</td>
+class="math inline"><sup>∘</sup></span>C</td>
 </tr>
 </tbody>
 </table>
@@ -690,140 +708,152 @@ class="math inline">\(^\circ\)</span>C</td>
 values:</p>
 <div class="sourceCode" id="cb8" data-linenos=""
 data-startFrom="121"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 120;"><span id="cb8-121"><a href="#cb8-121" aria-hidden="true" tabindex="-1"></a><span class="at">const</span> <span class="dt">int16_t</span> raw_theta <span class="op">=</span> data<span class="op">[</span><span class="dv">0</span><span class="op">]</span> <span class="op">&lt;&lt;</span> <span class="dv">8</span> <span class="op">|</span> data<span class="op">[</span><span class="dv">1</span><span class="op">];</span></span></code></pre></div>
-<p>This is equivalent to (and better than):</p>
+<p>This is equivalent to (and better than): <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>raw\_theta = (data[0] * 256) + data[1]</code></span></p>
 <ul>
-<li><p>: Shift the high byte left by 8 bits (multiply by 256)</p></li>
-<li><p>: Combine with the low byte using bitwise OR</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>data[0] &lt;&lt; 8</code></span>:
+Shift the high byte left by 8 bits (multiply by 256)</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>| data[1]</code></span>:
+Combine with the low byte using bitwise OR</p></li>
 </ul>
 <p>Let us act it out, step by step (binary <span
-class="math inline">\(a_i, b_j \in \Z/2\Z\)</span>):</p>
+class="math inline">$a_i, b_j \in \Z/2\Z$</span>):</p>
 <table>
-<caption>Dummy (8-bit)</caption>
+<caption>Dummy <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>data[0]</code></span>
+(8-bit)</caption>
 <thead>
 <tr>
+<th style="text-align: center;"><p><span
+class="math inline"><em>a</em><sub>0</sub></span></p></th>
 <th style="text-align: center;"><span
-class="math inline">\(a_0\)</span></th>
+class="math inline"><em>a</em><sub>1</sub></span></th>
 <th style="text-align: center;"><span
-class="math inline">\(a_1\)</span></th>
+class="math inline"><em>a</em><sub>2</sub></span></th>
 <th style="text-align: center;"><span
-class="math inline">\(a_2\)</span></th>
+class="math inline"><em>a</em><sub>3</sub></span></th>
 <th style="text-align: center;"><span
-class="math inline">\(a_3\)</span></th>
+class="math inline"><em>a</em><sub>4</sub></span></th>
 <th style="text-align: center;"><span
-class="math inline">\(a_4\)</span></th>
+class="math inline"><em>a</em><sub>5</sub></span></th>
 <th style="text-align: center;"><span
-class="math inline">\(a_5\)</span></th>
+class="math inline"><em>a</em><sub>6</sub></span></th>
 <th style="text-align: center;"><span
-class="math inline">\(a_6\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(a_7\)</span></th>
+class="math inline"><em>a</em><sub>7</sub></span></th>
 </tr>
 </thead>
 <tbody>
 </tbody>
 </table>
 <table>
-<caption>Dummy (8-bit)</caption>
+<caption>Dummy <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>data[1]</code></span>
+(8-bit)</caption>
 <thead>
 <tr>
+<th style="text-align: center;"><p><span
+class="math inline"><em>b</em><sub>0</sub></span></p></th>
 <th style="text-align: center;"><span
-class="math inline">\(b_0\)</span></th>
+class="math inline"><em>b</em><sub>1</sub></span></th>
 <th style="text-align: center;"><span
-class="math inline">\(b_1\)</span></th>
+class="math inline"><em>b</em><sub>2</sub></span></th>
 <th style="text-align: center;"><span
-class="math inline">\(b_2\)</span></th>
+class="math inline"><em>b</em><sub>3</sub></span></th>
 <th style="text-align: center;"><span
-class="math inline">\(b_3\)</span></th>
+class="math inline"><em>b</em><sub>4</sub></span></th>
 <th style="text-align: center;"><span
-class="math inline">\(b_4\)</span></th>
+class="math inline"><em>b</em><sub>5</sub></span></th>
 <th style="text-align: center;"><span
-class="math inline">\(b_5\)</span></th>
+class="math inline"><em>b</em><sub>6</sub></span></th>
 <th style="text-align: center;"><span
-class="math inline">\(b_6\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(b_7\)</span></th>
+class="math inline"><em>b</em><sub>7</sub></span></th>
 </tr>
 </thead>
 <tbody>
 </tbody>
 </table>
 <table>
-<caption></caption>
+<caption><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>data[0] &lt;&lt; 8</code></span></caption>
 <thead>
 <tr>
-<th style="text-align: center;"><span
-class="math inline">\(a_0\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(a_1\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(a_2\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(a_3\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(a_4\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(a_5\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(a_6\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(a_7\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(0\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(0\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(0\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(0\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(0\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(0\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(0\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(0\)</span></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>a</em><sub>0</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>a</em><sub>1</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>a</em><sub>2</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>a</em><sub>3</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>a</em><sub>4</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>a</em><sub>5</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>a</em><sub>6</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>a</em><sub>7</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline">0</span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline">0</span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline">0</span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline">0</span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline">0</span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline">0</span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline">0</span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline">0</span></p></th>
 </tr>
 </thead>
 <tbody>
 </tbody>
 </table>
 <table>
-<caption> (16-bit)</caption>
+<caption><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>data[0] &lt;&lt; 8 | data[1]</code></span>
+(16-bit)</caption>
 <thead>
 <tr>
-<th style="text-align: center;"><span
-class="math inline">\(a_0\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(a_1\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(a_2\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(a_3\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(a_4\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(a_5\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(a_6\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(a_7\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(b_0\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(b_1\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(b_2\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(b_3\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(b_4\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(b_5\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(b_6\)</span></th>
-<th style="text-align: center;"><span
-class="math inline">\(b_7\)</span></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>a</em><sub>0</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>a</em><sub>1</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>a</em><sub>2</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>a</em><sub>3</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>a</em><sub>4</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>a</em><sub>5</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>a</em><sub>6</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>a</em><sub>7</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>b</em><sub>0</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>b</em><sub>1</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>b</em><sub>2</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>b</em><sub>3</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>b</em><sub>4</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>b</em><sub>5</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>b</em><sub>6</sub></span></p></th>
+<th style="text-align: center;"><p><span
+class="math inline"><em>b</em><sub>7</sub></span></p></th>
 </tr>
 </thead>
 <tbody>
@@ -831,32 +861,26 @@ class="math inline">\(b_7\)</span></th>
 </table>
 <p>Don’t worry too much about intermediate types: C++ automatically
 converts your data when using bitshift operators, and everything is
-implicitly converted back to on assignment. One thing we have to worry
-about, though, is <em>sign extension</em> – you will encounter this in
-ECE 110, if you take it (search it up if not). This is why we store data
-as .</p>
+implicitly converted back to <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>uint16\_t</code></span>
+on assignment. One thing we have to worry about, though, is <em>sign
+extension</em> – you will encounter this in ECE 110, if you take it
+(search it up if not). This is why we store data as <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>uint8\_t</code></span>.</p>
 <h3 id="sssec:3b3">Unit Conversion and Scaling</h3>
-<p>The variables define conversion factors:</p>
+<p>The <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>constexpr</code></span>
+variables define conversion factors:</p>
 <div class="sourceCode" id="cb9" data-linenos="" data-startFrom="126"
 data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 125;"><span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a><span class="kw">constexpr</span> <span class="dt">float</span> THETA_SCALE <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> PI <span class="op">/</span> <span class="dv">8192</span><span class="op">;</span>  <span class="co">// digital -&gt; rad</span></span>
 <span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a><span class="kw">constexpr</span> <span class="dt">float</span> OMEGA_SCALE <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> PI <span class="op">/</span> <span class="dv">60</span><span class="op">;</span>    <span class="co">// rpm -&gt; rad / sec</span></span></code></pre></div>
 <p>These convert raw motor data to the units we want:</p>
 <ul>
 <li><p>Position: 8192 encoder counts = <span
-class="math inline">\(2\pi~\si{\radian}\)</span> (one rotation)</p></li>
+class="math inline">2<em>π</em> rad</span> (one rotation)</p></li>
 <li><p>Velocity: 1 RPM = <span
-class="math inline">\(2\pi/60~\si{\radian\per\s}\)</span></p></li>
+class="math inline">2<em>π</em>/60 rad/s</span></p></li>
 </ul>
-<div class="remark">
-<p>Using ensures these calculations are performed at compile time,
-saving computational resources on the embedded system.</p>
-</div>
-<div class="remark">
-<p>Remeber what we mentioned in <a href="#ssec:2d"
-data-reference-type="ref" data-reference="ssec:2d">2.4</a>? This is an
-example of declaring a restriction to help the compiler make
-optimizations.</p>
-</div>
 <h2 id="ssec:3c">Current Limiting for Safety</h2>
 <div class="sourceCode" id="cb10" data-linenos="" data-startFrom="141"
 data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 140;"><span id="cb10-141"><a href="#cb10-141" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> Motor3508<span class="op">::</span>SetOutput<span class="op">(</span><span class="dt">int16_t</span> val<span class="op">)</span> <span class="op">{</span></span>
@@ -866,15 +890,13 @@ data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp
 <p>This critical safety function prevents damage to the motor:</p>
 <ul>
 <li><p>Clips the output command to <span
-class="math inline">\(\pm14690\)</span> units (ignore the comment, it
-wasn’t changed when changing the limit).</p></li>
-<li><p>Uses the to enforce limits (notice the template – you should be
-familiar from the first tutorial!).</p></li>
+class="math inline">±14690</span> units (ignore the comment, it wasn’t
+changed when changing the limit).</p></li>
+<li><p>Uses the <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>clip</code></span>
+to enforce limits (notice the template – you should be familiar from the
+first tutorial!).</p></li>
 </ul>
-<div class="tip">
-<p>Always include safety limits! Motors cost money, and the smoke does
-not smell good.</p>
-</div>
 <h2 id="ssec:3d">Debug Output Function</h2>
 <div class="sourceCode" id="cb11" data-linenos="" data-startFrom="134"
 data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 133;"><span id="cb11-134"><a href="#cb11-134" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> Motor3508<span class="op">::</span>PrintData<span class="op">()</span> <span class="at">const</span> <span class="op">{</span></span>
@@ -885,17 +907,27 @@ data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp
 <span id="cb11-139"><a href="#cb11-139" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 <p>This function provides formatted output for debugging:</p>
 <ul>
-<li><p>: Print float with 4 decimal places, signed.</p></li>
-<li><p>: Print integer with minimum 3 characters width.</p></li>
-<li><p>: Print signed integer with space for positive numbers.</p></li>
-<li><p>: Both types of newlines.</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>\% .4f</code></span>:
+Print float with 4 decimal places, signed.</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>\%3d</code></span>:
+Print integer with minimum 3 characters width.</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>\% d</code></span>:
+Print signed integer with space for positive numbers.</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>\textbackslash r\textbackslash n</code></span>:
+Both types of newlines.</p></li>
 </ul>
 <h1 id="sec:can_communication">CAN Communication for Motor Control</h1>
 <p>Let’s examine how multiple motors are controlled simultaneously
 through CAN.</p>
 <h2 id="ssec:4a">TransmitOutput Implementation</h2>
-<p>The static method (from MotorCANBase) sends commands to multiple
-motors in a single CAN frame:</p>
+<p>The <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>TransmitOutput</code></span>
+static method (from MotorCANBase) sends commands to multiple motors in a
+single CAN frame:</p>
 <div class="sourceCode" id="cb12" data-linenos="" data-startFrom="79"
 data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 78;"><span id="cb12-79"><a href="#cb12-79" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> MotorCANBase<span class="op">::</span>TransmitOutput<span class="op">(</span>MotorCANBase<span class="op">*</span> motors<span class="op">[],</span> <span class="dt">uint8_t</span> num_motors<span class="op">)</span> <span class="op">{</span></span>
 <span id="cb12-80"><a href="#cb12-80" aria-hidden="true" tabindex="-1"></a>  <span class="dt">uint8_t</span> data<span class="op">[</span><span class="dv">8</span><span class="op">]</span> <span class="op">=</span> <span class="op">{</span><span class="dv">0</span><span class="op">};</span></span>
@@ -948,25 +980,25 @@ message:</p>
 </tr>
 </tbody>
 </table>
-<p>You can find this on page 15 of the manual (at the bottom of <a
-href="#sssec:3a1" data-reference-type="ref"
-data-reference="sssec:3a1">3.1.1</a>).</p>
+<p>You can find this on page 15 of the manual (at the bottom of ).</p>
 <h3 id="sssec:4a2">Motor Index Calculation</h3>
-<p>The line maps motor RX IDs to array indices:</p>
+<p>The line <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>const uint8\_t motor\_idx = (motors[i]-&gt;rx\_id\_ - 1) \% 4;</code></span>
+maps motor RX IDs to array indices:</p>
 <ul>
-<li><p>Motor with RX ID index 0 CAN bytes 0-1</p></li>
-<li><p>Motor with RX ID index 1 CAN bytes 2-3</p></li>
-<li><p>Motor with RX ID index 2 CAN bytes 4-5</p></li>
-<li><p>Motor with RX ID index 3 CAN bytes 6-7</p></li>
+<li><p>Motor with RX ID <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x201</code></span>
+index 0 CAN bytes 0-1</p></li>
+<li><p>Motor with RX ID <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x202</code></span>
+index 1 CAN bytes 2-3</p></li>
+<li><p>Motor with RX ID <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x203</code></span>
+index 2 CAN bytes 4-5</p></li>
+<li><p>Motor with RX ID <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x204</code></span>
+index 3 CAN bytes 6-7</p></li>
 </ul>
-<div class="tip">
-<p>Modulo arithmetic () allows the same function to work with multiple
-motor groups (– would map to the same byte positions).</p>
-</div>
-<div class="remark">
-<p>Completely unrelated: modulo arithmetic is related to a whole branch
-of mathematics.</p>
-</div>
 <h3 id="sssec:4a3">Data Packing</h3>
 <p>The bit manipulation to pack 16-bit motor commands into bytes (The
 comments aren’t a part of the original file):</p>
@@ -975,12 +1007,12 @@ data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp
 <span id="cb13-90"><a href="#cb13-90" aria-hidden="true" tabindex="-1"></a>data<span class="op">[</span><span class="dv">2</span> <span class="op">*</span> motor_idx <span class="op">+</span> <span class="dv">1</span><span class="op">]</span> <span class="op">=</span> output <span class="op">&amp;</span> <span class="bn">0xFF</span><span class="op">;</span>  <span class="co">// Low byte</span></span></code></pre></div>
 <p>This is the reverse of the parsing operation we saw earlier -
 splitting a 16-bit value into two 8-bit bytes for transmission.
-Exercise: draw it out like I did in <a href="#sssec:3b2"
-data-reference-type="ref" data-reference="sssec:3b2">3.2.2</a>. Or at
-least think about it.</p>
+Exercise: draw it out like I did in . Or at least think about it.</p>
 <h2 id="ssec:4b">CAN ID Management</h2>
-<p>The constructor automatically determines the correct TX ID based on
-the motor’s RX ID:</p>
+<p>The <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>MotorCANBase</code></span>
+constructor automatically determines the correct TX ID based on the
+motor’s RX ID:</p>
 <div class="sourceCode" id="cb14" data-linenos="" data-startFrom="56"
 data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 55;"><span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a><span class="kw">constexpr</span> <span class="dt">uint16_t</span> RX1_ID_START <span class="op">=</span> <span class="bn">0x201</span><span class="op">;</span></span>
 <span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a><span class="kw">constexpr</span> <span class="dt">uint16_t</span> RX2_ID_START <span class="op">=</span> <span class="bn">0x205</span><span class="op">;</span></span>
@@ -990,12 +1022,22 @@ data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp
 <span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a><span class="kw">constexpr</span> <span class="dt">uint16_t</span> TX3_ID <span class="op">=</span> <span class="bn">0x2ff</span><span class="op">;</span></span></code></pre></div>
 <p>This creates three motor groups:</p>
 <ul>
-<li><p>Group 1: Motors – send feedback on 0x200.</p></li>
-<li><p>Group 2: Motors – send feedback on 0x1FF.</p></li>
-<li><p>Group 3: Motors – send feedback on 0x2FF.</p></li>
+<li><p>Group 1: Motors <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x201</code></span>–<span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x204</code></span>
+send feedback on 0x200.</p></li>
+<li><p>Group 2: Motors <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x205</code></span>–<span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x208</code></span>
+send feedback on 0x1FF.</p></li>
+<li><p>Group 3: Motors <span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x209</code></span>–<span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x20C</code></span>
+send feedback on 0x2FF.</p></li>
 </ul>
 <h1 id="sec:examples">Example</h1>
-<p>Let’s examine an example: .</p>
+<p>Let’s examine an example: <span
+style="text-decoration: underline;"><code>📄m3508\_speed.cc</code></span>.</p>
 <div class="sourceCode" id="cb15" data-linenos="" data-startFrom="21"
 data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 20;"><span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&quot;bsp_print.h&quot;</span></span>
 <span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&quot;cmsis_os.h&quot;</span></span>
@@ -1044,9 +1086,15 @@ implementation:</p>
 <h2 id="ssec:8a">C++ Programming</h2>
 <ul>
 <li><p>Class inheritance and polymorphism</p></li>
-<li><p>functions and method overriding</p></li>
-<li><p>keyword for real-time data</p></li>
-<li><p>for compile-time calculations</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>virtual</code></span>
+functions and method overriding</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>volatile</code></span>
+keyword for real-time data</p></li>
+<li><p><span
+style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>constexpr</code></span>
+for compile-time calculations</p></li>
 <li><p>Static methods for shared functionality</p></li>
 </ul>
 <h2 id="ssec:8b">Embedded Programming</h2>
