@@ -349,8 +349,8 @@ function showAddRobotTypeModal() {
                         <input type="text" id="robotTypeName" placeholder="例如：英雄、步兵、工程" required>
                     </div>
                     <div class="form-group">
-                        <label>图标 (emoji)：</label>
-                        <input type="text" id="robotTypeIcon" placeholder="例如：🎯" required>
+                        <label>图标 (emoji，可选)：</label>
+                        <input type="text" id="robotTypeIcon" placeholder="例如：🎯（可不填）">
                     </div>
                     <div class="modal-actions">
                         <button type="submit" class="save-btn">添加</button>
