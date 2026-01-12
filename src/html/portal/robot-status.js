@@ -98,7 +98,18 @@ function renderVideos(videos) {
     return videos.map(video => {
         // 检查是否有临时文件对象
         const fileObj = videoFileMap.get(video.id);
-        const videoUrl = fileObj ? URL.createObjectURL(fileObj) : (video.videoUrl || `videos/${video.fileName}`);
+        let videoUrl = '';
+        
+        if (fileObj) {
+            // 如果有文件对象，每次都创建新的URL
+            videoUrl = URL.createObjectURL(fileObj);
+        } else if (video.videoUrl) {
+            // 使用已保存的URL
+            videoUrl = video.videoUrl;
+        } else {
+            // 尝试从videos文件夹加载
+            videoUrl = `videos/${video.fileName}`;
+        }
         
         return `
             <div class="media-card">
@@ -107,7 +118,7 @@ function renderVideos(videos) {
                     <span class="media-date">展示日期：${video.date}</span>
                 </div>
                 <div class="video-container">
-                    <video controls src="${videoUrl}">
+                    <video controls src="${videoUrl}" preload="metadata">
                         您的浏览器不支持视频播放。
                     </video>
                 </div>
@@ -242,7 +253,20 @@ function addVideo(typeId, fileObject = null) {
     
     robotType.videos.push(newVideo);
     saveRobotTypesData();
-    renderRobotTypes();
+    
+    // 只更新对应兵种的视频网格，而不是重新渲染整个页面
+    updateRobotTypeVideos(typeId);
+}
+
+// 更新特定兵种的视频网格
+function updateRobotTypeVideos(typeId) {
+    const robotType = robotTypesData.robotTypes.find(rt => rt.id === typeId);
+    if (!robotType) return;
+    
+    const mediaGrid = document.getElementById(`mediaGrid_${typeId}`);
+    if (mediaGrid) {
+        mediaGrid.innerHTML = renderVideos(robotType.videos);
+    }
 }
 
 // 编辑视频
@@ -311,7 +335,7 @@ function editVideo(videoId) {
         targetVideo.team = document.getElementById('editVideoTeam').value;
         
         saveRobotTypesData();
-        renderRobotTypes();
+        updateRobotTypeVideos(targetType.id);
         modal.remove();
     };
 }
@@ -324,12 +348,13 @@ function deleteVideo(videoId) {
         const index = robotType.videos.findIndex(v => v.id === videoId);
         if (index !== -1) {
             robotType.videos.splice(index, 1);
-            break;
+            // 清理videoFileMap中的文件对象
+            videoFileMap.delete(videoId);
+            saveRobotTypesData();
+            updateRobotTypeVideos(robotType.id);
+            return;
         }
     }
-    
-    saveRobotTypesData();
-    renderRobotTypes();
 }
 
 // 添加兵种
