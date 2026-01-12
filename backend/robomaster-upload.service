@@ -1,0 +1,23 @@
+[Unit]
+Description=RoboMaster Portal Upload Server
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/var/www/html/backend
+Environment="PATH=/var/www/html/backend/venv/bin"
+ExecStart=/var/www/html/backend/venv/bin/gunicorn \
+    --workers 2 \
+    --bind 0.0.0.0:5000 \
+    --timeout 300 \
+    --max-requests 1000 \
+    --max-requests-jitter 50 \
+    --access-logfile /var/log/robomaster-upload-access.log \
+    --error-logfile /var/log/robomaster-upload-error.log \
+    upload_server:app
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

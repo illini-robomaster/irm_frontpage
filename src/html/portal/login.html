@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>五大湖联合大学 RoboMaster 2026 - 登录</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="logo">
+                <h1>五大湖联合大学</h1>
+                <h2>RoboMaster 2026</h2>
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">用户名（中文名）</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        placeholder="请输入中文名" 
+                        required
+                        autocomplete="off">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">密码（英文名）</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="请输入英文名" 
+                        required
+                        autocomplete="off">
+                </div>
+                
+                <div id="error-message" class="error-message"></div>
+                
+                <button type="submit" class="login-btn">登录</button>
+            </form>
+            
+            <div class="footer">
+                <p>Illinois RoboMaster 2026 Portal</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会议纪要 - 五大湖联合大学 RoboMaster 2026</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <div class="header-content">
+                <h1>五大湖联合大学 RoboMaster 2026</h1>
+                <button id="logoutBtn" class="logout-btn">退出登录</button>
+            </div>
+        </header>
+        
+        <div class="dashboard-layout">
+            <!-- 侧边栏导航 -->
+            <aside class="sidebar">
+                <nav class="sidebar-nav">
+                    <a href="dashboard.html" class="nav-item">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">主页</span>
+                    </a>
+                    <a href="project-docs.html" class="nav-item">
+                        <span class="nav-icon">📄</span>
+                        <span class="nav-text">项目文档</span>
+                    </a>
+                    <a href="robot-status.html" class="nav-item">
+                        <span class="nav-icon">🎬</span>
+                        <span class="nav-text">兵种情况</span>
+                    </a>
+                    <a href="robot-planning.html" class="nav-item">
+                        <span class="nav-icon">🤖</span>
+                        <span class="nav-text">兵种规划</span>
+                    </a>
+                    <a href="meeting-minutes.html" class="nav-item active">
+                        <span class="nav-icon">📝</span>
+                        <span class="nav-text">会议纪要</span>
+                    </a>
+                </nav>
+            </aside>
+            
+            <!-- 主内容区 -->
+            <main class="main-content">
+                <div class="page-header">
+                    <h2>会议纪要</h2>
+                    <div class="page-actions">
+                        <a href="五大湖2026会议纪要队内传播.docx" download class="btn btn-info">
+                            📥 下载Word文档
+                        </a>
+                        <button id="resetBtn" class="btn btn-secondary">
+                            🔄 重置内容
+                        </button>
+                        <button id="editBtn" class="btn btn-primary">✏️ 在线编辑</button>
+                        <button id="saveBtn" class="btn btn-success" style="display: none;">💾 保存</button>
+                        <button id="cancelBtn" class="btn btn-secondary" style="display: none;">❌ 取消</button>
+                    </div>
+                </div>
+                
+                <div class="content-card">
+                    <div id="viewMode" class="meeting-content">
+                        <!-- 内容将通过JavaScript加载 -->
+                    </div>
+                    
+                    <div id="editMode" class="meeting-editor" style="display: none;">
+                        <textarea id="editorTextarea" class="editor-textarea"></textarea>
+                    </div>
+                </div>
+            </main>
+        </div>
+        
+        <footer>
+            <p>© 2026 Illinois RoboMaster. All rights reserved.</p>
+        </footer>
+    </div>
+    
+    <script src="meeting-minutes.js"></script>
+</body>
+</html>
