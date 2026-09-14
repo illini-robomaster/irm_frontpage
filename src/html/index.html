@@ -3,603 +3,435 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ILLINI RoboMaster - Competitive Robotics RSO</title>
-    <meta name="description" content="ILLINI RoboMaster - Competitive Robotics RSO at the University of Illinois at Urbana-Champaign. Join our passionate team of students building cutting-edge robots for international competition.">
+    <title>Illini RoboMaster — Competitive Robotics at the University of Illinois</title>
+    <meta name="description" content="Illini RoboMaster is the University of Illinois Urbana-Champaign's competitive robotics team. We design, build, and fight robots in the RoboMaster University Championship.">
+    <meta name="theme-color" content="#000000">
     <link rel="icon" type="image/png" href="/favicon.ico">
-    <link rel="stylesheet" href="/static/index.css">
-    <link rel="stylesheet" href="/static/frontpage.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/v2/site.css">
 </head>
 <body>
+
     <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <img src="/static/img/icon_2.png" alt="Illini RoboMaster Icon" class="nav-logo-icon">
-                <span><span class="logo-highlight">ILL</span>ini RoboMaster</span>
+    <header class="nav">
+        <div class="wrap nav-inner">
+            <a href="/" class="nav-brand">
+                <img src="/static/img/icon_2.png" alt="">
+                <span><b>ILL</b>ini RoboMaster</span>
+            </a>
+            <nav class="nav-links" aria-label="Primary">
+                <a href="#robots">Robots</a>
+                <a href="#arena">Competition</a>
+                <a href="#record">Record</a>
+                <a href="#team">Team</a>
+                <a href="/join-us.html">Join</a>
+                <a href="/sponsorship.html">Sponsors</a>
+                <a href="/tutorials">Tutorials</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="https://app.irm-project.uk/" target="_blank" rel="noopener" class="btn btn-ghost">Login</a>
+                <a href="https://forms.gle/b8md7r9SzTKQ4caW7" target="_blank" rel="noopener" class="btn">Apply</a>
             </div>
-            <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#competitions">Competitions</a></li>
-                <li><a href="#team">Team</a></li>
-                <li><a href="/join-us.html">Join Us</a></li>
-                <li><a href="/sponsorship.html">Sponsorship</a></li>
-                <li><a href="/tutorials">Tutorials</a></li>
-                <li class="nav-mobile-only"><a href="https://app.irm-project.uk/" target="_blank">Login</a></li>
-                <li class="nav-mobile-only"><a href="https://forms.gle/b8md7r9SzTKQ4caW7" target="_blank">Apply Now</a></li>
-            </ul>
-            <div class="nav-buttons">
-                <a href="https://app.irm-project.uk/" target="_blank" class="nav-btn nav-btn-outline">Login</a>
-                <a href="https://forms.gle/b8md7r9SzTKQ4caW7" target="_blank" class="nav-btn nav-btn-filled">Apply Now</a>
-            </div>
-            <div class="nav-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+            <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
         </div>
-    </nav>
+    </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <video autoplay muted loop playsinline class="hero-video">
-            <source src="/static/img/Herosection_background.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1><span class="title-highlight">ILL</span>INI RoboMaster</h1>
-                <h2 class="hero-subtitle">Competitive Robotics RSO</h2>
-                <p>Building the future of robotics through innovation, competition, and collaboration at the University of Illinois.</p>
-                
-                <!-- Achievement Badges -->
-                <div class="hero-achievements">
-                    <div class="achievement-badge">
-                        <i class="fas fa-trophy"></i>
-                        <span>Top 5 in USA</span>
-                    </div>
-                    <div class="achievement-badge">
-                        <i class="fas fa-users"></i>
-                        <span>40+ Members</span>
-                    </div>
-                    <div class="achievement-badge">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Founded. 2018</span>
-                    </div>
-                </div>
-                
-                <div class="hero-buttons">
-                    <a href="/join-us.html" class="btn btn-primary">Join Our Team</a>
-                    <a href="#about" class="btn btn-secondary">Learn More</a>
-                </div>
-            </div>
-        </div>
-        <div class="scroll-indicator">
-            <i class="fas fa-chevron-down"></i>
-        </div>
-    </section>
+    <main>
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <div class="section-header">
-                <h2>About <span class="logo-highlight">ILL</span>ini RoboMaster</h2>
-                <p>Pioneering the future of competitive robotics at the University of Illinois</p>
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-media">
+                <video autoplay muted loop playsinline preload="metadata" poster="/static/img/robot_intotal.jpg">
+                    <source src="/static/img/Herosection_background.mp4" type="video/mp4">
+                </video>
             </div>
-            
-            <!-- Mission Statement -->
-            <div class="mission-statement">
-                <h3>Our Mission</h3>
-                <p><span class="logo-highlight">ILL</span>ini RoboMaster is a competitive robotics team at the University of Illinois at Urbana-Champaign dedicated to advancing robotics technology through the prestigious RoboMaster competition. We bring together passionate students from engineering, computer science, and business to create cutting-edge robots while fostering innovation, teamwork, and technical excellence.</p>
-            </div>
-            
-            <!-- Robot Showcase Gallery -->
-            <div class="robot-showcase-gallery">
-                <div class="section-header">
-                    <h3>Our 2025-2026 Robot</h3>
-                </div>
-                <div class="gallery-grid">
-                    <div class="gallery-item">
-                        <img src="/static/img/Engineering.jpg" alt="Engineering robot close-up" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <h4>Engineering Robot</h4>
-                            <p> Use a 6-DOF arm with a suction cup to pick up a cube from field and place it into a target goal/p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="/static/img/Dart.png" alt="Dart robot close-up" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <h4>Dart System</h4>
-                            <p>The Dart System is a long-range striking weapon used in the RMUC competition. </p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="/static/img/infantry.png" alt="Infantry robot close-up" class="gallery-image">
-                        <div class="gallery-overlay">
-                            <h4>Infantry Robot</h4>
-                            <p>The infantry is a small, fast robot that shoots 17mm rubber balls.</p>
-                        </div>
-                    </div>
+            <div class="wrap hero-content">
+                <p class="eyebrow reveal"><span class="dot">●</span>&nbsp; University of Illinois Urbana-Champaign</p>
+                <h1 class="display reveal reveal-delay-1">Built to compete.</h1>
+                <p class="lede reveal reveal-delay-2">We design, machine, wire, and code full fleets of combat robots — then put them on the field at the RoboMaster University Championship.</p>
+                <div class="hero-cta reveal reveal-delay-3">
+                    <a href="https://forms.gle/b8md7r9SzTKQ4caW7" target="_blank" rel="noopener" class="btn">Apply to join</a>
+                    <a href="#robots" class="link">Meet the robots</a>
                 </div>
             </div>
-            
-            <!-- Team Photo -->
-            <div class="team-photo-section">
-                <div class="section-header">
-                    <h3>Meet Our Team</h3>
-                    <p>The faces behind <span class="logo-highlight">ILL</span>ini RoboMaster's success</p>
-                </div>
-                <div class="team-photo-container">
-                    <div class="team-photo-carousel">
-                        <img src="/static/img/team_in_competition.jpg" alt="Team in competition 1" class="team-photo-image">
-                        <img src="/static/img/team_in_competition2.jpg" alt="Team in competition 2" class="team-photo-image">
-                        <img src="/static/img/team_in_competition3.jpg" alt="Team in competition 3" class="team-photo-image">
-                        <img src="/static/img/team_in_competition4.jpg" alt="Team in competition 4" class="team-photo-image">
-                        <img src="/static/img/team_in_competition5.jpg" alt="Team in competition 5" class="team-photo-image">
-                    </div>
-                </div>
+            <div class="hero-meta">
+                Est. 2018<br>
+                ECEB Open Lab<br>
+                Urbana, IL
             </div>
-            
-            <!-- Competition Achievements -->
-            <div class="competition-achievements">
-                <div class="section-header">
-                    <h3>Competition Achievements</h3>
-                </div>
-                <div class="achievements-content">
-                    <div class="achievements-robot-carousel">
-                        <div class="robot-carousel">
-                            <img src="/static/img/Robot1.jpg" alt="Robot 1" class="robot-carousel-image">
-                            <img src="/static/img/Robot2.jpg" alt="Robot 2" class="robot-carousel-image">
-                            <img src="/static/img/Robot3.jpg" alt="Robot 3" class="robot-carousel-image">
-                            <img src="/static/img/Robot4.jpg" alt="Robot 4" class="robot-carousel-image">
-                            <img src="/static/img/Robot5.jpg" alt="Robot 5" class="robot-carousel-image">
-                            <img src="/static/img/Robot6.jpg" alt="Robot 6" class="robot-carousel-image">
-                            <img src="/static/img/Robot7.jpg" alt="Robot 7" class="robot-carousel-image">
-                            <img src="/static/img/Robot8.jpg" alt="Robot 8" class="robot-carousel-image">
-                            <img src="/static/img/Robot9.jpg" alt="Robot 9" class="robot-carousel-image">
-                            <img src="/static/img/Robot10.jpg" alt="Robot 10" class="robot-carousel-image">
-                        </div>
-                    </div>
-                    <div class="achievements-list">
-                        <div class="achievement-year">
-                            <h4>2024</h4>
-                            <p>RMUC International: 3rd Prize | National: 2nd Prize<br>Purdue Midwest: 1V1 3rd Place</p>
-                        </div>
-                        <div class="achievement-year">
-                            <h4>2023</h4>
-                            <p>RMUC International: 3rd Prize | National: 2nd Prize<br>RMNA Seattle: 1V1 2nd Place | Purdue Midwest: 1V1 2nd Place</p>
-                        </div>
-                        <div class="achievement-year">
-                            <h4>2022</h4>
-                            <p>RMNA Texas: 3V3 3rd, 1V1 3rd Place<br>AI Challenge (Philadelphia ICRA): 2nd Prize</p>
-                        </div>
-                        <div class="achievement-year">
-                            <h4>2021</h4>
-                            <p>RMUC International: 3rd Prize</p>
-                        </div>
-                        <div class="achievement-year">
-                            <h4>2018</h4>
-                            <p>RMUC International: 1st Prize 🏆</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Competitions Section -->
-    <section id="competitions" class="competitions competition-with-field">
-        <div class="competition-field-overlay"></div>
-        <div class="container">
-            <div class="section-header">
-                <h2>RoboMaster Competition</h2>
-                <p>The world's most advanced robotics competition</p>
+        <!-- Statement + lineup -->
+        <section class="section statement">
+            <div class="wrap">
+                <p class="eyebrow reveal">The fleet</p>
+                <h2 class="headline reveal" style="margin-top: 18px;">Seven robots. One arena. <span class="fade-text">No second chances.</span></h2>
             </div>
-            
-            <div class="competition-content">
-                <div class="competition-info">
-                    <h3>What is RoboMaster?</h3>
-                    <p>The RoboMaster University Championship is the world's premier robotics competition, featuring intense 7v7 robot battles that combine cutting-edge engineering, strategic gameplay, and real-time combat. Teams must design, build, and operate multiple specialized robots in a fast-paced battlefield environment.</p>
-                    
-                    <div class="robot-types">
-                        <h4>Robot Categories</h4>
-                        <div class="robot-grid">
-                            <div class="robot-type">
-                                <i class="fas fa-shield-alt"></i>
-                                <h5>Hero Robot</h5>
-                                <p>High-firepower flagship unit with 42mm projectiles</p>
+            <div class="wrap">
+                <figure class="lineup crop reveal">
+                    <img src="/static/img/robot_intotal.jpg" alt="The full Illini RoboMaster fleet lined up: engineer, hero, infantry, sentry, and aerial robots">
+                </figure>
+                <div class="fig">
+                    <span>Fig. 01 — Full fleet, 2024 season</span>
+                    <span>The Great Lakes · NA Union</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="wrap">
+            <div class="stats">
+                <div class="stat reveal">
+                    <div class="stat-value">2018</div>
+                    <div class="stat-label">RMUC International 1st Prize</div>
+                </div>
+                <div class="stat reveal reveal-delay-1">
+                    <div class="stat-value">40<small>+</small></div>
+                    <div class="stat-label">Active members</div>
+                </div>
+                <div class="stat reveal reveal-delay-2">
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">Technical divisions</div>
+                </div>
+                <div class="stat reveal reveal-delay-3">
+                    <div class="stat-value">Top 5</div>
+                    <div class="stat-label">In the United States</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Robots -->
+        <section class="section" id="robots">
+            <div class="wrap">
+                <div class="section-head">
+                    <p class="eyebrow reveal">2025 – 2026 season</p>
+                    <h2 class="headline reveal">Every robot has a job.</h2>
+                    <p class="lede reveal">Each machine is designed from scratch by a sub-team of mechanical, electrical, and software engineers.</p>
+                </div>
+
+                <div class="robots-grid">
+                    <article class="tile tile-wide tile-light reveal">
+                        <div class="tile-body">
+                            <p class="eyebrow">Fig. 02 — Engineer</p>
+                            <h3 class="headline" style="font-size: clamp(34px, 4.4vw, 60px);">Engineering Robot</h3>
+                            <p>A six-axis arm with a vacuum end effector picks resource cubes off the field and places them into the exchange station.</p>
+                            <dl class="specs">
+                                <div><dt>Arm</dt><dd>6-DOF</dd></div>
+                                <div><dt>End effector</dt><dd>Suction cup</dd></div>
+                                <div><dt>Role</dt><dd>Resource economy</dd></div>
+                            </dl>
+                        </div>
+                        <div class="tile-media">
+                            <img src="/static/img/Engineering.jpg" alt="Engineering robot with a six-axis arm and suction cup end effector">
+                        </div>
+                    </article>
+
+                    <article class="tile tile-half tile-photo reveal">
+                        <div class="tile-media">
+                            <img src="/static/img/Dart_1200.jpg" alt="Dart launcher with red targeting light">
+                        </div>
+                        <div class="tile-body">
+                            <p class="eyebrow">Fig. 03 — Dart System</p>
+                            <h3 class="title">Long-range strike.</h3>
+                            <p>A launcher that fires guided darts across the battlefield at the enemy outpost and base.</p>
+                        </div>
+                    </article>
+
+                    <article class="tile tile-half tile-light tile-white reveal reveal-delay-1">
+                        <div class="tile-body">
+                            <p class="eyebrow">Fig. 04 — Infantry</p>
+                            <h3 class="title">Small. Fast. Relentless.</h3>
+                            <p>Our front-line unit — a nimble chassis with a gimbaled launcher firing 17 mm projectiles.</p>
+                        </div>
+                        <div class="tile-media">
+                            <img src="/static/img/infantry.png" alt="Infantry robot with carbon-fiber gimbal">
+                        </div>
+                    </article>
+                </div>
+
+                <div class="robot-roster">
+                    <div class="roster-item reveal">
+                        <p class="eyebrow">01</p>
+                        <h4>Hero</h4>
+                        <p>High-firepower flagship with 42 mm projectiles.</p>
+                    </div>
+                    <div class="roster-item reveal reveal-delay-1">
+                        <p class="eyebrow">02</p>
+                        <h4>Sentry</h4>
+                        <p>Fully autonomous guardian protecting the base.</p>
+                    </div>
+                    <div class="roster-item reveal reveal-delay-2">
+                        <p class="eyebrow">03</p>
+                        <h4>Aerial</h4>
+                        <p>Drone support with a top-down view of the fight.</p>
+                    </div>
+                    <div class="roster-item reveal reveal-delay-3">
+                        <p class="eyebrow">04</p>
+                        <h4>Radar</h4>
+                        <p>Computer vision that tracks every robot on the field.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Arena -->
+        <section class="arena" id="arena">
+            <div class="arena-media">
+                <img src="/static/img/Competition.jpg" alt="The RoboMaster 2024 arena in Shenzhen with Illini RoboMaster robots in the foreground" loading="lazy">
+            </div>
+            <div class="wrap">
+                <p class="eyebrow reveal">RoboMaster University Championship</p>
+                <h2 class="headline reveal" style="margin-top: 18px; max-width: 14ch;">The world's toughest robotics arena.</h2>
+                <p class="lede reveal" style="margin-top: 20px;">Hosted by DJI, RMUC puts full robot teams head-to-head in real-time combat — real projectiles, real autonomy, real pressure.</p>
+                <div class="arena-facts">
+                    <div class="reveal"><strong>7 v 7</strong><span>Robots per match</span></div>
+                    <div class="reveal reveal-delay-1"><strong>200+</strong><span>Universities worldwide</span></div>
+                    <div class="reveal reveal-delay-2"><strong>420 m²</strong><span>Battlefield</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Record -->
+        <section class="section" id="record">
+            <div class="wrap">
+                <div class="section-head">
+                    <p class="eyebrow reveal">Competition record</p>
+                    <h2 class="headline reveal">Proven on the world stage.</h2>
+                </div>
+                <div class="record">
+                    <figure class="record-media crop reveal">
+                        <img src="/static/img/Trophy_closeup.png" alt="The RoboMaster championship trophy" loading="lazy">
+                        <div class="fig"><span>Fig. 05 — RMUC trophy</span></div>
+                    </figure>
+                    <ol class="record-list">
+                        <li class="reveal">
+                            <span class="record-year">2024</span>
+                            <div>
+                                <h4>RMUC International — 3rd Prize</h4>
+                                <p>National 2nd Prize · Purdue Midwest 1v1, 3rd Place</p>
                             </div>
-                            <div class="robot-type">
-                                <i class="fas fa-running"></i>
-                                <h5>Standard Robots</h5>
-                                <p>Versatile combat units forming the team's backbone</p>
+                        </li>
+                        <li class="reveal">
+                            <span class="record-year">2023</span>
+                            <div>
+                                <h4>RMUC International — 3rd Prize</h4>
+                                <p>National 2nd Prize · RMNA Seattle 1v1, 2nd Place · Purdue Midwest 1v1, 2nd Place</p>
                             </div>
-                            <div class="robot-type">
-                                <i class="fas fa-helicopter"></i>
-                                <h5>Dart System</h5>
-                                <p>Dart provide a long-range precision strike capability</p>
+                        </li>
+                        <li class="reveal">
+                            <span class="record-year">2022</span>
+                            <div>
+                                <h4>AI Challenge, ICRA Philadelphia — 2nd Prize</h4>
+                                <p>RMNA Texas 3v3, 3rd Place · 1v1, 3rd Place</p>
                             </div>
-                            <div class="robot-type">
-                                <i class="fas fa-eye"></i>
-                                <h5>Sentry Robot</h5>
-                                <p>Autonomous guardian protecting the base</p>
+                        </li>
+                        <li class="reveal">
+                            <span class="record-year">2021</span>
+                            <div>
+                                <h4>RMUC International — 3rd Prize</h4>
+                            </div>
+                        </li>
+                        <li class="gold reveal">
+                            <span class="record-year">2018</span>
+                            <div>
+                                <h4>RMUC International — 1st Prize</h4>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team -->
+        <section class="section rule" id="team" style="padding-bottom: clamp(64px, 8vw, 104px);">
+            <div class="wrap">
+                <div class="section-head" style="margin-bottom: 48px;">
+                    <p class="eyebrow reveal">The team</p>
+                    <h2 class="headline reveal">Engineers in the lab.<br><span class="fade-text">Operators in the pit.</span></h2>
+                </div>
+            </div>
+            <div class="gallery reveal">
+                <figure>
+                    <img src="/static/img/team_in_competition3_2400.jpg" alt="Two team members loading projectiles into the hero robot before a match" loading="lazy">
+                    <figcaption><b>Pre-match.</b> Loading the hero robot minutes before walking out.</figcaption>
+                </figure>
+                <figure>
+                    <img src="/static/img/team_in_competition2.jpg" alt="Team members inspecting a robot's electronics at the competition" loading="lazy">
+                    <figcaption><b>Pit checks.</b> Every connector, every fuse, every match.</figcaption>
+                </figure>
+                <figure>
+                    <img src="/static/img/team_in_competition5.jpg" alt="An algorithm team member calibrating a robot with a controller on the arena floor" loading="lazy">
+                    <figcaption><b>Calibration.</b> The algorithm team tunes vision and control on the field.</figcaption>
+                </figure>
+                <figure>
+                    <img src="/static/img/team_in_competition.jpg" alt="The team watching a match from the operator bench" loading="lazy">
+                    <figcaption><b>Match day.</b> The whole team, watching the fleet they built.</figcaption>
+                </figure>
+                <figure>
+                    <img src="/static/img/team_in_competition4.jpg" alt="A team member adjusting a robot under blue arena lighting" loading="lazy">
+                    <figcaption><b>Final adjustments.</b> Under the arena lights.</figcaption>
+                </figure>
+            </div>
+            <div class="wrap gallery-controls">
+                <button data-gallery="prev" aria-label="Previous photo">‹</button>
+                <button data-gallery="next" aria-label="Next photo">›</button>
+            </div>
+        </section>
+
+        <!-- Disciplines -->
+        <section class="section" style="padding-top: clamp(48px, 6vw, 80px);">
+            <div class="wrap">
+                <div class="section-head">
+                    <p class="eyebrow reveal">Divisions</p>
+                    <h2 class="headline reveal">Find your discipline.</h2>
+                </div>
+                <div class="disciplines">
+                    <div class="discipline reveal">
+                        <p class="eyebrow">01 / MECH</p>
+                        <h4>Mechanical</h4>
+                        <p>Chassis, gimbals, and feeders — CAD, simulation, CNC machining, and 3D printing.</p>
+                    </div>
+                    <div class="discipline reveal reveal-delay-1">
+                        <p class="eyebrow">02 / ELEC</p>
+                        <h4>Electrical</h4>
+                        <p>Power distribution, motor control, sensor integration, and custom PCBs.</p>
+                    </div>
+                    <div class="discipline reveal reveal-delay-2">
+                        <p class="eyebrow">03 / SW</p>
+                        <h4>Embedded &amp; Control</h4>
+                        <p>Firmware and real-time control loops that turn commands into motion.</p>
+                    </div>
+                    <div class="discipline reveal">
+                        <p class="eyebrow">04 / CV</p>
+                        <h4>Vision &amp; Autonomy</h4>
+                        <p>Target detection, auto-aim, and the sentry's autonomous navigation.</p>
+                    </div>
+                    <div class="discipline reveal reveal-delay-1">
+                        <p class="eyebrow">05 / OPS</p>
+                        <h4>Strategy &amp; Operations</h4>
+                        <p>Rule analysis, match tactics, pilot training, and competition logistics.</p>
+                    </div>
+                    <div class="discipline reveal reveal-delay-2">
+                        <p class="eyebrow">06 / BIZ</p>
+                        <h4>Media &amp; Business</h4>
+                        <p>Branding, photo and video, sponsor relations, and budget.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Join -->
+        <section class="section rule" id="join">
+            <div class="wrap">
+                <div class="section-head">
+                    <p class="eyebrow reveal">Join us</p>
+                    <h2 class="headline reveal">Your seat in the pit<br>is open.</h2>
+                    <p class="lede reveal">Every discipline, every major. If you want to build real robots, there's a sub-team for you.</p>
+                </div>
+                <div class="join">
+                    <div class="join-card reveal">
+                        <img src="/static/img/info_session_1920.jpg" alt="Info session at the ECE building with new members" loading="lazy">
+                        <div class="tile-body">
+                            <p class="eyebrow">How to join</p>
+                            <ul class="join-steps">
+                                <li><span>01</span><div><b>Apply online.</b> Tell us what you want to work on.</div></li>
+                                <li><span>02</span><div><b>Come to an info session.</b> Meet the leads and see the robots.</div></li>
+                                <li><span>03</span><div><b>Start building.</b> Join a sub-team and ship your first part.</div></li>
+                            </ul>
+                            <div class="hero-cta">
+                                <a href="https://forms.gle/b8md7r9SzTKQ4caW7" target="_blank" rel="noopener" class="btn">Apply now</a>
+                                <a href="/join-us.html" class="link">Season timeline</a>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="competition-features">
-                        <div class="feature">
-                            <i class="fas fa-crosshairs"></i>
-                            <span>Real-time Combat with Physical Projectiles</span>
+                    <div class="join-card reveal reveal-delay-1">
+                        <div class="tile-body">
+                            <p class="eyebrow">Find us</p>
+                            <h3 class="title" style="margin-top: 16px;">Saturdays at the ECEB Open Lab.</h3>
+                            <p>Weekly meetings on Saturday afternoon. Check Discord for the latest schedule.</p>
+                            <ul class="join-steps">
+                                <li><span>@</span><div><a href="mailto:illinirobomasters@gmail.com"><b>illinirobomasters@gmail.com</b></a></div></li>
+                                <li><span>⌖</span><div>ECE Building, 306 N Wright St, Urbana, IL</div></li>
+                            </ul>
+                            <div class="hero-cta">
+                                <a href="https://discord.gg/wBsSz5ExyY" target="_blank" rel="noopener" class="link">Join our Discord</a>
+                            </div>
                         </div>
-                        <div class="feature">
-                            <i class="fas fa-brain"></i>
-                            <span>Advanced AI & Computer Vision</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-cogs"></i>
-                            <span>Precision Mechanical Engineering</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-gamepad"></i>
-                            <span>Strategic Team Coordination</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-microchip"></i>
-                            <span>Embedded Systems & Control</span>
-                        </div>
-                        <div class="feature">
-                            <i class="fas fa-wifi"></i>
-                            <span>Wireless Communication Systems</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="competition-stats">
-                    <div class="stat anim_stat">
-                        <h4>0+</h4>
-                        <p>Global Universities</p>
-                    </div>
-                    <div class="stat anim_stat">
-                        <h4>$0+</h4>
-                        <p>Prize Pool</p>
-                    </div>
-                    <div class="stat">
-                        <h4>7v7</h4>
-                        <p>Robot Battles</p>
-                    </div>
-                    <div class="stat anim_stat">
-                        <h4>0m²</h4>
-                        <p>Competition Arena Size</p>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Team Section -->
-    <section id="team" class="team">
-        <div class="container">
-            <div class="section-header">
-                <h2>Our Team Structure</h2>
-                <p>Specialized divisions working toward championship excellence</p>
-            </div>
-            
-            <div class="team-overview">
-                <div class="team-stats">
-                    <div class="team-stat">
-                        <h4>40+</h4>
-                        <p>Active Members</p>
-                    </div>
-                    <div class="team-stat">
-                        <h4>8</h4>
-                        <p>Technical Divisions</p>
-                    </div>
-                    <div class="team-stat">
-                        <h4>7</h4>
-                        <p>Years Experience</p>
-                    </div>
-                    <div class="team-stat">
-                        <h4>24/7</h4>
-                        <p>Workshop Access</p>
-                    </div>
+        <!-- Sponsors -->
+        <section class="section rule" id="sponsors">
+            <div class="wrap">
+                <div class="section-head">
+                    <p class="eyebrow reveal">Partners</p>
+                    <h2 class="headline reveal">Powered by our sponsors.</h2>
+                </div>
+                <div class="sponsors reveal">
+                    <div class="sponsor"><img src="/static/img/sponser1_university.png" alt="University of Illinois Urbana-Champaign" loading="lazy"></div>
+                    <div class="sponsor"><img src="/static/img/sponser_2.jpg" alt="Sponsor" loading="lazy"></div>
+                    <div class="sponsor"><img src="/static/img/gy_2.png" alt="GY" loading="lazy"></div>
+                    <div class="sponsor"><img src="/static/img/onshape.png" alt="Onshape" loading="lazy"></div>
+                </div>
+                <div class="sponsor-cta">
+                    <p class="lede" style="font-size: 19px;">Help the next generation of engineers compete.</p>
+                    <a href="/sponsorship.html" class="link">Become a sponsor</a>
                 </div>
             </div>
-            
-            <div class="team-grid">
-                <div class="team-card">
-                    <i class="fas fa-wrench"></i>
-                    <h3>Mechanical Engineering</h3>
-                    <p><strong>Focus:</strong> Chassis design, turret systems, ammunition feeding mechanisms, and precision manufacturing using CNC machining and 3D printing.</p>
-                    <ul class="team-responsibilities">
-                        <li>CAD design and simulation</li>
-                        <li>Materials selection and testing</li>
-                        <li>Manufacturing and assembly</li>
-                    </ul>
-                </div>
-                <div class="team-card">
-                    <i class="fas fa-microchip"></i>
-                    <h3>Electrical Engineering</h3>
-                    <p><strong>Focus:</strong> Power management systems, motor control, sensor integration, and PCB design for robust robot operation.</p>
-                    <ul class="team-responsibilities">
-                        <li>Circuit design and PCB layout</li>
-                        <li>Power distribution systems</li>
-                        <li>Sensor integration and calibration</li>
-                    </ul>
-                </div>
-                <div class="team-card">
-                    <i class="fas fa-code"></i>
-                    <h3>Software Development</h3>
-                    <p><strong>Focus:</strong> Autonomous algorithms, computer vision for target detection, real-time control systems, and robot coordination.</p>
-                    <ul class="team-responsibilities">
-                        <li>Embedded systems programming</li>
-                        <li>Computer vision and AI</li>
-                        <li>Real-time control algorithms</li>
-                    </ul>
-                </div>
-                <div class="team-card">
-                    <i class="fas fa-chess"></i>
-                    <h3>Strategy & Operations</h3>
-                    <p><strong>Focus:</strong> Game analysis, tactical planning, team coordination, and competition logistics management.</p>
-                    <ul class="team-responsibilities">
-                        <li>Competition rule analysis</li>
-                        <li>Strategic planning and tactics</li>
-                        <li>Team logistics coordination</li>
-                    </ul>
-                </div>
-                <div class="team-card">
-                    <i class="fas fa-paint-brush"></i>
-                    <h3>Design & Media</h3>
-                    <p><strong>Focus:</strong> Visual design, team branding, documentation, social media, and outreach materials.</p>
-                    <ul class="team-responsibilities">
-                        <li>Graphic design and branding</li>
-                        <li>Photography and videography</li>
-                        <li>Social media management</li>
-                    </ul>
-                </div>
-                <div class="team-card">
-                    <i class="fas fa-dollar-sign"></i>
-                    <h3>Business & Sponsorship</h3>
-                    <p><strong>Focus:</strong> Fundraising, sponsor relationships, budget management, and industry partnerships.</p>
-                    <ul class="team-responsibilities">
-                        <li>Sponsor acquisition and relations</li>
-                        <li>Budget planning and management</li>
-                        <li>Grant writing and proposals</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Sponsors Section -->
-    <section id="sponsors" class="sponsors">
-        <div class="container">
-            <div class="section-header">
-                <h2>Our Sponsors</h2>
-                <p>Proud to be supported by leading organizations</p>
-            </div>
-            <div class="sponsors-grid">
-                <div class="sponsor-card">
-                    <img src="/static/img/sponser1_university.png" alt="University Sponsor" class="sponsor-logo">
-                </div>
-                <div class="sponsor-card">
-                    <img src="/static/img/sponser_2.jpg" alt="Sponsor 2" class="sponsor-logo">
-                </div>
-                <div class="sponsor-card">
-                    <img src="/static/img/gy_2.png" alt="GY Sponsor 2" class="sponsor-logo">
-                </div>
-                <div class="sponsor-card">
-                    <img src="/static/img/onshape.png" alt="Onshape" class="sponsor-logo">
-                </div>
-            </div>
-            <div class="sponsor-cta">
-                <h3>Interested in Sponsoring?</h3>
-                <p>Partner with us to support the next generation of robotics innovators</p>
-                <a href="/sponsorship.html" class="btn btn-primary">Become a Sponsor</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <div class="section-header">
-                <h2>Get In Touch</h2>
-                <p>Ready to join or have questions? We'd love to hear from you!</p>
-            </div>
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <div>
-                            <h4>Email Us</h4>
-                            <p><a href="mailto:illinirobomasters@gmail.com">illinirobomasters@gmail.com</a></p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <div>
-                            <h4>Find Us</h4>
-                            <p>ECEB Openlab, University of Illinois Urbana-Champaign, IL, 61801</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-calendar"></i>
-                        <div>
-                            <h4>Meetings</h4>
-                            <p>Weekly on Saturday Afternoon at ECEB Openlab<br>Check our Discord for details</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="social-links">
-                    <h3>Follow Our Journey</h3>
-                    <div class="social-grid">
-                        <a href="https://discord.gg/wBsSz5ExyY" class="social-link" target="_blank">
-                            <i class="fab fa-discord"></i>
-                            <span>Discord</span>
-                        </a>
-                        <a href="https://www.instagram.com/uiuc_robomaster?igsh=MWpxM2txc2U5OWJsZg==" class="social-link" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                            <span>Instagram</span>
-                        </a>
-                        <a href="https://youtube.com/@illinirobomaster?si=alQaAbwcHDdJjPk-" class="social-link" target="_blank">
-                            <i class="fab fa-youtube"></i>
-                            <span>YouTube</span>
-                        </a>
-                        <a href="https://github.com/illini-robomaster" class="social-link" target="_blank">
-                            <i class="fab fa-github"></i>
-                            <span>GitHub</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="/static/img/icon_2.png" alt="Illini RoboMaster Icon" class="footer-logo-icon">
-                    <span><span class="logo-highlight">ILL</span>ini RoboMaster</span>
+        <div class="wrap">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="nav-brand">
+                        <img src="/static/img/icon_2.png" alt="">
+                        <span style="color: var(--text);"><b>ILL</b>ini RoboMaster</span>
+                    </a>
+                    <p>Competitive robotics RSO at the University of Illinois Urbana-Champaign.</p>
                 </div>
-                <p>&copy; 2025 <span class="logo-highlight">ILL</span>ini RoboMaster. All rights reserved.</p>
+                <div>
+                    <h5>Explore</h5>
+                    <ul>
+                        <li><a href="#robots">Robots</a></li>
+                        <li><a href="#arena">Competition</a></li>
+                        <li><a href="#record">Record</a></li>
+                        <li><a href="/tutorials">Tutorials</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5>Get involved</h5>
+                    <ul>
+                        <li><a href="/join-us.html">Join the team</a></li>
+                        <li><a href="/sponsorship.html">Sponsorship</a></li>
+                        <li><a href="https://app.irm-project.uk/" target="_blank" rel="noopener">Member login</a></li>
+                        <li><a href="mailto:illinirobomasters@gmail.com">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5>Follow</h5>
+                    <ul>
+                        <li><a href="https://discord.gg/wBsSz5ExyY" target="_blank" rel="noopener">Discord</a></li>
+                        <li><a href="https://www.instagram.com/uiuc_robomaster" target="_blank" rel="noopener">Instagram</a></li>
+                        <li><a href="https://youtube.com/@illinirobomaster" target="_blank" rel="noopener">YouTube</a></li>
+                        <li><a href="https://github.com/illini-robomaster" target="_blank" rel="noopener">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 Illini RoboMaster</span>
+                <span>Urbana-Champaign, Illinois</span>
             </div>
         </div>
     </footer>
 
-    <script src="/static/frontpage.js"></script>
-    
-    <!-- Easter Egg - Hidden Developer Message -->
-    <div id="easter-egg" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); z-index: 9999; max-width: 500px; text-align: center; font-family: 'Inter', sans-serif;">
-        <div style="font-size: 1.5rem; margin-bottom: 1rem;">🎉 Easter Egg Found! 🎉</div>
-        <div style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 1.5rem;">
-            <p><strong>This website is designed by Joey Liu</strong></p>
-            <p>A mechanical engineer member of the <em>Dart System</em> team 🎯</p>
-            <p style="font-style: italic; color: #ffd700;">"I can't believe it's my job to create a website! 😅"</p>
-            <p>Thanks to <strong>GitHub Copilot</strong> and <strong>Claude Sonnet</strong> or I couldn't have built this fucking awesome website in just three days! 🚀</p>
-            <p style="font-size: 0.9rem; opacity: 0.8;">— From a mechanical engineer who accidentally became a web developer</p>
-        </div>
-        <button onclick="closeEasterEgg()" style="background: #ff6b35; color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">Close & Keep Secret 🤫</button>
-    </div>
-    
-    <script>
-        // Wait for DOM to be fully loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            let easterEggSequence = [];
-            const secretCode = ['d', 'a', 'r', 't']; // Type "dart" to trigger
-            let easterEggShown = false;
-            
-            console.log('Easter egg loaded! Type "dart" or triple-click the logo to activate.');
-            
-            // Listen for keystrokes
-            document.addEventListener('keydown', function(e) {
-                if (easterEggShown) return;
-                
-                easterEggSequence.push(e.key.toLowerCase());
-                console.log('Key pressed:', e.key.toLowerCase(), 'Sequence:', easterEggSequence);
-                
-                // Keep only the last 4 keystrokes
-                if (easterEggSequence.length > secretCode.length) {
-                    easterEggSequence.shift();
-                }
-                
-                // Check if sequence matches
-                if (easterEggSequence.length === secretCode.length && 
-                    easterEggSequence.every((key, index) => key === secretCode[index])) {
-                    console.log('Secret code matched! Showing easter egg.');
-                    showEasterEgg();
-                }
-            });
-            
-            // Alternative trigger: Click on the Dart System image
-            const dartImage = document.querySelector('img[alt="Dart robot close-up"]');
-            
-            if (dartImage) {
-                dartImage.style.cursor = 'pointer';
-                dartImage.addEventListener('click', function(e) {
-                    if (easterEggShown) return;
-                    
-                    e.preventDefault();
-                    console.log('Dart System image clicked! Showing easter egg.');
-                    showEasterEgg();
-                });
-            } else {
-                console.log('Dart System image not found');
-            }
-            
-            // Make functions global so they can be called from button
-            window.showEasterEgg = function() {
-                if (easterEggShown) return;
-                easterEggShown = true;
-                
-                const easterEgg = document.getElementById('easter-egg');
-                if (!easterEgg) {
-                    console.log('Easter egg element not found');
-                    return;
-                }
-                
-                easterEgg.style.display = 'block';
-                
-                // Add entrance animation
-                easterEgg.style.opacity = '0';
-                easterEgg.style.transform = 'translate(-50%, -50%) scale(0.8)';
-                
-                setTimeout(() => {
-                    easterEgg.style.transition = 'all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
-                    easterEgg.style.opacity = '1';
-                    easterEgg.style.transform = 'translate(-50%, -50%) scale(1)';
-                }, 100);
-                
-                // Add some sparkles effect
-                createSparkles();
-            };
-            
-            window.closeEasterEgg = function() {
-                const easterEgg = document.getElementById('easter-egg');
-                easterEgg.style.transition = 'all 0.3s ease';
-                easterEgg.style.opacity = '0';
-                easterEgg.style.transform = 'translate(-50%, -50%) scale(0.8)';
-                
-                setTimeout(() => {
-                    easterEgg.style.display = 'none';
-                    easterEggShown = false;
-                    easterEggSequence = [];
-                }, 300);
-            };
-            
-            function createSparkles() {
-                for (let i = 0; i < 20; i++) {
-                    setTimeout(() => {
-                        const sparkle = document.createElement('div');
-                        sparkle.innerHTML = '✨';
-                        sparkle.style.position = 'fixed';
-                        sparkle.style.left = Math.random() * window.innerWidth + 'px';
-                        sparkle.style.top = Math.random() * window.innerHeight + 'px';
-                        sparkle.style.fontSize = '20px';
-                        sparkle.style.pointerEvents = 'none';
-                        sparkle.style.zIndex = '10000';
-                        sparkle.style.animation = 'sparkleFloat 2s ease-out forwards';
-                        
-                        document.body.appendChild(sparkle);
-                        
-                        setTimeout(() => sparkle.remove(), 2000);
-                    }, i * 100);
-                }
-            }
-            
-            // Add sparkle animation CSS
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes sparkleFloat {
-                    0% { opacity: 1; transform: translateY(0) rotate(0deg); }
-                    100% { opacity: 0; transform: translateY(-100px) rotate(360deg); }
-                }
-            `;
-            document.head.appendChild(style);
-        });
-    </script>
+    <script src="/static/v2/site.js"></script>
 </body>
 </html>
