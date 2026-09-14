@@ -126,6 +126,7 @@ a {
 
 .nav-logo {
     display: flex;
+    white-space: nowrap;
     align-items: center;
     font-size: 1.5rem;
     font-weight: 700;
@@ -159,6 +160,7 @@ a {
 }
 
 .nav-menu a {
+    white-space: nowrap;
     text-decoration: none;
     color: #333;
     font-weight: 500;
@@ -207,6 +209,7 @@ a {
 }
 
 .nav-btn {
+    white-space: nowrap;
     padding: 0.5rem 1.2rem;
     border-radius: 25px;
     text-decoration: none;
@@ -310,7 +313,19 @@ a {
 }
 
 /* Responsive Design */
-@media (max-width: 900px) {
+/* Tighten the navbar before it runs out of room */
+@media (max-width: 1280px) {
+    .nav-logo {
+        font-size: 1.3rem;
+    }
+
+    .nav-menu {
+        gap: 1rem;
+    }
+}
+
+/* Collapse to the hamburger menu once the navbar no longer fits on one line */
+@media (max-width: 1100px) {
     .nav-menu {
         position: fixed;
         left: -100%;
@@ -351,11 +366,9 @@ a {
     .nav-mobile-only {
         display: list-item;
     }
+}
 
-    .nav-toggle {
-        display: flex;
-    }
-    
+@media (max-width: 900px) {
     .footer-content {
         grid-template-columns: 1fr;
         text-align: center;
