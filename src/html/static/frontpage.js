@@ -279,7 +279,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ║     Competitive Robotics Team        ║
     ║                                      ║
     ║  Interested in joining our team?     ║
-    ║  Contact us: illini.robomaster@...   ║
+    ║ Contact: illinirobomasters@gmail.com ║
     ╚══════════════════════════════════════╝
     `);
 });

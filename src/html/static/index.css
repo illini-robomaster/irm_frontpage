@@ -195,6 +195,10 @@ a {
     transition: 0.3s;
 }
 
+.nav-mobile-only {
+    display: none;
+}
+
 /* Navigation Buttons */
 .nav-buttons {
     display: flex;
@@ -342,6 +346,10 @@ a {
 
     .nav-buttons {
         display: none;
+    }
+
+    .nav-mobile-only {
+        display: list-item;
     }
 
     .nav-toggle {
