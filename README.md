@@ -46,3 +46,16 @@ services:
 The website will be available locally at:
 
 - <http://localhost:8081>
+
+## Tutorials
+
+Tutorial pages under `src/html/tutorials/` use the site's dark layout and
+contain no JavaScript. After exporting a tutorial from pandoc (standalone
+HTML) into `src/html/tutorials/<name>/index.html`, wrap it in the site layout:
+
+```bash
+python3 scripts/restyle_tutorials.py src/html/tutorials/<name>/index.html
+```
+
+The script is safe to re-run on pages it has already processed. Add new
+tutorials to the list in `src/html/tutorials/index.html` by hand.

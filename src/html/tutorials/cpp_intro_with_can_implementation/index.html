@@ -1,258 +1,109 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="Austin Yang \in Illini RoboMaster [austiny2@illinois.edu, https://www.illinirobomaster.com]" />
-  <meta name="dcterms.date" content="2025-10-18" />
-  <title>Introduction to CAN Transmission with STM32 HAL</title>
-  <style>
-    html {
-      color: #1a1a1a;
-      background-color: #fdfdfd;
-    }
-    body {
-      margin: 0 auto;
-      max-width: 36em;
-      padding-left: 50px;
-      padding-right: 50px;
-      padding-top: 50px;
-      padding-bottom: 50px;
-      hyphens: auto;
-      overflow-wrap: break-word;
-      text-rendering: optimizeLegibility;
-      font-kerning: normal;
-    }
-    @media (max-width: 600px) {
-      body {
-        font-size: 0.9em;
-        padding: 12px;
-      }
-      h1 {
-        font-size: 1.8em;
-      }
-    }
-    @media print {
-      html {
-        background-color: white;
-      }
-      body {
-        background-color: transparent;
-        color: black;
-        font-size: 12pt;
-      }
-      p, h2, h3 {
-        orphans: 3;
-        widows: 3;
-      }
-      h2, h3, h4 {
-        page-break-after: avoid;
-      }
-    }
-    p {
-      margin: 1em 0;
-    }
-    a {
-      color: #1a1a1a;
-    }
-    a:visited {
-      color: #1a1a1a;
-    }
-    img {
-      max-width: 100%;
-    }
-    svg {
-      height: auto;
-      max-width: 100%;
-    }
-    h1, h2, h3, h4, h5, h6 {
-      margin-top: 1.4em;
-    }
-    h5, h6 {
-      font-size: 1em;
-      font-style: italic;
-    }
-    h6 {
-      font-weight: normal;
-    }
-    ol, ul {
-      padding-left: 1.7em;
-      margin-top: 1em;
-    }
-    li > ol, li > ul {
-      margin-top: 0;
-    }
-    blockquote {
-      margin: 1em 0 1em 1.7em;
-      padding-left: 1em;
-      border-left: 2px solid #e6e6e6;
-      color: #606060;
-    }
-    code {
-      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
-      font-size: 85%;
-      margin: 0;
-      hyphens: manual;
-    }
-    pre {
-      margin: 1em 0;
-      overflow: auto;
-    }
-    pre code {
-      padding: 0;
-      overflow: visible;
-      overflow-wrap: normal;
-    }
-    .sourceCode {
-     background-color: transparent;
-     overflow: visible;
-    }
-    hr {
-      background-color: #1a1a1a;
-      border: none;
-      height: 1px;
-      margin: 1em 0;
-    }
-    table {
-      margin: 1em 0;
-      border-collapse: collapse;
-      width: 100%;
-      overflow-x: auto;
-      display: block;
-      font-variant-numeric: lining-nums tabular-nums;
-    }
-    table caption {
-      margin-bottom: 0.75em;
-    }
-    tbody {
-      margin-top: 0.5em;
-      border-top: 1px solid #1a1a1a;
-      border-bottom: 1px solid #1a1a1a;
-    }
-    th {
-      border-top: 1px solid #1a1a1a;
-      padding: 0.25em 0.5em 0.25em 0.5em;
-    }
-    td {
-      padding: 0.125em 0.5em 0.25em 0.5em;
-    }
-    header {
-      margin-bottom: 4em;
-      text-align: center;
-    }
-    #TOC li {
-      list-style: none;
-    }
-    #TOC ul {
-      padding-left: 1.3em;
-    }
-    #TOC > ul {
-      padding-left: 0;
-    }
-    #TOC a:not(:hover) {
-      text-decoration: none;
-    }
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    div.columns{display: flex; gap: min(4vw, 1.5em);}
-    div.column{flex: auto; overflow-x: auto;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    /* The extra [class] is a hack that increases specificity enough to
-       override a similar rule in reveal.js */
-    ul.task-list[class]{list-style: none;}
-    ul.task-list li input[type="checkbox"] {
-      font-size: inherit;
-      width: 0.8em;
-      margin: 0 0.8em 0.2em -1.6em;
-      vertical-align: middle;
-    }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
-    /* CSS for syntax highlighting */
-    html { -webkit-text-size-adjust: 100%; }
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { color: #008000; } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { color: #008000; font-weight: bold; } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to CAN Transmission with STM32 HAL — Illini RoboMaster Tutorials</title>
+    <meta name="description" content="Introduction to CAN Transmission with STM32 HAL: an Illini RoboMaster embedded programming tutorial.">
+    <meta name="theme-color" content="#000000">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" href="/static/img/logo_dark_512.png">
+    <link rel="apple-touch-icon" href="/static/img/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/v2/site.css">
+    <link rel="stylesheet" href="/static/v2/tutorials.css">
 </head>
-<body>
-<header id="title-block-header">
-<h1 class="title">Introduction to CAN Transmission with STM32 HAL</h1>
-<p class="author">Austin Yang <span class="math inline">∈</span> Illini
-RoboMaster<br />
-<code>[</code><a
-href="mailto:austiny2@illinois.edu"><code>austiny2@illinois.edu</code></a><code>, </code><a
-href="https://www.illinirobomaster.com"><code>https://www.illinirobomaster.com</code></a><code>]</code></p>
-<p class="date">2025-10-18</p>
-</header>
-Read the pdf version <a href='cpp_intro_with_can_implementation.pdf'>here</a>.
+<body class="doc-page">
+
+    <header class="nav">
+        <div class="wrap nav-inner">
+            <input type="checkbox" id="nav-check" class="nav-check" aria-hidden="true">
+            <a href="/" class="nav-brand">
+                <img src="/static/img/logo_dark_96.png" alt="">
+                <span><b>ILL</b>ini RoboMaster</span>
+            </a>
+            <nav class="nav-links" aria-label="Primary">
+                <a href="/#robots">Robots</a>
+                <a href="/#arena">Competition</a>
+                <a href="/#record">Record</a>
+                <a href="/#team">Team</a>
+                <a href="/join-us.html">Join</a>
+                <a href="/sponsorship.html">Sponsors</a>
+                <a href="/tutorials/" aria-current="page">Tutorials</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="https://app.irm-project.uk/" target="_blank" rel="noopener" class="btn btn-ghost">Login</a>
+                <a href="https://forms.gle/b8md7r9SzTKQ4caW7" target="_blank" rel="noopener" class="btn">Apply</a>
+            </div>
+            <label for="nav-check" class="nav-toggle" aria-label="Menu"><span></span><span></span></label>
+        </div>
+    </header>
+
+    <main>
+        <header class="doc-hero" data-author="Austin Yang" data-email="austiny2@illinois.edu" data-date="2025-10-18">
+            <div class="wrap">
+                <a href="/tutorials/" class="doc-back">All tutorials</a>
+                <h1 class="doc-title">Introduction to CAN Transmission with STM32 HAL</h1>
+                <p class="doc-meta">Austin Yang · <a href="mailto:austiny2@illinois.edu">austiny2@illinois.edu</a> · <span>Updated 2025-10-18</span></p>
+                <div class="hero-cta"><a class="btn btn-ghost" href="cpp_intro_with_can_implementation.pdf">Download PDF</a></div>
+            </div>
+        </header>
+
+        <div class="wrap doc-layout">
+            <aside class="toc" aria-label="On this page">
+                <p class="eyebrow">On this page</p>
+                <ul>
+<li class="toc-h1"><a href="#sec:intro">Introduction</a></li>
+<li class="toc-h2"><a href="#ssec:1a">Plan</a></li>
+<li class="toc-h2"><a href="#ssec:1b">Basic Knowledge</a></li>
+<li class="toc-h1"><a href="#sec:hardware">Understanding Raw CAN Hardware Setup</a></li>
+<li class="toc-h2"><a href="#ssec:2a">CAN Bus Hardware</a></li>
+<li class="toc-h2"><a href="#ssec:2b">CAN Message Arbitration and Acknowledgement</a></li>
+<li class="toc-h1"><a href="#sec:source">Understanding the CAN Tutorial Program</a></li>
+<li class="toc-h2"><a href="#ssec:3a">Include Statements and Copyright</a></li>
+<li class="toc-h2"><a href="#ssec:3b">Raw CAN Frame Transmission Function</a></li>
+<li class="toc-h2"><a href="#ssec:3c">CAN Initialization Function</a></li>
+<li class="toc-h2"><a href="#ssec:3d">Default Task Implementation</a></li>
+<li class="toc-h1"><a href="#sec:review">Concepts Covered</a></li>
+<li class="toc-h2"><a href="#ssec:5a">CAN Protocol</a></li>
+<li class="toc-h2"><a href="#ssec:5b">STM32 HAL CAN</a></li>
+<li class="toc-h2"><a href="#ssec:5c">Embedded Programming</a></li>
+<li class="toc-h1"><a href="#sec:conclusion">Conclusion</a></li>
+                </ul>
+            </aside>
+
+            <article class="prose">
+                <details class="toc-mobile">
+                    <summary>On this page</summary>
+                    <ul>
+<li class="toc-h1"><a href="#sec:intro">Introduction</a></li>
+<li class="toc-h2"><a href="#ssec:1a">Plan</a></li>
+<li class="toc-h2"><a href="#ssec:1b">Basic Knowledge</a></li>
+<li class="toc-h1"><a href="#sec:hardware">Understanding Raw CAN Hardware Setup</a></li>
+<li class="toc-h2"><a href="#ssec:2a">CAN Bus Hardware</a></li>
+<li class="toc-h2"><a href="#ssec:2b">CAN Message Arbitration and Acknowledgement</a></li>
+<li class="toc-h1"><a href="#sec:source">Understanding the CAN Tutorial Program</a></li>
+<li class="toc-h2"><a href="#ssec:3a">Include Statements and Copyright</a></li>
+<li class="toc-h2"><a href="#ssec:3b">Raw CAN Frame Transmission Function</a></li>
+<li class="toc-h2"><a href="#ssec:3c">CAN Initialization Function</a></li>
+<li class="toc-h2"><a href="#ssec:3d">Default Task Implementation</a></li>
+<li class="toc-h1"><a href="#sec:review">Concepts Covered</a></li>
+<li class="toc-h2"><a href="#ssec:5a">CAN Protocol</a></li>
+<li class="toc-h2"><a href="#ssec:5b">STM32 HAL CAN</a></li>
+<li class="toc-h2"><a href="#ssec:5c">Embedded Programming</a></li>
+<li class="toc-h1"><a href="#sec:conclusion">Conclusion</a></li>
+                    </ul>
+                </details>
+<!-- tutorial-content:start -->
 <h1 id="sec:intro">Introduction</h1>
 <h2 id="ssec:1a">Plan</h2>
 <p>Last time, we went through the <em>object layer</em> implementation
 for CAN on a Linux board. This time, we will go through the <em>transfer
 layer</em> specification and a toy implementation. This tutorial will go
 through <span
-style="text-decoration: underline;"><code>📄can\_raw\_transmit.cc</code></span>
+class="file-name"><code>📄can\_raw\_transmit.cc</code></span>
 line-by-line as an introduction to CAN (Controller Area Network)
 communication at a low level. We will cover concepts in:</p>
 <ul>
@@ -265,14 +116,8 @@ communication at a low level. We will cover concepts in:</p>
 href="https://github.com/illini-robomaster/iRM_Embedded_2026/blob/embedded_tutorial/examples/motor/can_raw_transmit.cc">https://github.com/illini-robomaster/iRM_Embedded_2026/blob/embedded_tutorial/</a>
 <a
 href="https://github.com/illini-robomaster/iRM_Embedded_2026/blob/embedded_tutorial/examples/motor/can_raw_transmit.cc">examples/motor/can_raw_transmit.cc</a>
-<a
-href="https://github.com/illini-robomaster/iRM_Embedded_2026/blob/embedded_tutorial/shared/bsp/bsp_can.h">https://github.com/illini-robomaster/iRM_Embedded_2026/blob/embedded_tutorial/shar-</a>
-<a
-href="https://github.com/illini-robomaster/iRM_Embedded_2026/blob/embedded_tutorial/shared/bsp/bsp_can.h">ed/bsp/bsp_can.h</a>
-<a
-href="https://github.com/illini-robomaster/iRM_Embedded_2026/blob/embedded_tutorial/shared/bsp/bsp_can.cc">https://github.com/illini-robomaster/iRM_Embedded_2026/blob/embedded_tutorial/shar-</a>
-<a
-href="https://github.com/illini-robomaster/iRM_Embedded_2026/blob/embedded_tutorial/shared/bsp/bsp_can.cc">ed/bsp/bsp_can.cc</a></p>
+<a href="https://github.com/illini-robomaster/iRM_Embedded_2026/blob/embedded_tutorial/shared/bsp/bsp_can.h">https://github.com/illini-robomaster/iRM_Embedded_2026/blob/embedded_tutorial/shared/bsp/bsp_can.h</a>
+<a href="https://github.com/illini-robomaster/iRM_Embedded_2026/blob/embedded_tutorial/shared/bsp/bsp_can.cc">https://github.com/illini-robomaster/iRM_Embedded_2026/blob/embedded_tutorial/shared/bsp/bsp_can.cc</a></p>
 <h2 id="ssec:1b">Basic Knowledge</h2>
 <h3 id="sssec:1b1">CAN Protocol Basics</h3>
 <p>CAN is a communication protocol (“bus”) that allows devices to talk
@@ -292,7 +137,7 @@ I have reworded it and added some comments. I have also changed the
 color coding scheme. I have colored the entries that we care about,
 mostly. This is the structure of the standard CAN packet: </p>
 <p> </p>
-<table style="width:60%;">
+<table>
 <caption>Explanation of each field in a standard CAN 2.0A
 frame</caption>
 <colgroup>
@@ -392,7 +237,7 @@ distance between two CAN frames.</td>
 </table>
 <p>This is the structure of the extended CAN packet: </p>
 <p> </p>
-<table style="width:60%;">
+<table>
 <caption>Explanation of each field in an extended CAN 2.0B
 frame</caption>
 <colgroup>
@@ -507,9 +352,9 @@ distance between two CAN frames.</td>
 </tbody>
 </table>
 <p> Here is the <span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>CAN\_TxHeaderTypeDef</code></span>
+class="code-pill"><code>CAN\_TxHeaderTypeDef</code></span>
 structure from <span
-style="text-decoration: underline;"><code>📄stm32f4xx\_hal\_can.h</code></span>.
+class="file-name"><code>📄stm32f4xx\_hal\_can.h</code></span>.
 We can see some of the fields we are allowed to set in the packet
 header. </p>
 <div class="sourceCode" id="cb1" data-linenos=""
@@ -579,10 +424,6 @@ class="math inline">0</span>? (There are many benefits.)</p>
 <p>The <em>baud rate</em> is the frequency at which the protocol
 operates. It is the number of bits transmitted per second. We use a baud
 rate of <span class="math inline">115200</span>.</p>
-<figure>
-
-<figcaption>CAN Bus Terminals</figcaption>
-</figure>
 <h2 id="ssec:2b">CAN Message Arbitration and Acknowledgement</h2>
 <p>We need to determine the priority of transmission when multiple
 devices are in a network. We take advantage of the fact that every
@@ -668,14 +509,14 @@ message.</p>
 <h3 id="sssec:2b1">Standard vs Extended IDs</h3>
 <ul>
 <li><p><strong>Standard ID</strong>: 11-bit identifier (<span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x000</code></span>
+class="code-pill"><code>0x000</code></span>
 to <span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x7FF</code></span>),
+class="code-pill"><code>0x7FF</code></span>),
 used in CAN 2.0A (standard) and CAN 2.0B (extended).</p></li>
 <li><p><strong>Extended ID</strong>: 29-bit identifier (<span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x00000000</code></span>
+class="code-pill"><code>0x00000000</code></span>
 to<span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x1FFFFFFF</code></span>),
+class="code-pill"><code>0x1FFFFFFF</code></span>),
 used in CAN 2.0B.</p></li>
 <li><p>Same arbitration mechanism!</p></li>
 </ul>
@@ -690,11 +531,10 @@ data field).</p></li>
 </ul>
 <h1 id="sec:source">Understanding the CAN Tutorial Program</h1>
 <p>Let’s examine the implementation file <span
-style="text-decoration: underline;"><code>📄can\_raw\_transmit.cc</code></span>
+class="file-name"><code>📄can\_raw\_transmit.cc</code></span>
 to understand how raw CAN frames are transmitted.</p>
 <h2 id="ssec:3a">Include Statements and Copyright</h2>
-<div class="sourceCode" id="cb2" data-linenos="" data-startFrom="1"
-data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">/****************************************************************************</span></span>
+<div class="sourceCode" id="cb2" data-linenos="" data-startFrom="1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">/****************************************************************************</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"> *                                                                          *</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"> *  Copyright (C) 2025 RoboMaster.                                          *</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"> *  Illini RoboMaster @ University of Illinois at Urbana-Champaign          *</span></span>
@@ -725,14 +565,13 @@ libraries for CAN communication on STM32:</p>
 <li><p>: Board support package for printing/debugging.</p></li>
 <li><p>: CMSIS Real-Time Operating System API.</p></li>
 <li><p>: Board <span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>\#define</code></span>s
+class="code-pill"><code>\#define</code></span>s
 and basic functionality is in there. We simply write i.e. the main loop
 in this file.</p></li>
 <li><p>: CAN.</p></li>
 </ul>
 <h2 id="ssec:3b">Raw CAN Frame Transmission Function</h2>
-<div class="sourceCode" id="cb3" data-linenos="" data-startFrom="26"
-data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 25;"><span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<div class="sourceCode" id="cb3" data-linenos="" data-startFrom="26"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 25;"><span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
 <span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co"> * </span><span class="an">@brief</span><span class="co"> Send a raw CAN frame using HAL directly</span></span>
 <span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="co"> * </span><span class="an">@param</span><span class="co"> </span><span class="cv">can_handle</span><span class="co"> Pointer to CAN handle (e.g., &amp;hcan1)</span></span>
 <span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co"> * </span><span class="an">@param</span><span class="co"> </span><span class="cv">id</span><span class="co"> CAN ID (11-bit standard ID)</span></span>
@@ -748,12 +587,11 @@ Layer). (Note I split the last lines into two lines in order to fit it.)
 After reading the previous tutorial, try to identify what each part
 means by yourself. Exercise: We never included . Why can we still use
 <span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>uint32\_t</code></span>
+class="code-pill"><code>uint32\_t</code></span>
 and <span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>uint8\_t</code></span>?</p>
+class="code-pill"><code>uint8\_t</code></span>?</p>
 <h3 id="sssec:3b1">Parameter Validation</h3>
-<div class="sourceCode" id="cb4" data-linenos="" data-startFrom="35"
-data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 34;"><span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Validate parameters</span></span>
+<div class="sourceCode" id="cb4" data-linenos="" data-startFrom="35"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 34;"><span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Validate parameters</span></span>
 <span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="op">(</span>length <span class="op">&gt;</span> <span class="dv">8</span><span class="op">)</span> <span class="op">{</span></span>
 <span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    print<span class="op">(</span><span class="st">&quot;Error: CAN data length exceeds 8 bytes</span><span class="sc">\r\n</span><span class="st">&quot;</span><span class="op">);</span></span>
 <span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> HAL_ERROR<span class="op">;</span></span>
@@ -774,19 +612,19 @@ specification)</p></li>
 communication failures.</p>
 <h3 id="sssec:3b2">Printing?</h3>
 <p>Have you noticed a problem? We just used <span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>print</code></span>.
+class="code-pill"><code>print</code></span>.
 But we are on an STM32, which is an embedded system usually with no
 screens attached! What are we even printing to? Where does <span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>print</code></span>
+class="code-pill"><code>print</code></span>
 even come from?</p>
 <p> Notice when we introduced , we mentioned it is for printing <em>and
 debugging</em>. We are actually outputting bytes into another serial
 port using a standard protocol called <em>UART</em>, so that we can plug
 in our computer at the other end to debug. Indeed, let us look at the
 actual definition of <span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>print</code></span>
+class="code-pill"><code>print</code></span>
 in <span
-style="text-decoration: underline;"><code>📄shared/bsp/bsp\_print.cc</code></span>:</p>
+class="file-name"><code>📄shared/bsp/bsp\_print.cc</code></span>:</p>
 <div class="sourceCode" id="cb5" data-linenos=""
 data-startFrom="49"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 48;"><span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a><span class="dt">int32_t</span> print<span class="op">(</span><span class="at">const</span> <span class="dt">char</span><span class="op">*</span> format<span class="op">,</span> <span class="op">...)</span> <span class="op">{</span></span>
 <span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="pp">#ifdef NDEBUG</span></span>
@@ -826,34 +664,34 @@ data-startFrom="46"><pre class="sourceCode cpp"><code class="sourceCode cpp" sty
 following parameters:</p>
 <ul>
 <li><p><span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>StdId</code></span>:
+class="code-pill"><code>StdId</code></span>:
 The 11-bit standard CAN identifier (<span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x000</code></span>
+class="code-pill"><code>0x000</code></span>
 to <span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x7FF</code></span>).</p></li>
+class="code-pill"><code>0x7FF</code></span>).</p></li>
 <li><p><span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>ExtId</code></span>:
+class="code-pill"><code>ExtId</code></span>:
 Extended identifier (ignored as we are using standard frames).</p></li>
 <li><p><span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>IDE</code></span>:
+class="code-pill"><code>IDE</code></span>:
 Identifier extension bit. Set to <span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>CAN\_ID\_STD</code></span>
+class="code-pill"><code>CAN\_ID\_STD</code></span>
 (alias for <span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x00000000U</code></span>
+class="code-pill"><code>0x00000000U</code></span>
 - remember what this means?) for standard format (CAN 2.0A).</p></li>
 <li><p><span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>RTR</code></span>:
+class="code-pill"><code>RTR</code></span>:
 Remote transmission request. Set to <span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>CAN\_RTR\_DATA</code></span>
+class="code-pill"><code>CAN\_RTR\_DATA</code></span>
 (also <span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x00000000U</code></span>)
+class="code-pill"><code>0x00000000U</code></span>)
 for data frames.</p></li>
 <li><p><span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>DLC</code></span>:
+class="code-pill"><code>DLC</code></span>:
 Data length code. This is the number of data bytes to send
 (0-8).</p></li>
 <li><p><span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>TransmitGlobalTime</code></span>:
+class="code-pill"><code>TransmitGlobalTime</code></span>:
 Whether to include global time stamp in transmission (used for
 synchronization, disabled).</p></li>
 </ul>
@@ -870,7 +708,7 @@ data-startFrom="55"><pre class="sourceCode cpp"><code class="sourceCode cpp" sty
 <span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> status<span class="op">;</span></span>
 <span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span></code></pre></div>
 <p>The <span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>HAL\_CAN\_AddTxMessage</code></span>
+class="code-pill"><code>HAL\_CAN\_AddTxMessage</code></span>
 function adds the message to one of the CAN hardware mailboxes for
 transmission. Let’s look at its implementation in (the header doesn’t
 contain the docstring I want to show you) (PPS I split line <span
@@ -893,26 +731,26 @@ data-startFrom="1238"><pre class="sourceCode cpp"><code class="sourceCode cpp" s
 <p>Then we know:</p>
 <ul>
 <li><p><span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>can\_handle</code></span>:
+class="code-pill"><code>can\_handle</code></span>:
 The CAN device handle.</p></li>
 <li><p><span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>tx\_header</code></span>:
+class="code-pill"><code>tx\_header</code></span>:
 Reference to the configured transmission header.</p></li>
 <li><p><span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>data</code></span>:
+class="code-pill"><code>data</code></span>:
 The data buffer to send.</p></li>
 <li><p><span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>tx\_mailbox</code></span>:
+class="code-pill"><code>tx\_mailbox</code></span>:
 Output parameter that receives which mailbox is to be used.</p></li>
 </ul>
 <p>This function returns a status indicating success or failure, which
 we check and respond to appropriately.</p>
 <p> Exercise: What played the role of <span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>tx\_mailbox</code></span>
+class="code-pill"><code>tx\_mailbox</code></span>
 in our previous tutorial about Linux CAN? Hint: was it <span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>ftx</code></span>
+class="code-pill"><code>ftx</code></span>
 or <span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>frx</code></span>?</p>
+class="code-pill"><code>frx</code></span>?</p>
 <h3 id="sssec:3b5">Waiting for Transmission Completion</h3>
 <div class="sourceCode" id="cb9" data-linenos=""
 data-startFrom="55"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 54;"><span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Wait for transmission to complete</span></span>
@@ -923,10 +761,10 @@ data-startFrom="55"><pre class="sourceCode cpp"><code class="sourceCode cpp" sty
 pending in the mailbox:</p>
 <ul>
 <li><p><span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>HAL\_CAN\_IsTxMessagePending()</code></span>:
+class="code-pill"><code>HAL\_CAN\_IsTxMessagePending()</code></span>:
 Returns whether transmission is still in progress.</p></li>
 <li><p><span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>osDelay(1)</code></span>:
+class="code-pill"><code>osDelay(1)</code></span>:
 A small delay (measured in “ticks”).</p></li>
 </ul>
 <p>This ensures the message is fully transmitted before the function
@@ -939,11 +777,10 @@ data-startFrom="59"><pre class="sourceCode cpp"><code class="sourceCode cpp" sty
 <span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> HAL_OK<span class="op">;</span></span></code></pre></div>
 <p>Finally, we print a confirmation message showing the transmitted ID,
 data length, and mailbox used, then return <span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>HAL\_OK</code></span>
+class="code-pill"><code>HAL\_OK</code></span>
 to indicate success.</p>
 <h2 id="ssec:3c">CAN Initialization Function</h2>
-<div class="sourceCode" id="cb11" data-linenos="" data-startFrom="74"
-data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 73;"><span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<div class="sourceCode" id="cb11" data-linenos="" data-startFrom="74"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 73;"><span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
 <span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a><span class="co"> * </span><span class="an">@brief</span><span class="co"> Initialize CAN and start the peripheral</span></span>
 <span id="cb11-76"><a href="#cb11-76" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
 <span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> InitializeRawCAN<span class="op">()</span> <span class="op">{</span></span>
@@ -963,11 +800,11 @@ data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp
 <p>The initialization process involves two steps:</p>
 <ul>
 <li><p><span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>MX\_CAN1\_Init</code></span>:
+class="code-pill"><code>MX\_CAN1\_Init</code></span>:
 Generated by STM32CubeMX to configure the CAN1 peripheral
 settings.</p></li>
 <li><p><span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>HAL\_CAN\_Start</code></span>:
+class="code-pill"><code>HAL\_CAN\_Start</code></span>:
 Starts the CAN hardware and enables communication</p></li>
 </ul>
 <p>If the start operation fails, an error is printed and the error
@@ -982,8 +819,7 @@ data-startFrom="96"><pre class="sourceCode cpp"><code class="sourceCode cpp" sty
 and is used for setup and initialization. Notice the functions we are
 calling inside of it.</p>
 <h2 id="ssec:3d">Default Task Implementation</h2>
-<div class="sourceCode" id="cb13" data-linenos="" data-startFrom="83"
-data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 82;"><span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> RM_RTOS_Default_Task<span class="op">(</span><span class="at">const</span> <span class="dt">void</span><span class="op">*</span> args<span class="op">)</span> <span class="op">{</span></span>
+<div class="sourceCode" id="cb13" data-linenos="" data-startFrom="83"><pre class="sourceCode cpp"><code class="sourceCode cpp" style="counter-reset: source-line 82;"><span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> RM_RTOS_Default_Task<span class="op">(</span><span class="at">const</span> <span class="dt">void</span><span class="op">*</span> args<span class="op">)</span> <span class="op">{</span></span>
 <span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a>  UNUSED<span class="op">(</span>args<span class="op">);</span></span>
 <span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a>  print<span class="op">(</span><span class="st">&quot;Raw CAN Transmission Example</span><span class="sc">\r\n</span><span class="st">&quot;</span><span class="op">);</span></span>
@@ -1007,7 +843,7 @@ data-bgcolor="lightgray"><pre class="sourceCode cpp"><code class="sourceCode cpp
 <p>The main task implements an infinite loop (the “main loop”) that:</p>
 <ul>
 <li><p>Sends a CAN frame with ID <span
-style="background-color: lightgray; padding: 2px 4px; border-radius: 3px;"><code>0x200</code></span>
+class="code-pill"><code>0x200</code></span>
 containing motor control data.</p></li>
 <li><p>Waits between transmissions.</p></li>
 <li><p>Prints a counter to track completed cycles.</p></li>
@@ -1041,5 +877,56 @@ made a motor spin using this!). Next time I will go over the basics of
 motors and maybe CRC. Same as last time: if there are any concepts I
 have failed to cover, or you do not completely understand, search it up
 and ask an LLM.</p>
+<!-- tutorial-content:end -->
+            </article>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="wrap">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="nav-brand">
+                        <img src="/static/img/logo_dark_96.png" alt="">
+                        <span style="color: var(--text);"><b>ILL</b>ini RoboMaster</span>
+                    </a>
+                    <p>Competitive robotics RSO at the University of Illinois Urbana-Champaign.</p>
+                    <p class="footer-email"><a href="mailto:illinirobomasters@gmail.com">illinirobomasters@gmail.com</a></p>
+                </div>
+                <div>
+                    <h5>Explore</h5>
+                    <ul>
+                        <li><a href="/#robots">Robots</a></li>
+                        <li><a href="/#arena">Competition</a></li>
+                        <li><a href="/#record">Record</a></li>
+                        <li><a href="/tutorials">Tutorials</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5>Get involved</h5>
+                    <ul>
+                        <li><a href="/join-us.html">Join the team</a></li>
+                        <li><a href="/sponsorship.html">Sponsorship</a></li>
+                        <li><a href="https://app.irm-project.uk/" target="_blank" rel="noopener">Member login</a></li>
+                        <li><a href="mailto:illinirobomasters@gmail.com">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5>Follow</h5>
+                    <ul>
+                        <li><a href="https://discord.gg/wBsSz5ExyY" target="_blank" rel="noopener">Discord</a></li>
+                        <li><a href="https://www.instagram.com/uiuc_robomaster" target="_blank" rel="noopener">Instagram</a></li>
+                        <li><a href="https://youtube.com/@illinirobomaster" target="_blank" rel="noopener">YouTube</a></li>
+                        <li><a href="https://github.com/illini-robomaster" target="_blank" rel="noopener">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 Illini RoboMaster</span>
+                <span>Urbana-Champaign, Illinois</span>
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>
