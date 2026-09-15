@@ -107,9 +107,9 @@
         const onScroll = () => {
             const vh = window.innerHeight;
             if (track) {
-                // Runs from the track's top reaching 80% of the screen until its bottom reaches 50%
+                // Runs from the track's top entering the bottom of the screen until its bottom reaches 50%
                 const r = track.getBoundingClientRect();
-                target = Math.min(Math.max((vh * 0.8 - r.top) / (r.height + vh * 0.3), 0), 1);
+                target = Math.min(Math.max((vh - r.top) / (r.height + vh * 0.5), 0), 1);
             } else {
                 // Starts once the media's top passes 45% of the screen, ends when
                 // its bottom reaches 45% — the photo shows while the tile scrolls in
