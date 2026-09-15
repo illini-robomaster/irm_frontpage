@@ -577,6 +577,9 @@ section { position: relative; }
 }
 .record-media { position: sticky; top: calc(var(--nav-h) + 40px); }
 .record-media img { width: 100%; border-radius: 4px; }
+.record-media .scrub-media { aspect-ratio: 1 / 1; border-radius: 4px; }
+/* No still-image handover here: the clip is always visible */
+.scrub-media.scrub-always video { opacity: 1; transition: none; }
 
 .record-list li {
     display: grid;

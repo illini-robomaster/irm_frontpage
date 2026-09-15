@@ -85,37 +85,43 @@
         new IntersectionObserver((entries, io) => {
             if (entries[0].isIntersecting) {
                 video.preload = 'auto';
-                video.load();
+                // load() resets the playhead, so only kick off a fetch that hasn't started
+                if (video.readyState === 0) video.load();
                 io.disconnect();
             }
         }, { rootMargin: '100% 0px' }).observe(media);
 
         let target = 0;
-        let pending = false;
 
         const seek = () => {
-            pending = false;
             media.classList.toggle('is-playing', target > 0);
             if (!video.duration) return;
             const t = target * (video.duration - 0.05);
             if (Math.abs(video.currentTime - t) > 0.02) video.currentTime = t;
         };
 
+        // `data-scrub-track="<selector>"` drives the clip from another element's
+        // scroll position — used when the media itself is sticky
+        const track = media.dataset.scrubTrack && document.querySelector(media.dataset.scrubTrack);
+
         const onScroll = () => {
-            const rect = media.getBoundingClientRect();
             const vh = window.innerHeight;
-            // Starts once the media's top passes 70% of the screen and finishes
-            // after scrolling 55% of its height, so the clip ends while still in view
-            target = Math.min(Math.max((vh * 0.7 - rect.top) / (rect.height * 0.55), 0), 1);
-            if (!pending) {
-                pending = true;
-                requestAnimationFrame(seek);
+            if (track) {
+                // Runs from the track's top reaching 80% of the screen until its bottom reaches 50%
+                const r = track.getBoundingClientRect();
+                target = Math.min(Math.max((vh * 0.8 - r.top) / (r.height + vh * 0.3), 0), 1);
+            } else {
+                // Starts once the media's top passes 45% of the screen, ends when
+                // its bottom reaches 45% — the photo shows while the tile scrolls in
+                const rect = media.getBoundingClientRect();
+                target = Math.min(Math.max((vh * 0.45 - rect.top) / rect.height, 0), 1);
             }
+            seek();
         };
 
         window.addEventListener('scroll', onScroll, { passive: true });
         window.addEventListener('resize', onScroll);
-        video.addEventListener('loadedmetadata', onScroll);
+        ['loadedmetadata', 'loadeddata'].forEach(e => video.addEventListener(e, onScroll));
         // iOS Safari won't render seeks until the video has been played once
         const unlock = () => {
             video.play().then(() => { video.pause(); onScroll(); }).catch(() => {});
