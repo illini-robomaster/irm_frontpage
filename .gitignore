@@ -1,3 +1,12 @@
 # Logging
 log/
 cached_config
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Personal PDFs dropped into the image folder (tutorial PDFs live elsewhere)
+src/html/static/img/*.pdf
+
+# Python bytecode from scripts/
+__pycache__/
