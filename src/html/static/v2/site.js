@@ -65,6 +65,54 @@
         update();
     }
 
+    // Scroll-scrubbed clips: the video's position follows the page scroll.
+    // Add `data-scrub` to any <video>; encode it with short keyframe intervals
+    // (e.g. ffmpeg -g 5) so seeking stays smooth.
+    document.querySelectorAll('video[data-scrub]').forEach(video => {
+        const bar = video.parentElement.querySelector('.clip-progress span');
+
+        if (reduceMotion) {
+            // No scroll-driven motion: just loop the clip
+            video.loop = true;
+            video.autoplay = true;
+            video.play().catch(() => {});
+            return;
+        }
+
+        let target = 0;
+        let pending = false;
+
+        const seek = () => {
+            pending = false;
+            if (!video.duration) return;
+            const t = target * (video.duration - 0.05);
+            if (Math.abs(video.currentTime - t) > 0.02) video.currentTime = t;
+            if (bar) bar.style.transform = `scaleX(${target})`;
+        };
+
+        const onScroll = () => {
+            const rect = video.getBoundingClientRect();
+            const vh = window.innerHeight;
+            // 0 when the clip's center is 85% down the screen, 1 when it reaches 25%
+            const center = rect.top + rect.height / 2;
+            target = Math.min(Math.max((vh * 0.85 - center) / (vh * 0.6), 0), 1);
+            if (!pending) {
+                pending = true;
+                requestAnimationFrame(seek);
+            }
+        };
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        video.addEventListener('loadedmetadata', onScroll);
+        // iOS Safari won't render seeks until the video has been played once
+        const unlock = () => {
+            video.play().then(() => { video.pause(); onScroll(); }).catch(() => {});
+            window.removeEventListener('touchstart', unlock);
+        };
+        window.addEventListener('touchstart', unlock, { passive: true });
+        onScroll();
+    });
+
     // Gallery arrow buttons
     const gallery = document.querySelector('.gallery');
     document.querySelectorAll('[data-gallery]').forEach(btn => {

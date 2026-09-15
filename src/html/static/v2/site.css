@@ -258,16 +258,19 @@ ul { list-style: none; }
     object-fit: cover;
     filter: grayscale(0.35) contrast(1.05) brightness(0.62);
 }
-.hero-media::after {
+/* The scrim lives on .hero, not the moving media, so the fade to black stays pinned to the section edge */
+.hero::after {
     content: "";
     position: absolute;
     inset: 0;
     background:
         linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 45%, #000 100%);
+    pointer-events: none;
 }
 
 .hero-content {
     position: relative;
+    z-index: 1;
     width: 100%;
     padding-bottom: clamp(56px, 10vh, 112px);
 }
@@ -285,6 +288,7 @@ ul { list-style: none; }
 
 .hero-meta {
     position: absolute;
+    z-index: 1;
     right: var(--gutter);
     bottom: clamp(56px, 10vh, 112px);
     text-align: right;
@@ -402,7 +406,7 @@ section { position: relative; }
     background: var(--surface);
     min-height: 560px;
 }
-.tile-wide { grid-column: span 12; min-height: 640px; }
+.tile-wide { grid-column: span 12; min-height: 720px; }
 .tile-half { grid-column: span 6; }
 
 .tile-body { position: relative; z-index: 1; padding: clamp(28px, 4vw, 48px); }
@@ -437,6 +441,62 @@ section { position: relative; }
 }
 .tile-wide.tile-light .tile-media { flex: 1; }
 .tile-wide.tile-light .tile-media img { object-fit: cover; padding: 0; }
+/* CAD renders sit on white — show the whole model rather than cropping it */
+.tile-wide.tile-white .tile-media { align-items: center; }
+.tile-wide.tile-white .tile-media img { object-fit: contain; padding: clamp(24px, 3vw, 40px); }
+/* Alternate the image side on every other robot */
+.tile-wide.tile-flip { flex-direction: row-reverse; }
+
+.tile-heading {
+    font-weight: 600;
+    font-size: clamp(34px, 4.4vw, 60px);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+}
+
+/* Specs + scroll-scrubbed clip, side by side under the description */
+.tile-detail {
+    display: flex;
+    align-items: flex-end;
+    gap: 24px;
+    margin-top: 28px;
+}
+.tile-detail .specs { flex: 1; margin-top: 0; }
+.specs-stack { grid-template-columns: 1fr; }
+.specs-stack div { padding: 12px 0 12px; border-bottom: 1px solid rgba(0,0,0,0.08); }
+
+.clip { flex: 0 0 auto; width: clamp(150px, 15vw, 190px); }
+.clip video {
+    width: 100%;
+    aspect-ratio: 400 / 710;
+    object-fit: cover;
+    border-radius: 16px;
+    background: #111;
+    box-shadow: 0 18px 40px -18px rgba(0,0,0,0.45);
+}
+.clip-progress {
+    height: 2px;
+    margin-top: 10px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+.clip-progress span {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+}
+.clip figcaption {
+    margin-top: 8px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #86868b;
+}
 
 /* Photo tile — image fills, text on a scrim */
 .tile-photo .tile-media { position: absolute; inset: 0; }
@@ -483,10 +543,13 @@ section { position: relative; }
 
 @media (max-width: 960px) {
     .tile-half { grid-column: span 12; }
-    .tile-wide.tile-light { flex-direction: column; }
+    .tile-wide.tile-light, .tile-wide.tile-flip { flex-direction: column; }
     .tile-wide.tile-light .tile-body { flex: none; }
     .tile-wide.tile-light .tile-media img { max-height: 420px; }
     .tile, .tile-wide { min-height: 520px; }
+    .tile-wide.tile-white .tile-media { align-items: flex-end; }
+    .tile-wide.tile-white .tile-media img { padding: 0 24px 24px; }
+    .clip { width: 42%; max-width: 200px; }
     .robot-roster { grid-template-columns: 1fr 1fr; }
 }
 
@@ -671,21 +734,28 @@ section { position: relative; }
     align-items: center;
     justify-content: center;
     aspect-ratio: 16 / 9;
-    padding: 28px;
+    padding: 20px;
     border-right: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
 }
+/* Logos keep their original colors on a white card, matching their own backgrounds */
+.sponsor-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 20px 28px;
+    border-radius: 14px;
+    background: #fff;
+    transition: transform 0.4s var(--ease);
+}
+.sponsor:hover .sponsor-card { transform: scale(1.03); }
 .sponsor img {
-    max-height: 64px;
+    max-height: 72px;
     width: auto;
     object-fit: contain;
-    /* Logos ship on white backgrounds — flip them to light-on-black */
-    filter: grayscale(1) invert(1) contrast(1.4);
-    mix-blend-mode: screen;
-    opacity: 0.72;
-    transition: opacity 0.3s;
 }
-.sponsor:hover img { opacity: 1; }
 
 .sponsor-cta {
     display: flex;

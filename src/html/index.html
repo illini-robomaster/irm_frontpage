@@ -63,25 +63,8 @@
             </div>
         </section>
 
-        <!-- Statement + lineup -->
-        <section class="section statement">
-            <div class="wrap">
-                <p class="eyebrow reveal">The fleet</p>
-                <h2 class="headline reveal" style="margin-top: 18px;">Seven robots. One arena. <span class="fade-text">No second chances.</span></h2>
-            </div>
-            <div class="wrap">
-                <figure class="lineup crop reveal">
-                    <img src="/static/img/robot_intotal.jpg" alt="The full Illini RoboMaster fleet lined up: engineer, hero, infantry, sentry, and aerial robots">
-                </figure>
-                <div class="fig">
-                    <span>Fig. 01 — Full fleet, 2024 season</span>
-                    <span>The Great Lakes · NA Union</span>
-                </div>
-            </div>
-        </section>
-
         <!-- Stats -->
-        <section class="wrap">
+        <section class="wrap" style="padding-top: clamp(40px, 6vw, 72px);">
             <div class="stats">
                 <div class="stat reveal">
                     <div class="stat-value">2018</div>
@@ -96,7 +79,7 @@
                     <div class="stat-label">Technical divisions</div>
                 </div>
                 <div class="stat reveal reveal-delay-3">
-                    <div class="stat-value">Top 5</div>
+                    <div class="stat-value">Top</div>
                     <div class="stat-label">In the United States</div>
                 </div>
             </div>
@@ -114,39 +97,48 @@
                 <div class="robots-grid">
                     <article class="tile tile-wide tile-light reveal">
                         <div class="tile-body">
-                            <p class="eyebrow">Fig. 02 — Engineer</p>
-                            <h3 class="headline" style="font-size: clamp(34px, 4.4vw, 60px);">Engineering Robot</h3>
+                            <p class="eyebrow">Fig. 01 — Engineer</p>
+                            <h3 class="tile-heading">Engineering Robot</h3>
                             <p>A six-axis arm with a vacuum end effector picks resource cubes off the field and places them into the exchange station.</p>
-                            <dl class="specs">
-                                <div><dt>Arm</dt><dd>6-DOF</dd></div>
-                                <div><dt>End effector</dt><dd>Suction cup</dd></div>
-                                <div><dt>Role</dt><dd>Resource economy</dd></div>
-                            </dl>
+                            <div class="tile-detail">
+                                <dl class="specs specs-stack">
+                                    <div><dt>Arm</dt><dd>6-DOF</dd></div>
+                                    <div><dt>End effector</dt><dd>Suction cup</dd></div>
+                                    <div><dt>Role</dt><dd>Resource economy</dd></div>
+                                </dl>
+                                <figure class="clip">
+                                    <video data-scrub muted playsinline preload="auto" poster="/static/video/engineering_clip_poster.jpg">
+                                        <source src="/static/video/engineering_clip.mp4" type="video/mp4">
+                                    </video>
+                                    <div class="clip-progress"><span></span></div>
+                                    <figcaption>Scroll to run</figcaption>
+                                </figure>
+                            </div>
                         </div>
                         <div class="tile-media">
                             <img src="/static/img/Engineering.jpg" alt="Engineering robot with a six-axis arm and suction cup end effector">
                         </div>
                     </article>
 
-                    <article class="tile tile-half tile-photo reveal">
-                        <div class="tile-media">
-                            <img src="/static/img/Dart_1200.jpg" alt="Dart launcher with red targeting light">
-                        </div>
+                    <article class="tile tile-wide tile-light tile-white tile-flip reveal">
                         <div class="tile-body">
-                            <p class="eyebrow">Fig. 03 — Dart System</p>
-                            <h3 class="title">Long-range strike.</h3>
-                            <p>A launcher that fires guided darts across the battlefield at the enemy outpost and base.</p>
+                            <p class="eyebrow">Fig. 02 — Dart System</p>
+                            <h3 class="tile-heading">Long-range strike.</h3>
+                            <p>A launcher that fires darts across the battlefield at the enemy outpost and base.</p>
+                        </div>
+                        <div class="tile-media">
+                            <img src="/static/img/dart_cad.jpg" alt="CAD render of the dart launcher on its truss stand" loading="lazy">
                         </div>
                     </article>
 
-                    <article class="tile tile-half tile-light tile-white reveal reveal-delay-1">
+                    <article class="tile tile-wide tile-light tile-white reveal">
                         <div class="tile-body">
-                            <p class="eyebrow">Fig. 04 — Infantry</p>
-                            <h3 class="title">Small. Fast. Relentless.</h3>
-                            <p>Our front-line unit — a nimble chassis with a gimbaled launcher firing 17 mm projectiles.</p>
+                            <p class="eyebrow">Fig. 03 — Infantry</p>
+                            <h3 class="tile-heading">Small. Fast. Relentless.</h3>
+                            <p>Our front-line unit — an omni-wheel chassis with a gimbaled launcher firing 17 mm projectiles.</p>
                         </div>
                         <div class="tile-media">
-                            <img src="/static/img/infantry.png" alt="Infantry robot with carbon-fiber gimbal">
+                            <img src="/static/img/infantry_cad.jpg" alt="CAD render of the infantry robot with omni wheels and gimbal" loading="lazy">
                         </div>
                     </article>
                 </div>
@@ -172,6 +164,23 @@
                         <h4>Radar</h4>
                         <p>Computer vision that tracks every robot on the field.</p>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Statement + lineup -->
+        <section class="section statement">
+            <div class="wrap">
+                <p class="eyebrow reveal">The fleet</p>
+                <h2 class="headline reveal" style="margin-top: 18px;">Seven robots. One arena. <span class="fade-text">No second chances.</span></h2>
+            </div>
+            <div class="wrap">
+                <figure class="lineup crop reveal">
+                    <img src="/static/img/robot_intotal.jpg" alt="The full Illini RoboMaster fleet lined up: engineer, hero, infantry, sentry, and aerial robots">
+                </figure>
+                <div class="fig">
+                    <span>Fig. 04 — Full fleet, 2024 season</span>
+                    <span>The Great Lakes · NA Union</span>
                 </div>
             </div>
         </section>
@@ -372,10 +381,10 @@
                     <h2 class="headline reveal">Powered by our sponsors.</h2>
                 </div>
                 <div class="sponsors reveal">
-                    <div class="sponsor"><img src="/static/img/sponser1_university.png" alt="University of Illinois Urbana-Champaign" loading="lazy"></div>
-                    <div class="sponsor"><img src="/static/img/sponser_2.jpg" alt="Sponsor" loading="lazy"></div>
-                    <div class="sponsor"><img src="/static/img/gy_2.png" alt="GY" loading="lazy"></div>
-                    <div class="sponsor"><img src="/static/img/onshape.png" alt="Onshape" loading="lazy"></div>
+                    <div class="sponsor"><div class="sponsor-card"><img src="/static/img/sponser1_university.png" alt="University of Illinois Urbana-Champaign" loading="lazy"></div></div>
+                    <div class="sponsor"><div class="sponsor-card"><img src="/static/img/sponser_2.jpg" alt="Illinois Student Organization Resource Fee (SORF)" loading="lazy"></div></div>
+                    <div class="sponsor"><div class="sponsor-card"><img src="/static/img/gy_2.png" alt="GY 铨洲智造" loading="lazy"></div></div>
+                    <div class="sponsor"><div class="sponsor-card"><img src="/static/img/onshape.png" alt="Onshape" loading="lazy"></div></div>
                 </div>
                 <div class="sponsor-cta">
                     <p class="lede" style="font-size: 19px;">Help the next generation of engineers compete.</p>
