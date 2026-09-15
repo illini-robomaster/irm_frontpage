@@ -162,7 +162,7 @@ ul, ol { list-style: none; }
     letter-spacing: -0.01em;
     white-space: nowrap;
 }
-.nav-brand img { width: 26px; height: 26px; }
+.nav-brand img { width: 30px; height: 30px; }
 .nav-brand b { color: var(--accent); font-weight: 600; }
 
 .nav-links {
