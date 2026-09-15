@@ -1046,6 +1046,9 @@ section { position: relative; }
 .footer li + li { margin-top: 8px; }
 .footer a:hover { color: var(--text); }
 .footer-brand p { margin-top: 14px; max-width: 32ch; line-height: 1.6; }
+.footer-brand .footer-email { margin-top: 10px; }
+.footer-email a { color: var(--text-2); }
+.footer-email a:hover { color: var(--accent); }
 .footer-bottom {
     display: flex;
     flex-wrap: wrap;
