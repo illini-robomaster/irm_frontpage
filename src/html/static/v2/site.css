@@ -343,7 +343,15 @@ section { position: relative; }
 
 /* ---------- Statement + lineup ---------- */
 
-.statement .headline { max-width: 16ch; }
+/* One line on wide screens; wraps naturally on phones */
+.statement .headline {
+    font-size: clamp(32px, 3.9vw, 56px);
+    white-space: nowrap;
+}
+@media (max-width: 760px) { .statement .headline { white-space: normal; } }
+
+.section-tight-bottom { padding-bottom: clamp(48px, 6vw, 72px); }
+.section-tight-top { padding-top: clamp(48px, 6vw, 72px); }
 
 .lineup {
     margin-top: clamp(56px, 8vw, 104px);
@@ -470,45 +478,6 @@ section { position: relative; }
 }
 .scrub-media.is-playing video { opacity: 1; }
 
-.scrub-hud {
-    position: absolute;
-    left: 20px;
-    right: 20px;
-    bottom: 18px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 9px 14px;
-    border-radius: 999px;
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    color: #fff;
-    font-family: var(--font-mono);
-    font-size: 10.5px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    opacity: 0;
-    transform: translateY(6px);
-    transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
-}
-.scrub-media.in-view .scrub-hud { opacity: 1; transform: none; }
-.clip-progress {
-    flex: 1;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.22);
-    border-radius: 2px;
-    overflow: hidden;
-}
-.clip-progress span {
-    display: block;
-    height: 100%;
-    background: var(--accent);
-    transform: scaleX(0);
-    transform-origin: left;
-}
-
 /* Photo tile — image fills, text on a scrim */
 .tile-photo .tile-media { position: absolute; inset: 0; }
 .tile-photo::after {
@@ -549,6 +518,8 @@ section { position: relative; }
     border: 1px solid var(--line);
 }
 .roster-item .eyebrow { font-size: 11px; }
+.roster-label { margin: 64px 0 20px; }
+.roster-label + .robot-roster { margin-top: 0; }
 .roster-item h4 { margin-top: 28px; font-size: 21px; font-weight: 600; letter-spacing: -0.02em; }
 .roster-item p { margin-top: 6px; font-size: 14px; color: var(--text-2); }
 

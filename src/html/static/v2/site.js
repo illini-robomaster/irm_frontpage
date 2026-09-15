@@ -71,7 +71,6 @@
     // seeking stays smooth.
     document.querySelectorAll('.scrub-media').forEach(media => {
         const video = media.querySelector('video[data-scrub]');
-        const bar = media.querySelector('.clip-progress span');
         if (!video) return;
 
         if (reduceMotion) {
@@ -97,7 +96,6 @@
         const seek = () => {
             pending = false;
             media.classList.toggle('is-playing', target > 0);
-            if (bar) bar.style.transform = `scaleX(${target})`;
             if (!video.duration) return;
             const t = target * (video.duration - 0.05);
             if (Math.abs(video.currentTime - t) > 0.02) video.currentTime = t;
@@ -106,10 +104,9 @@
         const onScroll = () => {
             const rect = media.getBoundingClientRect();
             const vh = window.innerHeight;
-            media.classList.toggle('in-view', rect.top < vh * 0.8 && rect.bottom > vh * 0.2);
-            // Starts once the media's top passes 45% of the screen, ends when
-            // its bottom reaches 45% — the photo shows while the tile scrolls in
-            target = Math.min(Math.max((vh * 0.45 - rect.top) / rect.height, 0), 1);
+            // Starts once the media's top passes 70% of the screen and finishes
+            // after scrolling 55% of its height, so the clip ends while still in view
+            target = Math.min(Math.max((vh * 0.7 - rect.top) / (rect.height * 0.55), 0), 1);
             if (!pending) {
                 pending = true;
                 requestAnimationFrame(seek);
