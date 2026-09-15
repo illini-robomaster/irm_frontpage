@@ -38,7 +38,7 @@
     // Scroll-linked effects: hero drift and lineup zoom-out
     const heroMedia = document.querySelector('.hero-media');
     const lineup = document.querySelector('.lineup');
-    const lineupImg = lineup && lineup.querySelector('img');
+    const lineupImg = lineup && lineup.querySelector('img, video');
 
     if (!reduceMotion) {
         let ticking = false;
@@ -65,37 +65,51 @@
         update();
     }
 
-    // Scroll-scrubbed clips: the video's position follows the page scroll.
-    // Add `data-scrub` to any <video>; encode it with short keyframe intervals
-    // (e.g. ffmpeg -g 5) so seeking stays smooth.
-    document.querySelectorAll('video[data-scrub]').forEach(video => {
-        const bar = video.parentElement.querySelector('.clip-progress span');
+    // Scroll-scrubbed media: inside a `.scrub-media` block, the still image
+    // hands over to a <video data-scrub> whose playhead follows the scroll.
+    // Encode the video with short keyframe spacing (e.g. ffmpeg -g 5) so
+    // seeking stays smooth.
+    document.querySelectorAll('.scrub-media').forEach(media => {
+        const video = media.querySelector('video[data-scrub]');
+        const bar = media.querySelector('.clip-progress span');
+        if (!video) return;
 
         if (reduceMotion) {
-            // No scroll-driven motion: just loop the clip
+            // No scroll-driven motion: show the clip as a plain loop
+            media.classList.add('is-playing');
             video.loop = true;
-            video.autoplay = true;
             video.play().catch(() => {});
             return;
         }
+
+        // Fetch the full clip only once the tile is getting close
+        new IntersectionObserver((entries, io) => {
+            if (entries[0].isIntersecting) {
+                video.preload = 'auto';
+                video.load();
+                io.disconnect();
+            }
+        }, { rootMargin: '100% 0px' }).observe(media);
 
         let target = 0;
         let pending = false;
 
         const seek = () => {
             pending = false;
+            media.classList.toggle('is-playing', target > 0);
+            if (bar) bar.style.transform = `scaleX(${target})`;
             if (!video.duration) return;
             const t = target * (video.duration - 0.05);
             if (Math.abs(video.currentTime - t) > 0.02) video.currentTime = t;
-            if (bar) bar.style.transform = `scaleX(${target})`;
         };
 
         const onScroll = () => {
-            const rect = video.getBoundingClientRect();
+            const rect = media.getBoundingClientRect();
             const vh = window.innerHeight;
-            // 0 when the clip's center is 85% down the screen, 1 when it reaches 25%
-            const center = rect.top + rect.height / 2;
-            target = Math.min(Math.max((vh * 0.85 - center) / (vh * 0.6), 0), 1);
+            media.classList.toggle('in-view', rect.top < vh * 0.8 && rect.bottom > vh * 0.2);
+            // Starts once the media's top passes 45% of the screen, ends when
+            // its bottom reaches 45% — the photo shows while the tile scrolls in
+            target = Math.min(Math.max((vh * 0.45 - rect.top) / rect.height, 0), 1);
             if (!pending) {
                 pending = true;
                 requestAnimationFrame(seek);
@@ -103,6 +117,7 @@
         };
 
         window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll);
         video.addEventListener('loadedmetadata', onScroll);
         // iOS Safari won't render seeks until the video has been played once
         const unlock = () => {

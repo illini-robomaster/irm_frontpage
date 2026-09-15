@@ -100,23 +100,18 @@
                             <p class="eyebrow">Fig. 01 — Engineer</p>
                             <h3 class="tile-heading">Engineering Robot</h3>
                             <p>A six-axis arm with a vacuum end effector picks resource cubes off the field and places them into the exchange station.</p>
-                            <div class="tile-detail">
-                                <dl class="specs specs-stack">
-                                    <div><dt>Arm</dt><dd>6-DOF</dd></div>
-                                    <div><dt>End effector</dt><dd>Suction cup</dd></div>
-                                    <div><dt>Role</dt><dd>Resource economy</dd></div>
-                                </dl>
-                                <figure class="clip">
-                                    <video data-scrub muted playsinline preload="auto" poster="/static/video/engineering_clip_poster.jpg">
-                                        <source src="/static/video/engineering_clip.mp4" type="video/mp4">
-                                    </video>
-                                    <div class="clip-progress"><span></span></div>
-                                    <figcaption>Scroll to run</figcaption>
-                                </figure>
-                            </div>
+                            <dl class="specs">
+                                <div><dt>Arm</dt><dd>6-DOF</dd></div>
+                                <div><dt>End effector</dt><dd>Suction cup</dd></div>
+                                <div><dt>Role</dt><dd>Resource economy</dd></div>
+                            </dl>
                         </div>
-                        <div class="tile-media">
+                        <div class="tile-media scrub-media">
                             <img src="/static/img/Engineering.jpg" alt="Engineering robot with a six-axis arm and suction cup end effector">
+                            <video data-scrub muted playsinline preload="metadata" aria-hidden="true">
+                                <source src="/static/video/engineering_scrub.mp4" type="video/mp4">
+                            </video>
+                            <div class="scrub-hud"><span>Scroll to play</span><div class="clip-progress"><span></span></div></div>
                         </div>
                     </article>
 
@@ -124,21 +119,29 @@
                         <div class="tile-body">
                             <p class="eyebrow">Fig. 02 — Dart System</p>
                             <h3 class="tile-heading">Long-range strike.</h3>
-                            <p>A launcher that fires darts across the battlefield at the enemy outpost and base.</p>
+                            <p>A launcher that fires darts across the battlefield at the enemy outpost and base — with vision tracking every flight path.</p>
                         </div>
-                        <div class="tile-media">
+                        <div class="tile-media scrub-media">
                             <img src="/static/img/dart_cad.jpg" alt="CAD render of the dart launcher on its truss stand" loading="lazy">
+                            <video data-scrub muted playsinline preload="metadata" aria-hidden="true">
+                                <source src="/static/video/dart_trajectory.mp4" type="video/mp4">
+                            </video>
+                            <div class="scrub-hud"><span>Scroll to play</span><div class="clip-progress"><span></span></div></div>
                         </div>
                     </article>
 
-                    <article class="tile tile-wide tile-light tile-white reveal">
+                    <article class="tile tile-wide tile-light reveal">
                         <div class="tile-body">
                             <p class="eyebrow">Fig. 03 — Infantry</p>
                             <h3 class="tile-heading">Small. Fast. Relentless.</h3>
-                            <p>Our front-line unit — an omni-wheel chassis with a gimbaled launcher firing 17 mm projectiles.</p>
+                            <p>Our front-line unit — an omni-wheel chassis that spins to dodge fire while its gimbal stays locked on target.</p>
                         </div>
-                        <div class="tile-media">
-                            <img src="/static/img/infantry_cad.jpg" alt="CAD render of the infantry robot with omni wheels and gimbal" loading="lazy">
+                        <div class="tile-media scrub-media">
+                            <img src="/static/img/infantry_spin.jpg" alt="Infantry robot spinning with its gimbal held steady" loading="lazy">
+                            <video data-scrub muted playsinline preload="metadata" aria-hidden="true">
+                                <source src="/static/video/infantry_spin.mp4" type="video/mp4">
+                            </video>
+                            <div class="scrub-hud"><span>Scroll to play</span><div class="clip-progress"><span></span></div></div>
                         </div>
                     </article>
                 </div>
@@ -176,11 +179,13 @@
             </div>
             <div class="wrap">
                 <figure class="lineup crop reveal">
-                    <img src="/static/img/robot_intotal.jpg" alt="The full Illini RoboMaster fleet lined up: engineer, hero, infantry, sentry, and aerial robots">
+                    <video autoplay muted loop playsinline preload="metadata" poster="/static/video/fleet_onboard_poster.jpg" aria-label="Onboard camera footage from one of our robots during a match">
+                        <source src="/static/video/fleet_onboard.mp4" type="video/mp4">
+                    </video>
                 </figure>
                 <div class="fig">
-                    <span>Fig. 04 — Full fleet, 2024 season</span>
-                    <span>The Great Lakes · NA Union</span>
+                    <span>Fig. 04 — Onboard camera</span>
+                    <span>Match footage</span>
                 </div>
             </div>
         </section>
