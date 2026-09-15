@@ -3,313 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join Us - ILLini RoboMaster</title>
+    <title>Join Us — Illini RoboMaster</title>
+    <meta name="description" content="Join Illini RoboMaster: our competition season, who we are looking for, member benefits, and how to apply.">
+    <meta name="theme-color" content="#000000">
     <link rel="icon" type="image/png" href="/favicon.ico">
-    <link rel="stylesheet" href="/static/index.css">
-    <link rel="stylesheet" href="/static/frontpage.css">
-    <link rel="stylesheet" href="/static/join-us.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/v2/site.css">
 </head>
 <body>
+
     <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <img src="/static/img/icon_2.png" alt="Illini RoboMaster Icon" class="nav-logo-icon">
-                <span><span class="logo-highlight">ILL</span>ini RoboMaster</span>
+    <header class="nav">
+        <div class="wrap nav-inner">
+            <a href="/" class="nav-brand">
+                <img src="/static/img/icon_2.png" alt="">
+                <span><b>ILL</b>ini RoboMaster</span>
+            </a>
+            <nav class="nav-links" aria-label="Primary">
+                <a href="/#robots">Robots</a>
+                <a href="/#arena">Competition</a>
+                <a href="/#record">Record</a>
+                <a href="/#team">Team</a>
+                <a href="/join-us.html" aria-current="page">Join</a>
+                <a href="/sponsorship.html">Sponsors</a>
+                <a href="/tutorials">Tutorials</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="https://app.irm-project.uk/" target="_blank" rel="noopener" class="btn btn-ghost">Login</a>
+                <a href="https://forms.gle/b8md7r9SzTKQ4caW7" target="_blank" rel="noopener" class="btn">Apply</a>
             </div>
-            <ul class="nav-menu">
-                <li><a href="/">Home</a></li>
-                <li><a href="/#about">About</a></li>
-                <li><a href="/#competitions">Competitions</a></li>
-                <li><a href="/#team">Team</a></li>
-                <li><a href="/join-us.html">Join Us</a></li>
-                <li><a href="/sponsorship.html">Sponsorship</a></li>
-                <li class="nav-mobile-only"><a href="https://app.irm-project.uk/" target="_blank">Login</a></li>
-                <li class="nav-mobile-only"><a href="https://forms.gle/b8md7r9SzTKQ4caW7" target="_blank">Apply Now</a></li>
-            </ul>
-            <div class="nav-buttons">
-                <a href="https://app.irm-project.uk/" target="_blank" class="nav-btn nav-btn-outline">Login</a>
-                <a href="https://forms.gle/b8md7r9SzTKQ4caW7" target="_blank" class="nav-btn nav-btn-filled">Apply Now</a>
-            </div>
-            <div class="nav-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+            <button class="nav-toggle" aria-label="Menu" aria-expanded="false"><span></span><span></span></button>
         </div>
-    </nav>
+    </header>
 
-    <!-- Timeline & Recruitment Section -->
-    <section id="timeline" class="timeline timeline-with-trophy">
-        <div class="timeline-trophy-overlay"></div>
-        <div class="container">
-            <div class="section-header">
-                <h2>Competition Timeline & Recruitment</h2>
-                <p>Plan your journey with <span class="logo-highlight">ILL</span>ini RoboMaster</p>
-            </div>
-            
-            <div class="timeline-content">
-                <div class="season-timeline">
-                    <h3>Competition Season Schedule</h3>
-                    <p class="timeline-description">Follow our year-long journey from recruitment to world championships</p>
-                    <div class="timeline-flow">
-                        <div class="timeline-step" data-phase="recruitment" data-month="Aug-Sep" data-season="Fall">
-                            <div class="timeline-step-content">
-                                <div class="timeline-icon">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                <h4>Team Recruitment</h4>
-                                <p>Open applications, technical interviews, and comprehensive new member orientation program</p>
-                                <div class="timeline-highlights">
-                                    <span class="highlight-tag">Applications Open</span>
-                                    <span class="highlight-tag">Team Selection</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="timeline-step" data-phase="design" data-month="Oct-Dec" data-season="Fall">
-                            <div class="timeline-step-content">
-                                <div class="timeline-icon">
-                                    <i class="fas fa-drafting-compass"></i>
-                                </div>
-                                <h4>Design & Development</h4>
-                                <p>Strategic robot design, rapid prototyping, and comprehensive system testing phase</p>
-                                <div class="timeline-highlights">
-                                    <span class="highlight-tag">CAD Design</span>
-                                    <span class="highlight-tag">Prototyping</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="timeline-step" data-phase="build" data-month="Jan-Mar" data-season="Spring">
-                            <div class="timeline-step-content">
-                                <div class="timeline-icon">
-                                    <i class="fas fa-tools"></i>
-                                </div>
-                                <h4>Build & Integration</h4>
-                                <p>Precision manufacturing, robot assembly, and full system integration with software</p>
-                                <div class="timeline-highlights">
-                                    <span class="highlight-tag">Manufacturing</span>
-                                    <span class="highlight-tag">Assembly</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="timeline-step" data-phase="testing" data-month="Apr-May" data-season="Spring">
-                            <div class="timeline-step-content">
-                                <div class="timeline-icon">
-                                    <i class="fas fa-rocket"></i>
-                                </div>
-                                <h4>Testing & Competition</h4>
-                                <p>Intensive testing, strategy refinement, and regional championship competition</p>
-                                <div class="timeline-highlights">
-                                    <span class="highlight-tag">Field Testing</span>
-                                    <span class="highlight-tag">Regional Finals</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="timeline-step" data-phase="finals" data-month="Jun-Jul" data-season="Summer">
-                            <div class="timeline-step-content">
-                                <div class="timeline-icon">
-                                    <i class="fas fa-trophy"></i>
-                                </div>
-                                <h4>International Finals</h4>
-                                <p>World Championship preparation, travel coordination, and global competition (if qualified)</p>
-                                <div class="timeline-highlights">
-                                    <span class="highlight-tag">World Championship</span>
-                                    <span class="highlight-tag">International Competition</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="recruitment-info">
-                    <h3>What We're Looking For</h3>
-                    <div class="recruitment-grid">
-                        <div class="recruit-category">
-                            <i class="fas fa-graduation-cap"></i>
-                            <h4>Academic Background</h4>
-                            <ul>
-                                <li>Engineering (ME, EE, CS, AE, etc.)</li>
-                                <li>Business and Marketing</li>
-                                <li>Design and Fine Arts</li>
-                                <li>All majors welcome!</li>
-                            </ul>
-                        </div>
-                        <div class="recruit-category">
-                            <i class="fas fa-tools"></i>
-                            <h4>Technical Skills</h4>
-                            <ul>
-                                <li>Programming (C++, Python, MATLAB)</li>
-                                <li>CAD Design (SolidWorks, AutoCAD)</li>
-                                <li>Electronics and Circuit Design</li>
-                                <li>Manufacturing and Machining</li>
-                            </ul>
-                        </div>
-                        <div class="recruit-category">
-                            <i class="fas fa-heart"></i>
-                            <h4>Personal Qualities</h4>
-                            <ul>
-                                <li>Passion for robotics and innovation</li>
-                                <li>Strong work ethic and dedication</li>
-                                <li>Collaborative team player</li>
-                                <li>Willingness to learn and grow</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <main>
 
-    <!-- Join Section -->
-    <section id="join" class="join">
-        <div class="container">
-            <div class="join-content">
-                <div class="join-text">
-                    <h2>Ready to Join <span class="logo-highlight">ILL</span>ini RoboMaster?</h2>
-                    <p>Join a passionate community of 40+ students pushing the boundaries of robotics technology. Whether you're a first-year student or graduate researcher, we welcome dedicated individuals ready to compete at the highest level of collegiate robotics.</p>
-                    
-                    <div class="member-benefits">
-                        <h3>Member Benefits</h3>
-                        <div class="benefits-grid">
-                            <div class="benefit">
-                                <i class="fas fa-tools"></i>
-                                <span>24/7 Workshop Access</span>
-                            </div>
-                            <div class="benefit">
-                                <i class="fas fa-network-wired"></i>
-                                <span>Industry Connections</span>
-                            </div>
-                            <div class="benefit">
-                                <i class="fas fa-medal"></i>
-                                <span>International Competition</span>
-                            </div>
-                            <div class="benefit">
-                                <i class="fas fa-rocket"></i>
-                                <span>Leadership Development</span>
-                            </div>
-                            <div class="benefit">
-                                <i class="fas fa-graduation-cap"></i>
-                                <span>Mentorship Programs</span>
-                            </div>
-                            <div class="benefit">
-                                <i class="fas fa-briefcase"></i>
-                                <span>Internship Opportunities</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="join-stats">
-                        <div class="join-stat">
-                            <h4>95%</h4>
-                            <p>Members find internships</p>
-                        </div>
-                        <div class="join-stat">
-                            <h4>15+</h4>
-                            <p>Hours per week commitment</p>
-                        </div>
-                        <div class="join-stat">
-                            <h4>$10K+</h4>
-                            <p>Annual team budget</p>
-                        </div>
-                    </div>
-                    
-                    <a href="https://forms.gle/b8md7r9SzTKQ4caW7" class="btn btn-primary btn-large" target="_blank">Apply Now</a>
+        <!-- Hero -->
+        <section class="page-hero">
+            <div class="page-hero-media">
+                <img src="/static/img/info_session_1920.jpg" alt="New members at an Illini RoboMaster info session">
+            </div>
+            <div class="wrap">
+                <p class="eyebrow reveal"><span class="dot">●</span>&nbsp; Join the team</p>
+                <h1 class="display reveal reveal-delay-1">Build robots that fight back.</h1>
+                <p class="lede reveal reveal-delay-2">Join 40+ students pushing the limits of collegiate robotics. First-year or grad student, every major is welcome.</p>
+                <div class="hero-cta reveal reveal-delay-3">
+                    <a href="https://forms.gle/b8md7r9SzTKQ4caW7" target="_blank" rel="noopener" class="btn">Apply now</a>
+                    <a href="#process" class="link">How it works</a>
                 </div>
-                <div class="join-requirements">
-                    <h3>Application Process</h3>
-                    <div class="application-steps">
-                        <div class="step">
-                            <div class="step-number">1</div>
-                            <div class="step-content">
-                                <h4>Submit Application</h4>
-                                <p>Fill out our online application form with your background and interests</p>
-                            </div>
+            </div>
+        </section>
+
+        <!-- Season -->
+        <section class="section" id="season">
+            <div class="wrap">
+                <div class="section-head">
+                    <p class="eyebrow reveal">Competition season</p>
+                    <h2 class="headline reveal">One year. <span class="fade-text">From sketch to world stage.</span></h2>
+                </div>
+                <ol class="season">
+                    <li class="phase reveal">
+                        <p class="phase-when"><b>Fall</b>Aug – Sep</p>
+                        <h4>Team Recruitment</h4>
+                        <p>Open applications, technical interviews, and new member orientation.</p>
+                        <div class="tags"><span>Applications Open</span><span>Team Selection</span></div>
+                    </li>
+                    <li class="phase reveal reveal-delay-1">
+                        <p class="phase-when"><b>Fall</b>Oct – Dec</p>
+                        <h4>Design &amp; Development</h4>
+                        <p>Strategic robot design, rapid prototyping, and system testing.</p>
+                        <div class="tags"><span>CAD Design</span><span>Prototyping</span></div>
+                    </li>
+                    <li class="phase reveal reveal-delay-2">
+                        <p class="phase-when"><b>Spring</b>Jan – Mar</p>
+                        <h4>Build &amp; Integration</h4>
+                        <p>Precision manufacturing, robot assembly, and full integration with software.</p>
+                        <div class="tags"><span>Manufacturing</span><span>Assembly</span></div>
+                    </li>
+                    <li class="phase reveal reveal-delay-3">
+                        <p class="phase-when"><b>Spring</b>Apr – May</p>
+                        <h4>Testing &amp; Competition</h4>
+                        <p>Intensive testing, strategy refinement, and regional competition.</p>
+                        <div class="tags"><span>Field Testing</span><span>Regional Finals</span></div>
+                    </li>
+                    <li class="phase final reveal reveal-delay-3">
+                        <p class="phase-when"><b>Summer</b>Jun – Jul</p>
+                        <h4>International Finals</h4>
+                        <p>World championship preparation, travel, and global competition (if qualified).</p>
+                        <div class="tags"><span>World Championship</span></div>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Who we're looking for -->
+        <section class="section rule">
+            <div class="wrap">
+                <div class="section-head">
+                    <p class="eyebrow reveal">Who we're looking for</p>
+                    <h2 class="headline reveal">No experience required.<br><span class="fade-text">Drive is.</span></h2>
+                </div>
+                <div class="disciplines">
+                    <div class="discipline reveal">
+                        <p class="eyebrow">01 / Background</p>
+                        <h4>Any major</h4>
+                        <ul class="checklist">
+                            <li>Engineering (ME, EE, CS, AE, and more)</li>
+                            <li>Business and marketing</li>
+                            <li>Design and fine arts</li>
+                            <li>All majors welcome</li>
+                        </ul>
+                    </div>
+                    <div class="discipline reveal reveal-delay-1">
+                        <p class="eyebrow">02 / Skills</p>
+                        <h4>Technical skills</h4>
+                        <ul class="checklist">
+                            <li>Programming (C++, Python, MATLAB)</li>
+                            <li>CAD (SolidWorks, AutoCAD)</li>
+                            <li>Electronics and circuit design</li>
+                            <li>Manufacturing and machining</li>
+                        </ul>
+                    </div>
+                    <div class="discipline reveal reveal-delay-2">
+                        <p class="eyebrow">03 / Mindset</p>
+                        <h4>Personal qualities</h4>
+                        <ul class="checklist">
+                            <li>Passion for robotics and innovation</li>
+                            <li>Strong work ethic and dedication</li>
+                            <li>Collaborative team player</li>
+                            <li>Willingness to learn and grow</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits -->
+        <section class="section rule">
+            <div class="wrap split">
+                <div>
+                    <p class="eyebrow reveal">Member benefits</p>
+                    <h2 class="headline reveal" style="margin-top: 18px;">What you get out of it.</h2>
+                    <p class="lede reveal" style="margin-top: 20px;">Real engineering on real deadlines, with a team that competes internationally.</p>
+                    <div class="stats reveal" style="margin-top: 48px; grid-template-columns: 1fr 1fr;">
+                        <div class="stat">
+                            <div class="stat-value">15<small>+</small></div>
+                            <div class="stat-label">Hours per week</div>
                         </div>
-                        <div class="step">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <h4>Technical Interview</h4>
-                                <p>The technical interview is not a selection process — all students who apply will become part of <span class="logo-highlight">ILL</span>INI RoboMaster. The interview is only meant to discuss your interests and technical background.</p>
-                            </div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">3</div>
-                            <div class="step-content">
-                                <h4>Trial Period</h4>
-                                <p>2-week trial to work with teams and demonstrate commitment</p>
-                            </div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">4</div>
-                            <div class="step-content">
-                                <h4>Full Membership</h4>
-                                <p>Join your chosen subteam and begin contributing to robot development</p>
-                            </div>
+                        <div class="stat">
+                            <div class="stat-value">$10K<small>+</small></div>
+                            <div class="stat-label">Annual team budget</div>
                         </div>
                     </div>
-                    
-                    <div class="recruitment-calendar">
-                        <h4>Recruitment Schedule</h4>
-                        <div class="recruitment-periods">
-                            <div class="recruitment-period">
-                                <i class="fas fa-leaf"></i>
-                                <div>
-                                    <strong>Fall Recruitment</strong>
-                                    <p>August 15 - September 15</p>
-                                    <p>Primary recruitment period</p>
-                                </div>
-                            </div>
-                            <div class="recruitment-period">
-                                <i class="fas fa-snowflake"></i>
-                                <div>
-                                    <strong>Spring Recruitment</strong>
-                                    <p>January 15 - February 15</p>
-                                    <p>Limited positions available</p>
-                                </div>
-                            </div>
+                </div>
+                <div class="benefits">
+                    <div class="benefit reveal"><p class="eyebrow">01</p><h4>Workshop access</h4></div>
+                    <div class="benefit reveal reveal-delay-1"><p class="eyebrow">02</p><h4>Industry connections</h4></div>
+                    <div class="benefit reveal"><p class="eyebrow">03</p><h4>International competition</h4></div>
+                    <div class="benefit reveal reveal-delay-1"><p class="eyebrow">04</p><h4>Leadership development</h4></div>
+                    <div class="benefit reveal"><p class="eyebrow">05</p><h4>Mentorship</h4></div>
+                    <div class="benefit reveal reveal-delay-1"><p class="eyebrow">06</p><h4>Internship opportunities</h4></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process -->
+        <section class="section rule" id="process">
+            <div class="wrap">
+                <div class="section-head">
+                    <p class="eyebrow reveal">Application process</p>
+                    <h2 class="headline reveal">Four steps in.</h2>
+                    <p class="lede reveal">The interview isn't a cut — everyone who applies joins the team. It's a conversation about what you want to build.</p>
+                </div>
+                <div class="steps">
+                    <div class="step reveal">
+                        <div class="step-num">01</div>
+                        <h4>Apply</h4>
+                        <p>Fill out the online form with your background and interests.</p>
+                    </div>
+                    <div class="step reveal reveal-delay-1">
+                        <div class="step-num">02</div>
+                        <h4>Technical interview</h4>
+                        <p>Talk through your interests and experience with team leads.</p>
+                    </div>
+                    <div class="step reveal reveal-delay-2">
+                        <div class="step-num">03</div>
+                        <h4>Trial period</h4>
+                        <p>Two weeks working alongside the sub-teams.</p>
+                    </div>
+                    <div class="step reveal reveal-delay-3">
+                        <div class="step-num">04</div>
+                        <h4>Full membership</h4>
+                        <p>Join your sub-team and start contributing to the robots.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recruitment windows -->
+        <section class="section rule" style="padding-top: clamp(64px, 8vw, 104px);">
+            <div class="wrap">
+                <div class="section-head" style="margin-bottom: 40px;">
+                    <p class="eyebrow reveal">Recruitment schedule</p>
+                    <h2 class="headline reveal">When to apply.</h2>
+                </div>
+                <div class="windows">
+                    <div class="window primary reveal">
+                        <p class="eyebrow">Fall recruitment · Primary</p>
+                        <div>
+                            <div class="window-dates">Aug 15 – Sep 15</div>
+                            <p>Our main recruitment period.</p>
+                        </div>
+                    </div>
+                    <div class="window reveal reveal-delay-1">
+                        <p class="eyebrow">Spring recruitment</p>
+                        <div>
+                            <div class="window-dates">Jan 15 – Feb 15</div>
+                            <p>Limited positions available.</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-band">
+            <div class="wrap">
+                <p class="eyebrow reveal">Ready?</p>
+                <h2 class="headline reveal">Your seat in the pit is open.</h2>
+                <p class="lede reveal">Saturdays at the ECEB Open Lab. Questions? <a href="mailto:illinirobomasters@gmail.com" style="color: var(--text);">illinirobomasters@gmail.com</a></p>
+                <div class="hero-cta reveal">
+                    <a href="https://forms.gle/b8md7r9SzTKQ4caW7" target="_blank" rel="noopener" class="btn">Apply now</a>
+                    <a href="https://discord.gg/wBsSz5ExyY" target="_blank" rel="noopener" class="link">Join our Discord</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="/static/img/icon_2.png" alt="Illini RoboMaster Icon" class="footer-logo-icon">
-                    <span><span class="logo-highlight">ILL</span>ini RoboMaster</span>
+        <div class="wrap">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="nav-brand">
+                        <img src="/static/img/icon_2.png" alt="">
+                        <span style="color: var(--text);"><b>ILL</b>ini RoboMaster</span>
+                    </a>
+                    <p>Competitive robotics RSO at the University of Illinois Urbana-Champaign.</p>
                 </div>
-                <div class="footer-links">
-                    <a href="/">Home</a>
-                    <a href="/#about">About</a>
-                    <a href="/#contact">Contact</a>
+                <div>
+                    <h5>Explore</h5>
+                    <ul>
+                        <li><a href="/#robots">Robots</a></li>
+                        <li><a href="/#arena">Competition</a></li>
+                        <li><a href="/#record">Record</a></li>
+                        <li><a href="/tutorials">Tutorials</a></li>
+                    </ul>
                 </div>
-                <div class="footer-social">
-                    <a href="https://www.instagram.com/uiuc_robomaster?igsh=MWpxM2txc2U5OWJsZg==" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="https://youtube.com/@illinirobomaster?si=alQaAbwcHDdJjPk-" class="social-link" target="_blank"><i class="fab fa-youtube"></i></a>
-                    <a href="https://github.com/illini-robomaster" class="social-link" target="_blank"><i class="fab fa-github"></i></a>
-                    <a href="https://discord.gg/wBsSz5ExyY" class="social-link" target="_blank"><i class="fab fa-discord"></i></a>
+                <div>
+                    <h5>Get involved</h5>
+                    <ul>
+                        <li><a href="/join-us.html">Join the team</a></li>
+                        <li><a href="/sponsorship.html">Sponsorship</a></li>
+                        <li><a href="https://app.irm-project.uk/" target="_blank" rel="noopener">Member login</a></li>
+                        <li><a href="mailto:illinirobomasters@gmail.com">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5>Follow</h5>
+                    <ul>
+                        <li><a href="https://discord.gg/wBsSz5ExyY" target="_blank" rel="noopener">Discord</a></li>
+                        <li><a href="https://www.instagram.com/uiuc_robomaster" target="_blank" rel="noopener">Instagram</a></li>
+                        <li><a href="https://youtube.com/@illinirobomaster" target="_blank" rel="noopener">YouTube</a></li>
+                        <li><a href="https://github.com/illini-robomaster" target="_blank" rel="noopener">GitHub</a></li>
+                    </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Illini RoboMaster. All rights reserved.</p>
+                <span>© 2026 Illini RoboMaster</span>
+                <span>Urbana-Champaign, Illinois</span>
             </div>
         </div>
     </footer>
 
-    <script src="/static/frontpage.js"></script>
-    <script src="/static/join-us.js"></script>
-</body>
-</html>
-        </div>
-    </footer>
-
-    <script src="/static/frontpage.js"></script>
-    <script src="/static/join-us.js"></script>
+    <script src="/static/v2/site.js"></script>
 </body>
 </html>
