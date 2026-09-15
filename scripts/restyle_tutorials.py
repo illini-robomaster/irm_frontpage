@@ -148,6 +148,8 @@ def render(meta, body, nav, footer):
     <link rel="stylesheet" href="/static/v2/tutorials.css">
 </head>
 <body class="doc-page">
+<!-- Stops Cloudflare email obfuscation from injecting a script -->
+<!--email_off-->
 
     {nav}
 
@@ -185,6 +187,7 @@ def render(meta, body, nav, footer):
 
     {footer}
 
+<!--/email_off-->
 </body>
 </html>
 """
