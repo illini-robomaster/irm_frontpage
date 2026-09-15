@@ -43,141 +43,37 @@
         </div>
     </header>
 
-    <main>
+    <main class="wrap">
+        <div class="prose doc-index">
 
-        <!-- Hero -->
-        <section class="doc-index-hero">
-            <div class="wrap">
-                <p class="eyebrow"><span class="dot">●</span>&nbsp; Tutorials</p>
-                <h1 class="display">Learn the code behind the robots.</h1>
-                <p class="lede">Embedded systems, CAN communication, and motor control — the same stack that runs our competition robots. Each tutorial stands alone, but they build on each other, so we recommend going in order.</p>
-                <div class="hero-cta">
-                    <a href="cpp_intro_with_linux_can/" class="btn">Start with tutorial 01</a>
-                    <a href="https://github.com/illini-robomaster/iRM_Embedded_2026" class="link">Source code on GitHub</a>
-                </div>
-            </div>
-        </section>
+            <h1>Tutorials</h1>
+            <p>Embedded systems, CAN communication, and motor control — the same stack that runs our competition robots. Each tutorial stands alone, but they build on each other; go in order if you are new. You will want basic C++ and command-line familiarity, plus a Linux environment (or WSL) for the CAN tutorials.</p>
 
-        <!-- Lessons -->
-        <section class="section rule" style="padding-top: clamp(64px, 8vw, 104px);">
-            <div class="wrap">
-                <div class="section-head" style="margin-bottom: 40px;">
-                    <p class="eyebrow">Tutorial list</p>
-                    <h2 class="headline">Three tutorials.<br><span class="fade-text">From socket to motor.</span></h2>
-                </div>
-                <div class="course">
-                    <article class="lesson">
-                        <div class="lesson-num">01</div>
-                        <div>
-                            <h3><a href="cpp_intro_with_linux_can/">C++ Introduction with Linux CAN</a></h3>
-                            <p>An introduction to C++ programming concepts through the lens of CAN (Controller Area Network) communication on Linux systems. Covers basic C++ syntax, object-oriented programming, and Linux socket programming for CAN communication.</p>
-                            <div class="lesson-meta">
-                                <span class="level beginner">Beginner</span>
-                                <span>30 minutes</span>
-                                <span>Prerequisites: Basic programming knowledge</span>
-                            </div>
-                        </div>
-                        <div class="lesson-go">
-                            <a href="cpp_intro_with_linux_can/" class="btn">Start</a>
-                            <a href="cpp_intro_with_linux_can/cpp_intro_with_linux_can.pdf" class="link">PDF</a>
-                        </div>
-                    </article>
-                    <article class="lesson">
-                        <div class="lesson-num">02</div>
-                        <div>
-                            <h3><a href="cpp_intro_with_can_implementation/">C++ Introduction with STM32 CAN Implementation</a></h3>
-                            <p>A comprehensive tutorial on CAN protocol implementation at the hardware level using STM32 microcontrollers. Covers CAN frame structure, hardware abstraction layers, and real-time embedded programming concepts.</p>
-                            <div class="lesson-meta">
-                                <span class="level intermediate">Intermediate</span>
-                                <span>1 hour</span>
-                                <span>Prerequisites: C++ basics, embedded systems fundamentals</span>
-                            </div>
-                        </div>
-                        <div class="lesson-go">
-                            <a href="cpp_intro_with_can_implementation/" class="btn">Start</a>
-                            <a href="cpp_intro_with_can_implementation/cpp_intro_with_can_implementation.pdf" class="link">PDF</a>
-                        </div>
-                    </article>
-                    <article class="lesson">
-                        <div class="lesson-num">03</div>
-                        <div>
-                            <h3><a href="intro_to_motor_code/">Introduction to Motor3508 Code Analysis</a></h3>
-                            <p>Detailed analysis of motor control code for the DJI M3508 motor. Covers class inheritance, virtual functions, interrupt handling, bit manipulation, and motor control algorithms including PID control.</p>
-                            <div class="lesson-meta">
-                                <span class="level intermediate">Intermediate</span>
-                                <span>1 hour</span>
-                                <span>Prerequisites: C++ OOP, basic motor communication</span>
-                            </div>
-                        </div>
-                        <div class="lesson-go">
-                            <a href="intro_to_motor_code/" class="btn">Start</a>
-                            <a href="intro_to_motor_code/intro_to_motor_code.pdf" class="link">PDF</a>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
+            <h2>Tutorials</h2>
+            <ol>
+                <li>
+                    <p><a href="cpp_intro_with_linux_can/">C++ Introduction with Linux CAN</a> (<a href="cpp_intro_with_linux_can/cpp_intro_with_linux_can.pdf">PDF</a>) — basic C++ syntax, object-oriented programming, and Linux socket programming for CAN communication.</p>
+                </li>
+                <li>
+                    <p><a href="cpp_intro_with_can_implementation/">C++ Introduction with STM32 CAN Implementation</a> (<a href="cpp_intro_with_can_implementation/cpp_intro_with_can_implementation.pdf">PDF</a>) — CAN frame structure, hardware abstraction layers, and real-time embedded programming on STM32 microcontrollers.</p>
+                </li>
+                <li>
+                    <p><a href="intro_to_motor_code/">Introduction to Motor3508 Code Analysis</a> (<a href="intro_to_motor_code/intro_to_motor_code.pdf">PDF</a>) — class inheritance, virtual functions, interrupt handling, bit manipulation, and PID control for the DJI M3508 motor.</p>
+                </li>
+            </ol>
 
-        <!-- Getting started -->
-        <section class="section rule">
-            <div class="wrap">
-                <div class="section-head">
-                    <p class="eyebrow">Getting started</p>
-                    <h2 class="headline">Before you begin.</h2>
-                </div>
-                <div class="resource-cols">
-                    <div>
-                        <p class="eyebrow">01 / Prerequisites</p>
-                        <h4>What you should know</h4>
-                        <ul class="checklist">
-                            <li>Basic programming knowledge (preferably C++)</li>
-                            <li>Familiarity with command-line interfaces</li>
-                            <li>Basic electronics (for embedded tutorials)</li>
-                            <li>A Linux development environment (for CAN tutorials)</li>
-                            <li>STM32 development setup (for hardware tutorials)</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <p class="eyebrow">02 / Environment</p>
-                        <h4>Recommended setup</h4>
-                        <ul class="checklist">
-                            <li><strong>Linux:</strong>&nbsp;Linux or WSL</li>
-                            <li><strong>IDE:</strong>&nbsp;VS Code or any IDE with C++ extensions</li>
-                            <li><strong>Compiler:</strong>&nbsp;The ARM GCC toolchain (see GitHub)</li>
-                            <li><strong>STM32:</strong>&nbsp;STM32CubeIDE and development boards</li>
-                            <li><strong>Version control:</strong>&nbsp;Git</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <p class="eyebrow">03 / Resources</p>
-                        <h4>Further reading</h4>
-                        <ul class="checklist">
-                            <li><a href="https://github.com/illini-robomaster/iRM_Embedded_2026">iRM Embedded repository</a>&nbsp;— source and examples</li>
-                            <li><a href="https://www.st.com/stm32">STM32 documentation</a>&nbsp;— hardware reference</li>
-                            <li><a href="https://www.can-cia.org/">CAN in Automation</a>&nbsp;— protocol specs</li>
-                            <li><a href="https://github.com/illini-robomaster">GitHub organization</a>&nbsp;— all team repositories</li>
-                            <li><em>The C++ Programming Language</em>, Stroustrup</li>
-                            <li><em>Design Patterns</em>, Gang of Four</li>
-                            <li><em>Embedded Systems Programming</em>, Michael Barr</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <h2>Resources</h2>
+            <ul>
+                <li><a href="https://github.com/illini-robomaster/iRM_Embedded_2026">iRM Embedded repository</a> — source code, examples, and the ARM GCC toolchain setup.</li>
+                <li><a href="https://www.st.com/stm32">STM32 documentation</a> — hardware reference; use STM32CubeIDE for the hardware tutorials.</li>
+                <li><a href="https://www.can-cia.org/">CAN in Automation</a> — protocol specifications.</li>
+                <li><a href="https://github.com/illini-robomaster">GitHub organization</a> — all team repositories.</li>
+            </ul>
 
-        <!-- CTA -->
-        <section class="cta-band">
-            <div class="wrap">
-                <p class="eyebrow">Hands-on help</p>
-                <h2 class="headline">Stuck? Come build with us.</h2>
-                <p class="lede">Join our weekly Saturday meetings at the ECEB Open Lab for help and discussion. Tutorials by Austin Yang · <a href="mailto:austiny2@illinois.edu" style="color: var(--text);">austiny2@illinois.edu</a></p>
-                <div class="hero-cta">
-                    <a href="cpp_intro_with_linux_can/" class="btn">Start tutorial 01</a>
-                    <a href="https://discord.gg/wBsSz5ExyY" class="link">Join our Discord</a>
-                </div>
-            </div>
-        </section>
+            <h2>Getting help</h2>
+            <p>Tutorials are maintained by Austin Yang (<a href="mailto:austiny2@illinois.edu">austiny2@illinois.edu</a>). For hands-on help, come to the weekly Saturday meetings at the ECEB Open Lab, or ask on <a href="https://discord.gg/wBsSz5ExyY">Discord</a>.</p>
 
+        </div>
     </main>
 
     <footer class="footer">
