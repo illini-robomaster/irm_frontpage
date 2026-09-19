@@ -710,7 +710,8 @@ section { position: relative; }
 
 .sponsors {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    /* One row for up to five logos on desktop; the phone rule below keeps two columns */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     border-top: 1px solid var(--line);
     border-left: 1px solid var(--line);
 }
