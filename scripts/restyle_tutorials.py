@@ -135,8 +135,8 @@ def render(meta, body, nav, footer):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title_text} — Illini RoboMaster Tutorials</title>
-    <meta name="description" content="{html.escape(title_text)}: an Illini RoboMaster embedded programming tutorial.">
+    <title>{title_text} — Illini ARC Robotics Tutorials</title>
+    <meta name="description" content="{html.escape(title_text)}: an Illini ARC Robotics embedded programming tutorial.">
     <meta name="theme-color" content="#000000">
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="icon" type="image/png" href="/static/img/logo_dark_512.png">

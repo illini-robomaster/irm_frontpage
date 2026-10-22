@@ -164,6 +164,15 @@ ul, ol { list-style: none; }
 }
 .nav-brand img { width: 30px; height: 30px; }
 .nav-brand b { color: var(--accent); font-weight: 600; }
+/* Former name kept alongside the new one in the top bar */
+.brand-alt {
+    margin-left: 6px;
+    font-weight: 400;
+    font-size: 0.82em;
+    color: var(--text-3);
+}
+.footer-brand .brand-alt { display: none; }
+@media (max-width: 1180px) { .nav-inner .brand-alt { display: none; } }
 
 .nav-links {
     display: flex;
