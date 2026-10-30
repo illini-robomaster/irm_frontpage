@@ -719,8 +719,9 @@ section { position: relative; }
 
 .sponsors {
     display: grid;
-    /* One row for up to five logos on desktop; the phone rule below keeps two columns */
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    /* Six logos: one row on desktop, 3 + 3 on tablets, 2 per row on phones.
+       Update the column count here when the sponsor list grows. */
+    grid-template-columns: repeat(6, 1fr);
     border-top: 1px solid var(--line);
     border-left: 1px solid var(--line);
 }
@@ -761,6 +762,7 @@ section { position: relative; }
     margin-top: 40px;
 }
 
+@media (max-width: 1100px) { .sponsors { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 760px) { .sponsors { grid-template-columns: 1fr 1fr; } }
 
 /* ==========================================================================
