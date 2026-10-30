@@ -783,6 +783,9 @@ a.sponsor-card:focus-visible { outline: 2px solid var(--accent); outline-offset:
     align-items: flex-end;
     overflow: hidden;
 }
+/* Single-event pages keep the hero short so the facts stay above the fold */
+.page-hero-compact { min-height: 56vh; min-height: 56svh; }
+
 .page-hero-media { position: absolute; inset: 0; }
 .page-hero-media img {
     width: 100%;
