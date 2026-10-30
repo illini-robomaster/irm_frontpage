@@ -747,6 +747,8 @@ section { position: relative; }
     transition: transform 0.4s var(--ease);
 }
 .sponsor:hover .sponsor-card { transform: scale(1.03); }
+/* Logos with a known official site are links; the rest stay plain cards */
+a.sponsor-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .sponsor img {
     max-height: 72px;
     width: auto;
