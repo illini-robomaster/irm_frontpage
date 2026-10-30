@@ -501,9 +501,9 @@ section { position: relative; }
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 0;
     margin-top: 28px;
-    border-top: 1px solid rgba(0,0,0,0.12);
+    border-top: 1px solid var(--line);
 }
-.tile:not(.tile-light) .specs { border-color: var(--line); }
+.tile-light .specs { border-color: rgba(0,0,0,0.12); }
 .specs div { padding: 14px 16px 0 0; }
 .specs dt {
     font-family: var(--font-mono);
@@ -848,8 +848,11 @@ section { position: relative; }
     white-space: nowrap;
 }
 
+/* Event schedules run three days, not five phases */
+.season-3 { grid-template-columns: repeat(3, 1fr); }
+
 @media (max-width: 960px) {
-    .season { grid-template-columns: 1fr; border-top: 0; border-left: 1px solid var(--line); }
+    .season, .season-3 { grid-template-columns: 1fr; border-top: 0; border-left: 1px solid var(--line); }
     .phase, .phase + .phase { padding: 0 0 40px 28px; border-left: 0; }
     .phase::before, .phase + .phase::before { top: 4px; left: -4px; }
     .phase h4 { margin-top: 10px; }
